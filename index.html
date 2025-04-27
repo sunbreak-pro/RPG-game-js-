@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダンジョンRPG</title>
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <script type="module" src="js/main.js" defer></script>
+    
+</head>
+<body>
+    <h1>ダンジョンRPG</h1>
+    <div class="select-player-area">
+        <h2>あなたの名前は何？</h2>
+        <input type="text" id="player-name-input" placeholder="名前を入力してください" style="width: 200px;" /><br>
+        <h2>職業を選択してね</h2>
+        <button id="select-warrior">戦士を選ぶ</button>
+        <button id="select-mage">魔法使いを選ぶ</button>
+      </div>
+      
+        <div class="game-area" style="display: none;">
+        <div class="status-area">
+            <div id="player-status">プレイヤーの情報</div>
+            <div id="enemy-status">敵の情報</div>
+            <div id="equipment-status">装備</div>
+        </div>
+
+        <div class="inventory-area">
+            <!-- <button onclick="{}">イベントリ</button> -->
+            <button id="toggle-heal-items">▶︎ 道具を開く</button>
+            <div id="heal-items" class="item-list" style="display: none;"></div>
+        
+            <button id="toggle-equip-items">▶︎ 装備を開く</button>
+            <div id="equip-items" class="item-list" style="display: none;"></div>
+
+            <button id="toggle-skill-list">▶︎ スキル一覧</button>
+            <div id="skill-list" class="item-list" style="display: none;"></div>
+        </div>
+        
+        <div id="battle-log">ここにバトルログが表示されます</div>
+        
+        <div class="command-area">
+            
+            <button id="default-attack">攻撃する</button>
+            <!-- ✨新しく追加するスキルボタン -->
+            <button id="skill-attack">スキル攻撃！</button>
+
+            <button id="heal-btn">回復</button>
+            <br>
+            <button id="next-stage" style="opacity: 0;">次のステージへ！</button>
+        </div>
+        <style>
+            .item-list {
+                margin: 10px 0;
+                padding: 10px;
+                border: 1px solid #ccc;
+                background-color: #f9f9f9;
+            }
+            button {
+                margin: 5px;
+                padding: 5px 10px;
+            }
+            </style>
+            
+    </div>
+</body>
+</html>
