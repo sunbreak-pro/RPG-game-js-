@@ -1,3 +1,5 @@
+import { Player } from "./player";
+
 export const battleLog = document.getElementById("battle-log");
 
 export function logMessage(message) {
@@ -12,4 +14,10 @@ export function logMessage(message) {
 // }
 export function clearBattleLog() {
     battleLog.innerHTML = ""
+}
+
+export function deadCharacter(){
+    logMessage(`${this.name}は、死亡した！`);
+    defaultAttackBtn.remove();
+    updateStatus();
 }

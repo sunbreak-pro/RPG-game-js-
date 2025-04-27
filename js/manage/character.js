@@ -1,5 +1,6 @@
 import { updateStatus } from "../main.js";
-import { logMessage } from "./utils.js";
+// import { playerClass } from "./player.js";
+import { logMessage, deadCharacter } from "./utils.js";
 
 
 export class Character {
@@ -37,6 +38,10 @@ export class Character {
         if (target.hp <= 0) {
             target.hp = 0;
             logMessage(`${target.name} は倒れた！`);
+        }
+        if(this.hp <= 0){
+            this.hp = 0;
+            deadCharacter(this);
         }
         updateStatus();
     }

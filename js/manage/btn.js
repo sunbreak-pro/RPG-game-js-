@@ -4,6 +4,7 @@ import { clearBattleLog, logMessage } from "./utils.js";
 import { dropRandomItem } from "./item.js";
 import { enemyTemplates } from "./enemy.js"; // 敵テンプレートも必要
 
+
 let currentPlayer;
 let currentEnemy;
 let currentEnemyIndex;
