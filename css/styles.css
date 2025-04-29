@@ -1,3 +1,110 @@
 body{
     text-align: center;
 }
+button{
+    border-radius: 10px;
+    cursor: pointer;
+    padding:10px;
+    margin-bottom: 10px;
+    min-width:230px;
+    max-width: 230px;
+
+}
+
+
+#player-name-input{
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.border{
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid black;
+    border-radius: 10px;
+    max-width: 500px;
+    margin-block-end: 50px;
+}
+.title{
+    display: flex; justify-content: center;
+}
+.select-class-area > button{
+    justify-content: center;
+    min-height: 40px;
+    margin-inline: 30px;
+    min-width: 120px;
+    margin-bottom: 10px;
+}
+
+.inventory-area {
+    text-align: center;
+    margin-bottom: 15px;
+    max-width: auto; /* 全体の最大幅を設定 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button-area {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: none;
+}
+
+.item-list-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.item-list {
+    min-width: 250px; /* これを統一！ */
+    max-width: 400px;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 20px;
+    min-height: 200px; /* 高さも最低限そろえるとより安定 */
+    box-sizing: border-box; /* paddingを含めて幅を計算 */
+}
+#heal-items{
+    max-width: 80px;
+    background-color: rgb(185, 241, 174);
+    border: 3px solid rgb(81, 255, 0);
+}
+#equip-items{
+    max-width: 80px;
+    background-color: rgb(192, 192, 192);
+    border: 3px solid rgb(84, 84, 84);
+}
+#skill-list{
+    max-width: 80px;
+    background-color: rgb(241, 232, 169);
+    border: 3px solid yellow;
+}
+#equipped-items{
+    max-width: 400px;
+    color: rgb(255, 255, 255);
+    background-color: black;
+    text-align: center;
+    border: 3px solid white;
+    border-radius: 20px;
+    margin: 10px auto;
+    justify-content: center;
+    padding-block: auto;
+}
+
+#player-name-input{
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+#battle-log{
+    margin-block: 20px;
+}
+
+#default-attack{
+    color: white;
+    background-color: rgb(240, 65, 65);
+    min-width: 130px;
+}
