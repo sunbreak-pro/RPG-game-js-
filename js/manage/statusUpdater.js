@@ -1,15 +1,16 @@
-import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState.js";
-import { logMessage } from "../manage/utils.js";
 import { uiElements } from "../main.js";
+
+import { getCurrentPlayer, getCurrentEnemy } from "./battleState.js";
+
+import { logMessage } from "../ui/logMessage.js";
 
 export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItemsDiv, equippedDiv} = uiElements) {
     const currentPlayer = getCurrentPlayer();
     const currentEnemy = getCurrentEnemy();
     
     if (!currentPlayer) return;
-    playerStatus.textContent = currentPlayer.getStatus();
-    enemyStatus.textContent = currentEnemy.getStatus();
-
+    playerStatus.textContent = currentPlayer.getPlayerStatus();
+    enemyStatus.textContent = currentEnemy.getEnemyStatus();
     healItemsDiv.innerHTML = "";
     equipItemsDiv.innerHTML = "";
 
@@ -21,8 +22,8 @@ export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItem
 
         const itemBtn = document.createElement("button");
         itemBtn.textContent = `${item.showAmount()}`;
-        console.log(itemBtn.textContent);
-        console.log(equipItemsDiv);
+        // console.log(itemBtn.textContent);
+        // console.log(equipItemsDiv);
 
         itemBtn.addEventListener("click", () => {
             if (["hpHeal", "mpHeal", "bothHeal"].includes(item.type)) {
@@ -38,7 +39,6 @@ export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItem
             else if (item.type === "equipment") {
                 currentPlayer.equipItem(item);
             }
-        
             item.amount--;
             if (item.amount <= 0) {
                 const index = currentPlayer.inventory.indexOf(item);
@@ -52,7 +52,6 @@ export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItem
             healItemsDiv.style.color = "black";
         } else if (item.type === "equipment") {
             equipItemsDiv.appendChild(itemBtn);
-            
             hasEquipItem = true;
             equipItemsDiv.style.color = "black";
         }
@@ -66,15 +65,14 @@ export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItem
         equipItemsDiv.innerText = "今は無い";
         equipItemsDiv.style.color = "gray";
     }
-    // ★さらに装備中リストも別に出す！
     equippedDiv.innerHTML = "<h3>装備中のアイテム</h3>";
     if (currentPlayer.equipment.length > 0) {
         currentPlayer.equipment.forEach(eq => {
             const p = document.createElement("p");
             let effectText = "";
 
-            if (eq.effect.attack) {
-                effectText += ` 攻撃+${eq.effect.attack}`;
+            if (eq.effect.physicalStrength) {
+                effectText += ` 攻撃+${eq.effect.physicalStrength}`;
             }
             if (eq.effect.defense) {
                 effectText += ` 防御+${eq.effect.defense}`;

@@ -1,32 +1,30 @@
 // manage/character.js
 
-import { logMessage } from "./utils.js";
+import { logMessage } from "../ui/logMessage.js";
 import { playerTemplates } from "./characterTemplates.js";
 import { enemyAction } from "../battle/attack.js";
 
 
 // ====== Playerクラス ======
 export class Player {
-    constructor(name, className, hp, mp, attack, physicalStrength, magicalStrength, defense,speed, healSkill,) {
+    constructor(name, className, hp, mp, physicalStrength, magicalStrength, defense,speed,) {
         this.name = name;
         this.className = className;
         this.hp = hp;
         this.maxHp = hp;
         this.mp = mp;
         this.maxMp = mp;
-        this.attack = attack;
         this.physicalStrength = physicalStrength;
         this.magicalStrength = magicalStrength;
         this.defense = defense;
         this.speed = speed
         this.hitRate = 90;
-        this.healSkill = healSkill;
         this.equipment = [];
         this.inventory = [];
         this.isPlayer = true;
     }
-    getStatus() {
-        return `${this.name}（${this.className}）：【HP ${this.hp}/${this.maxHp}】【MP ${this.mp}/${this.maxMp}】 攻撃力${this.attack} 防御力${this.defense} 精神力${this.magicalStrength}`;
+    getPlayerStatus() {
+        return `${this.name}（${this.className}）：【HP ${this.hp}/${this.maxHp}】【MP ${this.mp}/${this.maxMp}】 【攻撃力 ${this.physicalStrength}】 【防御力 ${this.defense}】 【精神力 ${this.magicalStrength}】`;
     }
 
     healItem(item) {
@@ -50,30 +48,28 @@ export class Player {
     
     equipItem(item) {
         if (item.effect) {
-            if (item.effect.attack) {
-                this.attack += item.effect.attack;
+            if (item.effect.physicalStrength) {
+                this.physicalStrength += item.effect.physicalStrength;
             }
             if (item.effect.defense) {
                 this.defense += item.effect.defense;
             }
             this.equipment.push(item); // ←装備リストに追加！
-            logMessage(`${this.name} は ${item.name} を装備した！`,"");
-        }
+
+            logMessage(`${this.name} は ${item.name} を装備した！`);
+                    }
         enemyAction();
     }
 }
-
-
 // ====== Enemyクラス ======
 export class Enemy {
-    constructor(name, className, hp, mp, attack, physicalStrength, magicalStrength, defense, hitRate = 80) {
+    constructor(name, className, hp, mp, physicalStrength, magicalStrength, defense, hitRate = 80) {
         this.name = name;
         this.className = className;
         this.hp = hp;
         this.maxHp = hp;
         this.mp = mp;
         this.maxMp = mp;
-        this.attack = attack;
         this.physicalStrength = physicalStrength
         this.magicalStrength = magicalStrength
         this.defense = defense;
@@ -82,8 +78,8 @@ export class Enemy {
         this.isPlayer = false;
     }
 
-    getStatus() {
-        return `${this.name}（${this.className}）：【HP ${this.hp}/${this.maxHp}】【MP ${this.mp}/${this.maxMp}】`;
+    getEnemyStatus() {
+        return `${this.name}（${this.className}）：【HP ${this.hp}/${this.maxHp}】【MP ${this.mp}/${this.maxMp}】 【攻撃力 - 】 【防御力 - 】 【精神力 - 】`;
     }
 
     useHealSkill() {
@@ -107,7 +103,6 @@ export function createPlayer(index, name) {
         template.className,
         template.hp,
         template.mp,
-        template.attack,
         template.physicalStrength,
         template.magicalStrength,
         template.defense,
@@ -122,7 +117,6 @@ export function createEnemy(template) {
         template.className,
         template.hp,
         template.mp,
-        template.attack,
         template.physicalStrength,
         template.magicalStrength,
         template.defense,

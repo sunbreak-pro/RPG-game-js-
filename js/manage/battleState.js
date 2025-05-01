@@ -1,57 +1,64 @@
 import { uiElements } from "../main.js";
 import { createEnemy } from "../manage/character.js";
 import { enemyTemplates } from "./characterTemplates.js";
-import { logMessage, clearBattleLog } from "../manage/utils.js";
+import { skillList, updateSkillArea } from "../battle/skill.js";
+import { updateStatus } from "./statusUpdater.js";
+import { logMessage, clearAllLogs, logTittle } from "../ui/logMessage.js";
 
-import { skillList } from "../battle/skill.js";
+let currentPlayer = null;
+let currentEnemy = null;
+let currentEnemyIndex = 0;
 
-import { updateSkillArea } from "../ui/skillUI.js";
-import { updateStatus } from "../ui/statusUpdater.js";
-
-let _currentPlayer = null;
-let _currentEnemy = null;
-let _currentEnemyIndex = 0;
-
-export function setBattleState(player, enemy, enemyIndex = 0) {
-    _currentPlayer = player;
-    _currentEnemy = enemy;
-    _currentEnemyIndex = enemyIndex;
+// main.jsのchoosePlayerから取得
+export function setBattleState(player, enemy, enemyIndex) {
+    currentPlayer = player;
+    currentEnemy = enemy;
+    currentEnemyIndex = enemyIndex;
     console.log(player);
     console.log(enemy);
 }
 export function getCurrentPlayer() {
-    return _currentPlayer;
+    return currentPlayer;
 }
 
 export function getCurrentEnemy() {
-    return _currentEnemy;
+    return currentEnemy;
 }
 
 export function getCurrentEnemyIndex() {
-    return _currentEnemyIndex;
+    return currentEnemyIndex;
 }
 
 let setStageElements = {}
 export function setStageContext(elements) {
     setStageElements = elements;
 }
+export function getStageContext(){
+    return setStageElements;
+}
 let currentStage = 1;
 
 export function prepareNextStage() {
     const nextEnemyTemplate = enemyTemplates[currentStage];
     const newEnemy = createEnemy(nextEnemyTemplate);
-    clearBattleLog();
-    if (!nextEnemyTemplate) {
-        logMessage("ダンジョンクリア！！🎉","おめでとう！！！");
-        setStageElements.nextStageBtn.style.display = "none"; // ボタン非表示
-        return;
-    }
+    // if (!nextEnemyTemplate) {
+    //     inventoryArea.style.display = "none"
+    //     defaultAttackBtn.style.display = "none";
+    //     nextStageBtn.style.display = "none"; // ボタン非表示
+    //     battleLogArea.style.display = "";
+    //     afterBattleLogArea.style.display = "none";
+    //     logMessage("ダンジョンクリア！！🎉","おめでとう！！！");
+    //     return;
+    // }
     setBattleState(getCurrentPlayer(), newEnemy, currentStage);
-    clearBattleLog
-    logMessage(`第${currentStage + 1}ステージ：${newEnemy.name}が現れた！`,"");
-
+    clearAllLogs();
     updateSkillArea(setStageElements.skillDiv, skillList);
     updateStatus(uiElements);
-    setStageElements.nextStageBtn.style.opacity = 0; // ボタン非表示
+    setStageElements.defaultAttackBtn.style.display = "";
+    setStageElements.nextStageBtn.style.display = "none"; 
+    setStageElements.battleLogArea.style.display = "";
+    setStageElements.afterBattleLogArea.style.display ="none"
+    logTittle(`第 ${currentStage + 1} 階層`)
+    logMessage(`第 ${currentStage + 1} 階層：${newEnemy.name}が現れた！`,"");
     currentStage++;
 }

@@ -35,13 +35,8 @@
       
     <div class="game-area" style="display: none;">
         
-        <div class="status-area">
-            <div id="tittle-log"></div>
-            <div id="player-status">プレイヤーの情報</div>
-            <div id="enemy-status">敵の情報</div>
-        </div>
-        <div id="equipped-items"></div>
         <div class="inventory-area" >
+            <div id="equipped-items"></div>
             <div class="button-area">
                 <button id="toggle-heal-items">${label}</button>
                 <button id="toggle-equip-items">${label}</button>
@@ -52,25 +47,24 @@
                 <div id="equip-items" class="item-list" style="display: none;"></div>
                 <div id="skill-list" class="item-list" style="display: none;"></div>
             </div>
-        
+        </div>
+        <div id="tittle-log"></div>
+        <div class="status-area">
+            <div id="player-status">プレイヤーの情報</div>
+            <div id="enemy-status">敵の情報</div>
         </div>
         
         <div class="border">
-
             <div id="battle-log">
                 <p style="color: white; background-color: rgb(197, 223, 245);">この下にバトルログが表示されます</p>
             </div>
+            <div id="after-battle-log" style="display: none;">
+                <p></p>
+            </div>
         </div>
-        
-
         <div class="command-area">
-            
             <button id="default-attack">攻撃する</button><br>
-                <!-- ✨新しく追加するスキルボタン
-                    <button id="skill-attack"hidden></button>
-                    <button id="heal-btn"hidden>回復</button>
-                 -->
-            <button id="next-stage" style="opacity: 0;">次のステージへ！</button>
+            <button id="next-stage" style="display: none;">さらに奥深くへ・・・</button>
         </div>
         
     </div>
