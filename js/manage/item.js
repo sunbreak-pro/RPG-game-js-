@@ -1,4 +1,4 @@
-import { logMessage } from "./utils.js";
+import { logMessage } from "../ui/logMessage.js";
 export class Item {
     constructor(name, type, effect, amount = 1, rarity = "common") {
         this.name = name;
@@ -22,12 +22,12 @@ export const healItemList = [
 ];
 
 export const equipmentList = [
-    new Item("剣", "equipment", {attack:10}, 1, "common"),
+    new Item("剣", "equipment", {physicalStrength:10}, 1, "common"),
     new Item("鎧", "equipment", {defense:8}, 0, "rare"),
     new Item("兜", "equipment", {defense:4}, 0, "uncommon"),
     new Item("靴", "equipment", {defense:3}, 0, "common"),
-    new Item("弓", "equipment", {attack:10, hitRate: -5}, 0, "rare"),
-    new Item("伝説の剣", "equipment", {attack:50}, 0, "legendary"),
+    new Item("弓", "equipment", {physicalStrength:10, hitRate: -5}, 0, "rare"),
+    new Item("伝説の剣", "equipment", {physicalStrength:50}, 10, "legendary"),
 ];
 
 export const allItemsList = [...healItemList,...equipmentList,]
@@ -49,19 +49,16 @@ export function dropRandomItem(currentPlayer) {
     const items = allItemsList;
     const rarityRate = {
         common: 0.6,
-        uncommon: 0.25,
-        rare: 0.1,
-        epic: 0.04,
-        legendary: 0.01
+        uncommon: 0.3,
+        rare: 0.15,
+        epic: 0.05,
+        legendary: 0.02,
     };
-
     const weights = items.map(item => rarityRate[item.rarity] || 0.6);
     
     const droppedItem = weightedRandom(items, weights);
     console.log("【DEBUG】選ばれたdroppedItem：", droppedItem);
 
-
-    // 所持アイテム確認（さっきやったやつ）
     const existingItem = currentPlayer.inventory.find(item => item.name === droppedItem.name);
 
     if (existingItem) {

@@ -8,7 +8,6 @@ button{
     margin-bottom: 10px;
     min-width:230px;
     max-width: 230px;
-
 }
 
 
@@ -24,6 +23,11 @@ button{
     border-radius: 10px;
     max-width: 500px;
     margin-block-end: 50px;
+    z-index: 10;
+}
+.status-area{
+    margin-bottom: 20px;
+    text-align: center;
 }
 .title{
     display: flex; justify-content: center;
@@ -99,10 +103,24 @@ button{
     border-radius: 8px;
     margin-bottom: 10px;
 }
-#battle-log{
-    margin-block: 20px;
+
+#battle-log {
+    min-height: 100px;
+    padding: 8px;
 }
 
+#after-battle-log {
+    background-color: #f0fff3;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    color: #333;
+    font-size: 0.9em;
+    min-height: 0;
+    max-height: fit-content;
+    z-index: 11;
+  }
+  
 #default-attack{
     color: white;
     background-color: rgb(240, 65, 65);
