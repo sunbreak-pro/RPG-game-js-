@@ -97,42 +97,49 @@ export function gameInit(){
 // 不正防止＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 document.addEventListener("DOMContentLoaded", () => {
     const raw = localStorage.getItem("playerData");
-    if (!raw) {
-      alert("セーフティエリアからスタートしてください！");
-      window.location.href = "safezone.html";
-      return;
+    const isSafezone = location.pathname.includes("safezone.html");
+    if (!raw && !isSafezone) {
+    alert("セーフティエリアからスタートしてください！");
+    window.location.href = "safezone.html";
+    return;
     }
+    if (raw) {
     const playerData = JSON.parse(raw);
     choosePlayerFromStorage(playerData);
-  });
-  
-  // 新関数：セーフティエリアからの受け取り用＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-  function choosePlayerFromStorage(playerData) {
-    const selectedPlayer = createPlayer(playerData.jobIndex, playerData.name);
-  
-    // プレーンオブジェクト → クラスインスタンスに変換！
-    const fullInventory = [
-        ...playerData.equipment.map(item => new EquipmentItem(
-          item.name,
-          item.itemType,
-          item.equipmentType,
-          item.effect,
-          item.amount ?? 1,
-          item.rarity,
-          item.instructionText,
-        )),
-        ...playerData.items.map(item => new HealItem(
-          item.name,
-          item.itemType,
-          item.effect,
-          item.amount ?? 1,
-          item.rarity,
-          item.instructionText,
-        ))
-      ];
-    console.log(fullInventory);
-    selectedPlayer.inventory = fullInventory;
-    const firstEnemy = createEnemy(enemyTemplates[0]);
-    setBattleState(selectedPlayer, firstEnemy, 0);
-    startBattle();
-  }
+    console.log("playerData raw:", raw);
+        console.log("isSafezone:", isSafezone);
+        console.log("現在のパス:", location.pathname);
+    }
+    });
+    
+    // 新関数：セーフティエリアからの受け取り用＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+    function choosePlayerFromStorage(playerData) {
+        const selectedPlayer = createPlayer(playerData.jobIndex, playerData.name);
+    
+        // プレーンオブジェクト → クラスインスタンスに変換！
+        const fullInventory = [
+            ...playerData.equipment.map(item => new EquipmentItem(
+            item.name,
+            item.itemType,
+            item.equipmentType,
+            item.effect,
+            item.amount ?? 1,
+            item.rarity,
+            item.instructionText,
+            )),
+            ...playerData.items.map(item => new HealItem(
+            item.name,
+            item.itemType,
+            item.effect,
+            item.amount ?? 1,
+            item.rarity,
+            item.instructionText,
+            ))
+        ];
+        console.log(fullInventory);
+        selectedPlayer.inventory = fullInventory;
+        const firstEnemy = createEnemy(enemyTemplates[0]);
+        setBattleState(selectedPlayer, firstEnemy, 0);
+        
+        startBattle();
+    }
