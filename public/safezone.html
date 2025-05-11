@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>セーフティエリア</title>
+    <link rel="stylesheet" href="/css/safezone.css">
+    <script type="module" src="/js/safezone.js" defer></script>
+</head>
+<body>
+    <div id="safety-area">
+        <h1>セーフティエリア</h1>
+        <button >バトルへ</button>
+    </div>
+    <div class="select-player-area">
+        <p style="color: red;">[*] は必須項目です</p>
+        <div class="border">
+            <div class="title">
+                <h2>君の名は？</h2>
+                <h3 style="color: red;">　[*]</h3>
+            </div>
+            <input type="text" id="player-name-input" placeholder="名前を入力してください" style="width: 200px;" /><br>
+        </div>
+        <div class="border">
+            <div class="title">
+                <h2>職業を選べ</h2>
+                <h3 style="color: red;">　[*]</h3>
+            </div>
+            <div class="selected-class">
+                <button id="select-warrior">戦士を選ぶ</button>
+                <button type="" id="select-mage">魔法使いを選ぶ</button>
+            </div>
+        </div>
+        <div class="border">
+            <!-- 装備選択エリア -->
+            <div id="select-equipment-area">
+                <h3>装備を2つ選んでください</h3>
+                <div id="equipment-options"></div>
+            </div>
+        </div>
+        <!-- 回復アイテム選択エリア -->
+        <div class="border">
+            <div id="select-heal-items-area">
+                <h3>回復アイテムを2つ選んでください</h3>
+                <div id="heal-item-options"></div>
+            </div>
+        </div>
+        <button id="start-button-buttle">バトルスタート</button>
+        
+    </div>
+</body>
+</html>
+
+  

@@ -1,96 +1,76 @@
 // === データ・管理系（manageフォルダ） ===
 import { createPlayer, createEnemy} from "./manage/character.js";
-import { enemyTemplates } from "./manage/characterTemplates.js";
-import { allItemsList } from "./manage/item.js";
-import { getCurrentPlayer, getCurrentEnemy, setBattleState, prepareNextStage, setStageContext} from "./manage/battleState.js";
-import { updateStatus } from "./manage/statusUpdater.js";
+import { enemyTemplates } from "./manage/termplates/characterTemplates.js";
+import { Item, allItemsList, EquipmentItem, HealItem } from "./manage/item.js";
+import { getCurrentPlayer, getCurrentEnemy, setBattleState, prepareNextStage, setStageContext, getcurrentStage} from "./manage/battleState.js";
+import { updateStatus } from "./manage/itemStatusUpdater.js";
+// import { savePlayerData } from "./manage/saveManager.js";
 
 // === バトル系（battleフォルダ） ===
 import { handleDefaultAttack } from "./battle/attack.js";
-import { skillList } from "./battle/skill.js";
+import { baseSkillList, synthesisSkillList } from "./manage/termplates/skillTemplates.js";
 
 // === UI系（uiフォルダ） ===
 import { logMessage, logTittle } from "./ui/logMessage.js";
-import { updateSkillArea } from "./ui/skillUI.js";
+import { updateBaseSkillArea, updateSynthesisSkillArea } from "./battle/skill.js";
 import { setupToggleButtons, setupNextStageButton } from "./ui/btn.js";
 import { setLogElements } from "./ui/logMessage.js"
 
-
 // === HTML要素取得 ===
-const gameArea = document.querySelector(".game-area");
-const selectPlayerArea = document.querySelector(".select-player-area");
-const inventoryArea = document.querySelector(".inventory-area");
+export const battleArea = document.querySelector(".battle-area");
+export const toggleArea = document.getElementById("toggle-area");
+export const itemArea = document.getElementById("toggle-heal-items")
+export const equipItemArea = document.getElementById("toggle-equip-items")
+export const skillArea = document.getElementById("toggle-skill-list")
 export const battleLogArea = document.getElementById("battle-log");
 export const afterBattleLogArea = document.getElementById("after-battle-log");
 
-const selectWarriorBtn = document.getElementById("select-warrior");
-const selectMageBtn = document.getElementById("select-mage");
-const playerNameInput = document.getElementById("player-name-input");
-
 const playerStatus = document.getElementById("player-status");
+
+export const defaultAttackBtn = document.getElementById("default-attack");
+export const nextStageBtn = document.getElementById("next-stage");
+
 const enemyStatus = document.getElementById("enemy-status");
+const equippedDiv = document.getElementById("equipped-items");
+
+export const skillDiv = document.getElementById("skill-list");
 const healItemsDiv = document.getElementById("heal-items");
 const equipItemsDiv = document.getElementById("equip-items");
 
-const equippedDiv = document.getElementById("equipped-items");
-const skillDiv = document.getElementById("skill-list");
-
-const defaultAttackBtn = document.getElementById("default-attack");
-export const nextStageBtn = document.getElementById("next-stage");
-
-const toggleHealBtn = document.getElementById("toggle-heal-items");
-const toggleEquipBtn = document.getElementById("toggle-equip-items");
-const toggleSkillBtn = document.getElementById("toggle-skill-list");
 
 export let uiElements = {
     playerStatus, enemyStatus, healItemsDiv, equipItemsDiv, equippedDiv,
 }
 // === プレイヤーを選び、ゲーム開始 ===
-selectWarriorBtn.addEventListener("click", () => {
-    choosePlayer(0);
-});
-
-selectMageBtn.addEventListener("click", () => {
-    choosePlayer(1);
-});
-
-function choosePlayer(index) {
-    const name = playerNameInput.value.trim();
-    if (name === "") {
-        alert("名前を入力してください！");
-        return;
-    }
-    const selectedPlayer = createPlayer(index, name);
-    const firstEnemy = createEnemy(enemyTemplates[0]);
-    setBattleState(selectedPlayer, firstEnemy, 0);
-    startGame();
-}
 
 // === ゲーム開始処理 ===
-export function startGame() {
-    selectPlayerArea.style.display = "none";
-    gameArea.style.display = "block";
+export function startBattle() {
+    battleArea.style.display = "";
     setLogElements({
         battleLog: battleLogArea,
         afterBattleLog: afterBattleLogArea
     });
-
     const player = getCurrentPlayer();
-    player.inventory = [...allItemsList];
-
     const enemy = getCurrentEnemy();
-    logTittle("第一階層")
-    logMessage(`第一階層：ダンジョンを進むと、${enemy.name}が現れた！`,"");
 
+    console.log(allItemsList);
+    
+    const enemyIndex = enemyTemplates[0];
+    const newEnemy = createEnemy(enemyIndex);
+    
+    getcurrentStage(newEnemy)
+
+    // console.log(newEnemy)
+    
     // スキルボタン生成
-    updateSkillArea(skillDiv, skillList);
+    updateBaseSkillArea(skillDiv, baseSkillList);
+    // updateSynthesisSkillArea(skillDiv, synthesisSkillList);
 
     // バトル系ハンドラー設定
     handleDefaultAttack(defaultAttackBtn);
 
     // トグルボタン設定
-    setupToggleButtons(toggleHealBtn, toggleEquipBtn, toggleSkillBtn, healItemsDiv, equipItemsDiv, skillDiv);
-
+    setupToggleButtons();
     // ステージボタン設定
     setupNextStageButton(nextStageBtn, prepareNextStage);
 
@@ -98,9 +78,8 @@ export function startGame() {
     setStageContext({
         defaultAttackBtn,
         nextStageBtn,
-        gameArea,
-        selectPlayerArea,
-        inventoryArea,
+        battleArea,
+        toggleArea,
         battleLogArea,
         afterBattleLogArea,
         skillDiv,
@@ -109,3 +88,51 @@ export function startGame() {
     // 最初のステータス表示
     updateStatus(uiElements);
 }
+
+export function gameInit(){
+    gameOverDisplay.style.display = "none";
+    selectPlayerArea.style.display = "";
+}
+
+// 不正防止＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+document.addEventListener("DOMContentLoaded", () => {
+    const raw = localStorage.getItem("playerData");
+    if (!raw) {
+      alert("セーフティエリアからスタートしてください！");
+      window.location.href = "safezone.html";
+      return;
+    }
+    const playerData = JSON.parse(raw);
+    choosePlayerFromStorage(playerData);
+  });
+  
+  // 新関数：セーフティエリアからの受け取り用＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+  function choosePlayerFromStorage(playerData) {
+    const selectedPlayer = createPlayer(playerData.jobIndex, playerData.name);
+  
+    // プレーンオブジェクト → クラスインスタンスに変換！
+    const fullInventory = [
+        ...playerData.equipment.map(item => new EquipmentItem(
+          item.name,
+          item.itemType,
+          item.equipmentType,
+          item.effect,
+          item.amount ?? 1,
+          item.rarity,
+          item.instructionText,
+        )),
+        ...playerData.items.map(item => new HealItem(
+          item.name,
+          item.itemType,
+          item.effect,
+          item.amount ?? 1,
+          item.rarity,
+          item.instructionText,
+        ))
+      ];
+    console.log(fullInventory);
+    selectedPlayer.inventory = fullInventory;
+    const firstEnemy = createEnemy(enemyTemplates[0]);
+    setBattleState(selectedPlayer, firstEnemy, 0);
+    startBattle();
+  }

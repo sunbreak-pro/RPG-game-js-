@@ -1,36 +1,45 @@
+import { uiElements } from "../main.js";
 import { logMessage } from "../ui/logMessage.js";
+import { updateStatus } from "./itemStatusUpdater.js";
+import { healItemTemplates, equipmentItemTemplates } from "./termplates/itemTemplates.js";
+
 export class Item {
-    constructor(name, type, effect, amount = 1, rarity = "common") {
+    constructor(name, itemType, effect, amount, rarity, instructionText) {
         this.name = name;
-        this.type = type;
+        this.itemType = itemType;
         this.effect = effect;
         this.amount = amount;
-        this.rarity = rarity; 
+        this.rarity = rarity;
+        this.instructionText = instructionText;
+        this.isEquipped = false;
     }
     showAmount() {
         return `${this.name}：${this.amount} 個`;
     }
 }
-export const healItemList = [
-    new Item("HPの実", "hpHeal", {hp:30}, 5, "common"),
-    new Item("HPジャム", "hpHeal", {hp:80}, 3, "uncommon"),
-    new Item("HPポーション", "hpHeal", {hp:200}, 1, "rare"),
-    new Item("MPの実", "mpHeal", {mp:10}, 1, "common"),
-    new Item("MPジャム", "mpHeal", {mp:30}, 0, "uncommon"),
-    new Item("MPポーション", "mpHeal", {mp:60}, 0, "epic"),
-    new Item("エリクサー", "bothHeal", {hp:200,mp:500}, 0, "legendary"),
-];
+export class HealItem extends Item {
+    constructor(name, itemType, effect, amount, rarity, instructionText) {
+        super(name, itemType, effect, amount, rarity, instructionText);
+    }
+}
+export class EquipmentItem extends Item {
+    constructor(name, itemType, equipmentType, effect, amount, rarity, instructionText) {
+        super(name, itemType, effect, amount, rarity, instructionText);
+        this.isEquipped = false;
+        this.equipmentType = equipmentType;
+    }
+}
 
-export const equipmentList = [
-    new Item("剣", "equipment", {physicalStrength:10}, 1, "common"),
-    new Item("鎧", "equipment", {defense:8}, 0, "rare"),
-    new Item("兜", "equipment", {defense:4}, 0, "uncommon"),
-    new Item("靴", "equipment", {defense:3}, 0, "common"),
-    new Item("弓", "equipment", {physicalStrength:10, hitRate: -5}, 0, "rare"),
-    new Item("伝説の剣", "equipment", {physicalStrength:50}, 10, "legendary"),
-];
+export const allHealItems = healItemTemplates.map(temp => 
+    new HealItem(temp.name, temp.itemType, temp.effect, temp.amount, temp.rarity, temp.instructionText)
+  );
+  
+  export const allEquipmentItems = equipmentItemTemplates.map(temp => 
+    new EquipmentItem(temp.name, temp.itemType, temp.equipmentType, temp.effect, temp.amount, temp.rarity, temp.instructionText)
+  );
+export const allItemsList = [...allHealItems, ...allEquipmentItems];
 
-export const allItemsList = [...healItemList,...equipmentList,]
+
 
 export function weightedRandom(items, weights) {
     const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
@@ -45,7 +54,6 @@ export function weightedRandom(items, weights) {
     }
 }
 export function dropRandomItem(currentPlayer) {
-    
     const items = allItemsList;
     const rarityRate = {
         common: 0.6,
@@ -58,13 +66,50 @@ export function dropRandomItem(currentPlayer) {
     
     const droppedItem = weightedRandom(items, weights);
     console.log("【DEBUG】選ばれたdroppedItem：", droppedItem);
-
+    
     const existingItem = currentPlayer.inventory.find(item => item.name === droppedItem.name);
 
     if (existingItem) {
         existingItem.amount += 1;
     } else {
-        currentPlayer.inventory.push(new Item(droppedItem.name, droppedItem.type, droppedItem.effect, 1, droppedItem.rarity));
+        // let newItem;
+        // if (["hpHeal", "mpHeal", "bothHeal"].includes(droppedItem.itemType)) {
+        // newItem = new HealItem(
+        //     droppedItem.name,
+        //     droppedItem.itemType,
+        //     droppedItem.effect,
+        //     1,
+        //     droppedItem.rarity,
+        //     droppedItem.instructionText
+        // );
+        // } else if (droppedItem.itemType === "equipment") {
+        // newItem = new EquipmentItem(
+        //     droppedItem.name,
+        //     droppedItem.itemType,
+        //     droppedItem.equipmentType ?? null,
+        //     droppedItem.effect,
+        //     1,
+        //     droppedItem.rarity,
+        //     droppedItem.instructionText
+        // );
+        // }
+        // if (newItem) {
+        //     currentPlayer.inventory.push(newItem);
+        //     }
+        currentPlayer.inventory.push(new Item(
+            droppedItem.name,
+            droppedItem.itemType,
+            droppedItem.effect,
+            1,
+            droppedItem.rarity,
+            droppedItem.instructionText
+          ));
     }
+    
+
+    
+    console.log("DEBUG: ドロップアイテム：", droppedItem);
+    // console.log("DEBUG: 既存アイテム検索結果：", existingItem);
     logMessage(`ドロップ報酬：${droppedItem.name}（${droppedItem.rarity}）を手に入れた！`,"");
+    updateStatus(uiElements);
 }

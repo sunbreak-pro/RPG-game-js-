@@ -1,0 +1,49 @@
+body{
+    text-align: center;
+}
+button{
+    text-align: center;
+    border-radius: 1rem;
+    padding-block: 0.3rem;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.5s ease;
+}
+button:hover{
+    background-color: aliceblue;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+  }
+
+.border{
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid black;
+    border-radius: 10px;
+    max-width: 500px;
+    margin-block-end: 1rem;
+    z-index: 10;
+}
+#player-name-input{
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.selected-class {
+    font-size: large;
+    color: rgb(255, 0, 0);
+  }
+
+#select-warrior:hover{
+    
+    background-color: rgb(177, 175, 175);
+}
+#select-mage:hover{
+    background-color: rgb(177, 175, 175);
+}

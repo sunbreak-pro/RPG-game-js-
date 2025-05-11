@@ -1,9 +1,10 @@
-import { uiElements } from "../main.js";
+import { skillArea, skillDiv, uiElements } from "../main.js";
 import { createEnemy } from "../manage/character.js";
-import { enemyTemplates } from "./characterTemplates.js";
-import { skillList, updateSkillArea } from "../battle/skill.js";
-import { updateStatus } from "./statusUpdater.js";
+import { enemyTemplates } from "./termplates/characterTemplates.js";
+import { updateBaseSkillArea } from "../battle/skill.js";
+import { updateStatus } from "./itemStatusUpdater.js";
 import { logMessage, clearAllLogs, logTittle } from "../ui/logMessage.js";
+import { baseSkillList } from "./termplates/skillTemplates.js";
 
 let currentPlayer = null;
 let currentEnemy = null;
@@ -37,28 +38,26 @@ export function getStageContext(){
     return setStageElements;
 }
 let currentStage = 1;
-
 export function prepareNextStage() {
+    skillArea.style.display = ""
+    skillDiv.style.display = ""
+
     const nextEnemyTemplate = enemyTemplates[currentStage];
     const newEnemy = createEnemy(nextEnemyTemplate);
-    // if (!nextEnemyTemplate) {
-    //     inventoryArea.style.display = "none"
-    //     defaultAttackBtn.style.display = "none";
-    //     nextStageBtn.style.display = "none"; // ボタン非表示
-    //     battleLogArea.style.display = "";
-    //     afterBattleLogArea.style.display = "none";
-    //     logMessage("ダンジョンクリア！！🎉","おめでとう！！！");
-    //     return;
-    // }
     setBattleState(getCurrentPlayer(), newEnemy, currentStage);
     clearAllLogs();
-    updateSkillArea(setStageElements.skillDiv, skillList);
+
+    updateBaseSkillArea(setStageElements.skillDiv, baseSkillList);
+
     updateStatus(uiElements);
     setStageElements.defaultAttackBtn.style.display = "";
     setStageElements.nextStageBtn.style.display = "none"; 
     setStageElements.battleLogArea.style.display = "";
     setStageElements.afterBattleLogArea.style.display ="none"
-    logTittle(`第 ${currentStage + 1} 階層`)
-    logMessage(`第 ${currentStage + 1} 階層：${newEnemy.name}が現れた！`,"");
-    currentStage++;
+    currentStage++
+    getcurrentStage(newEnemy);
+}
+export function getcurrentStage(newEnemy){
+    logTittle(`第 ${currentStage} 階層`)
+    logMessage(`${newEnemy.name}が現れた！`,"どうする？");
 }

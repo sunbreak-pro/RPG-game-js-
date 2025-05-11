@@ -1,84 +1,96 @@
-import { uiElements,nextStageBtn } from "../main.js";
-
+// battle/attack.js
+import { uiElements } from "../main.js";
+import { activateSkill } from "./skill.js";
+import { enemyTemplates } from "../manage/termplates/characterTemplates.js";
 import { handleCharacterDefeat } from "../manage/characterDefeat.js";
-import { getCurrentPlayer, getCurrentEnemy} from "../manage/battleState.js";
-import { updateStatus } from "../manage/statusUpdater.js";
-import { dropRandomItem } from "../manage/item.js";
-
+import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState.js";
+import { updateStatus } from "../manage/itemStatusUpdater.js";
 import { clearAllLogs, logMessage } from "../ui/logMessage.js";
+import { startTurn, markPlayerTurnDone,markEnemyTurnDone,proceedTurn, markSkillUsed } from "../manage/turnController.js";
 
 export function handleDefaultAttack(defaultAttackBtn) {
     defaultAttackBtn.addEventListener("click", () => {
+        startTurn();
         const player = getCurrentPlayer();
         const enemy = getCurrentEnemy();
-        // battleLogArea.style.display = ""
-        // afterBattleLogArea.style.display = "none"
-        
-        // プレイヤーのターン
-        // 敵が生きてたら敵ターン
+
         const damage = Math.max(player.physicalStrength - enemy.defense, 1);
         enemy.hp -= damage;
-        logMessage(`${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！`,"");
-        handleCharacterDefeat(enemy,null,true);
-        updateStatus(uiElements);
-        console.log("キャラクターのステータス", player.getPlayerStatus(),enemy.getEnemyStatus());
-
-        if (enemy.hp > 0) {
-            enemyAction();
-        }else{
-            if(nextStageBtn.style.display === ""){
-                console.log(enemy.name);
-                const hpRecover = Math.floor(player.maxHp * 0.2);
-                const mpRecover = Math.floor(player.maxMp * 0.2);
-                player.hp = Math.min(player.hp + hpRecover, player.maxHp);
-                player.mp = Math.min(player.mp + mpRecover, player.maxMp);
-                logMessage(`勝利ボーナス！HPが${hpRecover}、MPが${mpRecover}回復した！`,"");
-                dropRandomItem(player);
-            }
-            updateStatus();
-            console.log("キャラクターのステータス", player.getPlayerStatus(),enemy.getEnemyStatus());
+        if(enemy.hp<=0){
+            enemy.hp = 0;
         }
+        logMessage(`${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！`, `(${enemy.name}のHP：${enemy.hp})`);
+
+        updateStatus(uiElements);
+        console.log("キャラクターのステータス", player.getPlayerStatus(), enemy.getEnemyStatus());
+
+        if (enemy.hp <= 0) {
+            enemy.hp = 0;
+            updateStatus(uiElements);
+            setTimeout(()=>{
+                handleCharacterDefeat(enemy, null, true);
+            },1000)
+            return;
+        } else {
+            delayedEnemyAction(850);
+        }
+        updateStatus(uiElements);
+        markPlayerTurnDone();
+        proceedTurn();
     });
 }
 
-// 敵行動
 export function enemyAction() {
     const player = getCurrentPlayer();
     const enemy = getCurrentEnemy();
-    console.log(enemy);
-    if (enemy.hp <= 0) {
-        return;
-    }
+    if (enemy.hp <= 0) return;
+
     let action = null;
-    if(enemy.hp >= enemy.maxHp *0.7){
+    if (enemy.hp >= enemy.maxHp * 0.7) {
         action = Math.random() < 0.95 ? "attack" : "heal";
-    }else if(enemy.hp <= enemy.maxHp *0.3){
-        action = Math.random() < 0.3 ? "attack" : "heal";
+    } else if (enemy.hp <= enemy.maxHp * 0.3) {
+        action = Math.random() < 0.4 ? "attack" : "heal";
+    } else {
+        action = Math.random() < 0.7 ? "attack" : "heal";
     }
-    else{
-        action = Math.random() < 0.5 ? "attack" : "heal";
-    }
+
     if (action === "attack") {
-        const damage = Math.max(enemy.physicalStrength - player.defense, 1);
-        player.hp -= damage;
-        logMessage(`${enemy.name} の攻撃！\n ${player.name} は${damage} ダメージを受けた！`,"");
-        if (player.hp <= 0) {
-            clearAllLogs();
-            player.hp = 0;
-            handleCharacterDefeat(player,null,true);
-            return;
+        if (enemy.hp >= enemy.maxHp * 0.7) {
+            action = Math.random() < 0.95 ? "default" : "skill";
+        } else if (enemy.hp <= enemy.maxHp * 0.3) {
+            action = Math.random() < 0.5 ? "default" : "skill";
+        } else {
+            action = Math.random() < 0.7 ? "default" : "skill";
         }
-    }
-    else {
-        if (enemy.mp >= 5) {
-            const healAmount = enemy.magicalStrength || 20;
-            enemy.hp = Math.min(enemy.hp + healAmount, enemy.maxHp);
-            enemy.mp -= 5;
-            logMessage(`${enemy.name} は回復スキルで ${healAmount} 回復した！`,"");
+
+        if (action === "default") {
+            const damage = Math.max(enemy.physicalStrength - player.defense, 1);
+            player.hp -= damage;
+            logMessage(`${enemy.name} の攻撃！\n ${player.name} は${damage} ダメージを受けた！`, `(${player.name}のHP：${player.hp})`);
+
+            if (player.hp <= 0) {
+                clearAllLogs();
+                player.hp = 0;
+                handleCharacterDefeat(player, null, true);
+                return;
+            }
+        } else {
+            const randomNum = Math.floor(Math.random() * 100);
+            let skillIndex = randomNum < 50 ? 0 : randomNum < 80 ? 1 : 2;
+            activateSkill(skillIndex, enemy, player);
+            markSkillUsed();
         }
-        else {
-            logMessage(`${enemy.name} は回復しようとしたがMPが足りない`,"");
-        }
+    } else {
+        activateSkill(3, enemy, player);
+        markSkillUsed();
     }
     updateStatus(uiElements);
+    markEnemyTurnDone();
+    proceedTurn();
+}
+
+export function delayedEnemyAction(delay = 1000) {
+    setTimeout(() => {
+        enemyAction();
+    }, delay);
 }
