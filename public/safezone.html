@@ -5,14 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>セーフティエリア</title>
     <link rel="stylesheet" href="/css/safezone.css">
-    <script type="module" src="/js/safezone.js" defer></script>
+    <script type="module" src="/js/safezoneArea/safezone.js" defer></script>
 </head>
 <body>
     <div id="safety-area">
-        <h1>セーフティエリア</h1>
-        <button >バトルへ</button>
+        <h1>ロビー</h1>
+        <button id="prepare-battle-btn">バトルへ</button>
+        <button id="shop-btn">アイテム売買所</button>
+        <button id="cooking-btn">料理作成エリア</button>
     </div>
-    <div class="select-player-area">
+    <div id="shop-area" style="display: none;">
+        <h1>ショップ</h1>
+        <div id="shop-items-list">
+            <div id="shop-item"></div>
+        </div>
+        <button class="safety-area-btn">戻る</button>
+    </div>
+    <div id="cooking-area" style="display: none;">
+        <h1>合成エリア</h1>
+        <div id="materals-list"></div>
+        <div id="mixer">
+            <img src="" />
+        </div>
+        <button class="safety-area-btn">戻る</button>
+    </div>
+    <div id="select-player-area" style="display: none;">
         <p style="color: red;">[*] は必須項目です</p>
         <div class="border">
             <div class="title">
@@ -45,6 +62,7 @@
                 <div id="heal-item-options"></div>
             </div>
         </div>
+        <button class="safety-area-btn">戻る</button>
         <button id="start-button-buttle">バトルスタート</button>
         
     </div>

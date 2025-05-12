@@ -1,7 +1,7 @@
 // === データ・管理系（manageフォルダ） ===
 import { createPlayer, createEnemy} from "./manage/character.js";
 import { enemyTemplates } from "./manage/termplates/characterTemplates.js";
-import { Item, allItemsList, EquipmentItem, HealItem } from "./manage/item.js";
+import { allItemsList, EquipmentItem, HealItem } from "./manage/item.js";
 import { getCurrentPlayer, getCurrentEnemy, setBattleState, prepareNextStage, setStageContext, getcurrentStage} from "./manage/battleState.js";
 import { updateStatus } from "./manage/itemStatusUpdater.js";
 // import { savePlayerData } from "./manage/saveManager.js";
@@ -11,7 +11,6 @@ import { handleDefaultAttack } from "./battle/attack.js";
 import { baseSkillList, synthesisSkillList } from "./manage/termplates/skillTemplates.js";
 
 // === UI系（uiフォルダ） ===
-import { logMessage, logTittle } from "./ui/logMessage.js";
 import { updateBaseSkillArea, updateSynthesisSkillArea } from "./battle/skill.js";
 import { setupToggleButtons, setupNextStageButton } from "./ui/btn.js";
 import { setLogElements } from "./ui/logMessage.js"
