@@ -83,8 +83,8 @@ export function activateSkill(skillIndex, _user, _target) {
 }
 
 // === スキルボタンを生成して並べる ===
-const instructionBox = document.getElementById("skill-instruction-box");
-const instructionParagraph = document.getElementById("skill-instruction");
+const instructionBorder = document.getElementById("instruction-border");
+const instructionParagraph = document.getElementById("instruction");
 
 export function updateBaseSkillArea(skillDiv, baseSkillList) {
     console.log(baseSkillList);
@@ -93,13 +93,13 @@ export function updateBaseSkillArea(skillDiv, baseSkillList) {
         const skillBtn = document.createElement("button");
         skillBtn.innerHTML = `${skill.name} <br>（消費MP:${skill.mpCost}）`;
 
-        skillBtn.addEventListener("mouseover", () => {
-            instructionBox.style.display = "block";
+        skillBtn.addEventListener("mouseenter", () => {
+            instructionBorder.style.display = "block";
             instructionParagraph.innerText = skill.Instruction;
         });
 
         skillBtn.addEventListener("mouseleave", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
         });
 
         skillBtn.addEventListener("click", () => {
@@ -121,12 +121,12 @@ export function updateSynthesisSkillArea(skillDiv, synthesisSkillList) {
         skillBtn.textContent = `${skill.name}（消費MP:${skill.mpCost}）`;
 
         skillBtn.addEventListener("mouseover", () => {
-            instructionBox.style.display = "block";
+            instructionBorder.style.display = "block";
             instructionParagraph.innerText = skill.Instruction;
         });
 
         skillBtn.addEventListener("mouseleave", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
         });
         
         skillBtn.addEventListener("click", () => {

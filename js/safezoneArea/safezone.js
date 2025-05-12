@@ -1,7 +1,7 @@
 
 import { allHealItems, allEquipmentItems } from "../manage/item.js";
 // 表示構築（呼び出し）
-const mainSafetyArea = document.getElementById("safety-area");
+const lobby = document.getElementById("lobby");
 const selectPlayerArea = document.getElementById("select-player-area");
 const shopArea = document.getElementById("shop-area");
 const cookingArea = document.getElementById("cooking-area");
@@ -13,13 +13,13 @@ const prepareBattleBtn = document.getElementById("prepare-battle-btn");
 
 prepareBattleBtn.addEventListener("click",()=>{
   console.log(selectPlayerArea)
-  mainSafetyArea.style.display = "none";
+  lobby.style.display = "none";
   selectPlayerArea.style.display = "block";
 });
 
 safetyAreaBtns.forEach(btn => {
   btn.addEventListener("click", () => {
-    mainSafetyArea.style.display = "block";
+    lobby.style.display = "block";
     selectPlayerArea.style.display = "none";
     shopArea.style.display = "none";
     cookingArea.style.display = "none";
@@ -29,11 +29,11 @@ safetyAreaBtns.forEach(btn => {
 
 shopBtn.addEventListener("click",()=>{
   shopArea.style.display = "block";
-  mainSafetyArea.style.display = "none";
+  lobby.style.display = "none";
   console.log(shopArea);
 })
 cookingBtn.addEventListener("click",()=>{
-  mainSafetyArea.style.display = "none";
+  lobby.style.display = "none";
   cookingArea.style.display = "block";
 })
 

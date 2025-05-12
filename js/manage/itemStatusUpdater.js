@@ -3,8 +3,8 @@ import { getCurrentPlayer, getCurrentEnemy } from "./battleState.js";
 import { logMessage } from "../ui/logMessage.js";
 import { EquipmentItem, allItemsList } from "./item.js";
 
-const instructionBox = document.getElementById("skill-instruction-box");
-const instructionParagraph = document.getElementById("skill-instruction");
+const instructionBorder= document.getElementById("instruction-border");
+const instructionParagraph = document.getElementById("instruction");
 
 export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItemsDiv, equippedDiv} = uiElements) {
     const currentPlayer = getCurrentPlayer();
@@ -26,14 +26,14 @@ export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItem
         itemBtn.textContent = `${item.showAmount()}`;
         
         itemBtn.addEventListener("mouseenter", () => {
-            instructionBox.style.display = "block";
+            instructionBorder.style.display = "block";
             instructionParagraph.innerText = item.instructionText;
         });
         itemBtn.addEventListener("mouseleave", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
         });
         itemBtn.addEventListener("click", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
             if (["hpHeal", "mpHeal", "bothHeal"].includes(item.itemType)) {
                 if (item.itemType === "hpHeal" && currentPlayer.hp === currentPlayer.maxHp) {
                     return logMessage(`HPがMAXなため、薬は使用不可`);

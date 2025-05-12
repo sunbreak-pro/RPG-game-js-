@@ -1,27 +1,28 @@
 /* HTML要素、汎用性の高い要素＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
 body{
-    text-align: center;
+  text-align: center;
+  background-color: #e0e0e0;
 }
 button{
-    text-align: center;
-    border-radius: 1rem;
-    padding-block: 0.3rem;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 0.5s ease;
+  text-align: center;
+  border-radius: 1rem;
+  padding-block: 0.3rem;
+  margin-bottom: 0.1rem;
+  box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.5s ease;
 }
 
 button:hover{
-    cursor: pointer;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.5);
 }
 
 .border{
   margin-left: auto;
   margin-right: auto;
-  border: 3px solid black;
-  border-radius: 10px;
-  max-width: 500px;
+  border: 0.3rem solid black;
+  border-radius: 1rem;
+  max-width: 40rem;
   margin-block-end: 1rem;
   z-index: 10;
 }
@@ -37,122 +38,127 @@ button:hover{
 }
 
 .status-area{
-    border: 3px solid #5d2424;
-    border-radius: 20px;
-    color: white;
-    background-color: #333;
-    text-align: center;
-    margin-inline: auto;
-    max-width: 80%;
-    margin-bottom: 2rem;
+font-size: 90%;
+  border: 0.3rem solid #5d2424;
+  border-radius: 2rem;
+  color: white;
+  background-color: #333;
+  text-align: center;
+  margin-inline: auto;
+  max-width: fit-content;
+  margin-bottom: 2rem;
 }
 .select-class-area > button{
-    justify-content: center;
-    min-height: 40px;
-    margin-inline: 30px;
-    min-width: 120px;
-    margin-bottom: 10px;
+  justify-content: center;
+  min-height: 40px;
+  margin-inline: 30px;
+  min-width: 120px;
+  margin-bottom: 10px;
 }
 .select-equipment-area{
-    justify-content: center;
-    min-height: 40px;
-    margin-inline: 30px;
-    min-width: 120px;
-    margin-bottom: 10px;
+  justify-content: center;
+  min-height: 40px;
+  margin-inline: 30px;
+  min-width: 120px;
+  margin-bottom: 10px;
 }
 
 /* アイテム系の子要素＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
 /* 共通クラス */
 .hidden {
-    display: none;
-  }
-  #toggle-area {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.15rem;
-    flex-wrap: wrap;
-    max-width: 100%;
-  }
-  
-  .toggle-group {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: nowrap;
-    max-width: 95%;
-  }
-  .toggle-section {
+  display: none;
+}
+#player-item-status{
+  display: flex;
+}
+#toggle-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.15rem;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+.toggle-group {
+  margin-block: 1rem auto;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  max-width: 95%;
+}
+.toggle-section {
+  display: block;
+  flex-direction: column;
+  align-items: center;
+}
+.toggle-section > button{
+  width: fit-content;
+}
 
-    display: block;
-    flex-direction: column;
-    align-items: center;
-  }
-  .toggle-section > button{
-    width: fit-content;
-  }
-  
-  .item-list {
-    margin-top: 0.5rem;
-    margin-inline: 0rem;
-    padding: 0.2rem;
-    border: 3px solid black;
-    border-radius: 20px;
-    width: 21.5rem;
-    min-height: fit-content;
-    box-sizing: border-box;
-    text-align:start;
-  }
-  .item-list > button{
-    font-size: small;
-    min-width: 9rem;
-    margin: 0.5rem;
-  }
+.item-list {
+  margin-inline: 1.2rem;
+  margin-block: 0.5rem;
+  padding: 0.2rem;
+  border: 3px solid black;
+  border-radius: 20px;
+  width: 11rem;
+  min-height: fit-content;
+  box-sizing: border-box;
+  text-align:start;
+}
+.item-list > button{
+  font-size: small;
+  min-width: 9rem;
+  margin: 0.5rem;
+}
   
   /* 個別カラー */
-  #heal-items {
-    background-color: rgb(185, 241, 174);
-    border-color: rgb(81, 255, 0);
-  }
-  #equip-items {
-    background-color: rgb(192, 192, 192);
-    border-color: rgb(84, 84, 84);
-  }
-  #skill-list {
-    background-color: rgb(241, 232, 169);
-    border-color: yellow;
-  }
+#heal-items {
+  background-color: rgb(185, 241, 174);
+  border-color: rgb(81, 255, 0);
+}
+#equip-items {
+  background-color: rgb(192, 192, 192);
+  border-color: rgb(84, 84, 84);
+}
+#skill-list {
+  background-color: rgb(241, 232, 169);
+  border-color: yellow;
+  width: fit-content;
+}
 #equipped-items{
-  margin-block: 2rem 0.5rem;
-  margin-inline: auto;
+  font-size: 0.9rem;
+  margin-block: 0.8rem 0.5rem;
+  margin-inline-start: 1%;
   text-align: center;
   border: 0.3rem solid #6d6d6d ;
   border-radius: 1rem;
   background-color: #9a9999;
   min-height: auto;
-  min-width: 20rem;
-  max-width: fit-content;
+  min-width: 50%;
+  max-width: 50%;
 }
 
 /* バトルログ系＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
 #battle-log {
-    font-size: 0.9rem;
-    text-align: center;
-    min-height: 100px;
-    padding: 8px;
-    max-width: auto;
-    min-height: fit-content;
-    display: block;
+  font-size: 0.9rem;
+  text-align: center;
+  min-height: 10rem;
+  padding: 0.8rem;
+  max-width: auto;
+  min-height: fit-content;
+  display: block;
 }
 #after-battle-log {
-    background-color: #f0fff3;
-    border: 1px solid #ffffff;
-    border-radius: 10px;
-    padding: 10px;
-    color: #333;
-    font-size: 0.9em;
-    min-height: 0;
-    max-height: fit-content;
-  }
+  background-color: #f0fff3;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  color: #333;
+  font-size: 0.9em;
+  min-height: 0;
+  max-height: fit-content;
+}
 
   /* ボタン系 */
 .command-area > button{
@@ -160,45 +166,48 @@ button:hover{
     margin-bottom: 5rem;
 }
 #default-attack{
-    border: 0.3rem solid rgb(0, 0, 0);
-    border-radius: 0.1rem;
-    color: white;
-    background-color: rgb(240, 65, 65);
-    max-width: fit-content;
+  border: 0.3rem solid rgb(0, 0, 0);
+  border-radius: 0.1rem;
+  color: white;
+  background-color: rgb(240, 65, 65);
+  max-width: fit-content;
 }
 #default-attack:hover{
-    background-color:#f05e5e ;
+  background-color:#f05e5e ;
 }
 #next-stage{
-    font-size: 1rem;
-    max-width: fit-content;
-    border: 0.5rem;
-    border-radius:1rem;
-    color: rgb(0, 0, 0);
-    background-color: rgb(175, 91, 211);
+  font-size: 1rem;
+  max-width: fit-content;
+  border: 0.5rem;
+  border-radius:1rem;
+  color: rgb(0, 0, 0);
+  background-color: rgb(175, 91, 211);
 }
 /* モーダル機能 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
-.instruction-border{
-  margin-left: auto;
-    margin-right: auto;
-    border: 3px solid black;
-    border-radius: 10px;
-    max-width: 40rem;
-    margin-bottom: 0%;
-    z-index: 10;
-}
-#skill-instruction-box {
+#instruction-border{
   position: absolute;
-    left: 40%;
+  left: 40%;
+  border-radius: 10px;
   background-color: #fcfcfc;
-  white-space: pre-line;
   margin-top: -0.1rem;
   margin-bottom: 0%;
   width: 20rem;
-  max-height: 10rem;
+  min-height: 5rem;
+}
+#instruction-box {
+  align-content: center;
+  margin-left: auto;
+  min-height: 5rem;
+  margin-right: auto;
+  border: 0.3rem solid black;
+  border-radius: 10px;
+  max-width: 40rem;
+  margin-bottom: 0%;
+  z-index: 10;
+  padding-block: 0%;
 }
 
-#skill-instruction{
+#instruction{
   font-size: 0.9rem;
   max-height: 5rem;
 }
