@@ -5,14 +5,25 @@ button{
     text-align: center;
     border-radius: 1rem;
     padding-block: 0.3rem;
+    min-width: 6rem;
     margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     transition: box-shadow 0.5s ease;
 }
 button:hover{
-    background-color: aliceblue;
+    background-color: rgb(92, 98, 103);
     cursor: pointer;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+#prepare-battle-btn{
+    color:aliceblue;
+    background-color: brown;
+    padding-inline: 2rem;
+    border: none;
+    border-radius: 0.5rem;
+}
+#prepare-battle-display:hover{
+    background-color: rgb(167, 100, 100);
 }
 
 .title{

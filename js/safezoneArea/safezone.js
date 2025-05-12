@@ -1,7 +1,43 @@
 
-import { allHealItems, allEquipmentItems } from "./manage/item.js";
+import { allHealItems, allEquipmentItems } from "../manage/item.js";
 // 表示構築（呼び出し）
+const mainSafetyArea = document.getElementById("safety-area");
+const selectPlayerArea = document.getElementById("select-player-area");
+const shopArea = document.getElementById("shop-area");
+const cookingArea = document.getElementById("cooking-area");
+const cookingBtn = document.getElementById("cooking-btn");
 
+const safetyAreaBtns = document.querySelectorAll(".safety-area-btn");
+const shopBtn = document.getElementById("shop-btn");
+const prepareBattleBtn = document.getElementById("prepare-battle-btn");
+
+prepareBattleBtn.addEventListener("click",()=>{
+  console.log(selectPlayerArea)
+  mainSafetyArea.style.display = "none";
+  selectPlayerArea.style.display = "block";
+});
+
+safetyAreaBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    mainSafetyArea.style.display = "block";
+    selectPlayerArea.style.display = "none";
+    shopArea.style.display = "none";
+    cookingArea.style.display = "none";
+  });
+});
+
+
+shopBtn.addEventListener("click",()=>{
+  shopArea.style.display = "block";
+  mainSafetyArea.style.display = "none";
+  console.log(shopArea);
+})
+cookingBtn.addEventListener("click",()=>{
+  mainSafetyArea.style.display = "none";
+  cookingArea.style.display = "block";
+})
+
+// battleStageへデータの引き渡し ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 document.getElementById("start-button-buttle").addEventListener("click", () => {
   const name = document.getElementById("player-name-input").value.trim();
   const job = selectedJob;
@@ -56,12 +92,9 @@ const healItemArea = document.getElementById("heal-item-options");
 
 const commonEquipment = allEquipmentItems.filter(item => item.rarity === "common");
 const commonHealItems = allHealItems.filter(item => item.rarity === "common");
-
 // ボタン生成に使用
 createSelectableList(commonEquipment, equipmentArea, selectedEquipmentList, 2);
 createSelectableList(commonHealItems, healItemArea, selectedHealItemList, 2);
-
-
 function createSelectableList(items, container, selectedList, max) {
   items.forEach((item, index) => {
     const btn = document.createElement("button");
