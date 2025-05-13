@@ -2,7 +2,7 @@
 // 「倒れた」ログ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 import { getCurrentPlayer, getStageContext } from "./battleState.js";
 import { updateStatus } from "./itemStatusUpdater.js";
-import { clearAllLogs, clearBttleLogs, logMessage, logTittle } from "../ui/logMessage.js";
+import { clearAllLogs, clearBttleLogs, logMessage, logTittle, turnLog } from "../ui/logMessage.js";
 import { dropRandomItem } from "./item.js";
 import { enemyTemplates } from "./termplates/characterTemplates.js"
 import { gameOver } from "./saveAndLoad.js";
@@ -33,7 +33,7 @@ export function handleCharacterDefeat(character, afterLogCallback = null, isFrom
     if (character.isPlayer) {
         battleLogArea.style.display = "";
         afterBattleLogArea.style.display = "none";
-        logMessage(`<h1>${character.name} は倒された</h1>`, "5秒後に引き継ぎアイテム選択画面に移動します");
+        turnLog(`<h1>${character.name} は倒された</h1>`, "5秒後に引き継ぎアイテム選択画面に移動します");
         setTimeout( gameOver,5000);
         } else {
         handledanjonClear(defaultAttackBtn, nextStageBtn,inventoryArea, battleLogArea,afterBattleLogArea);
@@ -44,21 +44,20 @@ export function handleCharacterDefeat(character, afterLogCallback = null, isFrom
         player.hp = Math.min(player.hp + hpRecover, player.maxHp);
         player.mp = Math.min(player.mp + mpRecover, player.maxMp);
         if (afterLogCallback && nextStageBtn.style.display === "") {
-            afterLogCallback();
             clearBttleLogs();
-            logMessage(`${character.name} は倒された`);
-            logMessage("次の階層まで安全だ。回復・装備・スキルを使って準備しよう。");
-            logMessage(`勝利ボーナス！HPが${hpRecover}、MPが${mpRecover}回復した！`,"");
+            turnLog(`${character.name} は倒された`);
+            turnLog("次の階層まで安全だ。回復・装備・スキルを使って準備しよう。");
+            turnLog(`勝利ボーナス！HPが${hpRecover}、MPが${mpRecover}回復した！`,"");
             dropRandomItem(player);
 
         } else if(nextStageBtn.style.display === "none" && afterBattleLogArea.style.display === "none"){
             logMessage(`外に出よう`);
         }
         else{
-            logMessage(`${character.name} は倒された`);
+            turnLog(`${character.name} は倒された`);
 
-            logMessage("次の階層まで安全だ。回復・装備・スキルを使って準備しよう。","");
-            logMessage(`勝利ボーナス！HPが${hpRecover}、MPが${mpRecover}回復した！`,"");
+            turnLog("次の階層まで安全だ。回復・装備・スキルを使って準備しよう。","");
+            turnLog(`勝利ボーナス！HPが${hpRecover}、MPが${mpRecover}回復した！`,"");
             dropRandomItem(player);
             return;
         }

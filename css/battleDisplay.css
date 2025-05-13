@@ -22,7 +22,7 @@ button:hover{
   margin-right: auto;
   border: 0.3rem solid black;
   border-radius: 1rem;
-  max-width: 40rem;
+  max-width: 32rem;
   margin-block-end: 1rem;
   z-index: 10;
 }
@@ -38,16 +38,32 @@ button:hover{
 }
 
 .status-area{
-font-size: 90%;
-  border: 0.3rem solid #5d2424;
-  border-radius: 2rem;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 1.5rem;
   color: white;
   background-color: #333;
   text-align: center;
+  margin-top: 20px;
   margin-inline: auto;
   max-width: fit-content;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
+#player-status{
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: medium;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  margin-inline: 1rem;
+}
+#enemy-status{
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: medium;
+  padding-top: 1rem;
+  margin-bottom: 0.5rem;
+  margin-inline: 1rem;
+}
+
 .select-class-area > button{
   justify-content: center;
   min-height: 40px;
@@ -70,6 +86,7 @@ font-size: 90%;
 }
 #player-item-status{
   display: flex;
+  padding-bottom: .7rem;
 }
 #toggle-area {
   display: flex;
@@ -94,7 +111,33 @@ font-size: 90%;
 .toggle-section > button{
   width: fit-content;
 }
+#toggle-heal-items{
+  background-color: #a8f8b9;
+}
+#toggle-heal-items:hover{
+  background-color: #d8fde0;
+  box-shadow: 0 0.5rem 1.2rem rgba(255, 230, 230, 0.5);
+}
 
+#toggle-equip-items{
+  color: rgb(0, 0, 0);
+  background-color: #a35d5d;
+}
+#toggle-equip-items:hover{
+  background-color: #dc9d9d;
+  box-shadow: 0 0.5rem 1.2rem rgba(255, 230, 230, 0.5);
+}
+
+#toggle-skill-list{
+  background-color: #f8ca6f;
+  margin-bottom: 1rem;
+}
+#toggle-skill-list:hover{
+  background-color: #f4e5a2;
+  transition: background-color 0.5s ease;
+  box-shadow: 0 0.5rem 1.2rem rgba(172, 172, 2, 0.5);
+
+}
 .item-list {
   margin-inline: 1.2rem;
   margin-block: 0.5rem;
@@ -107,11 +150,12 @@ font-size: 90%;
   text-align:start;
 }
 .item-list > button{
+
   font-size: small;
   min-width: 9rem;
   margin: 0.5rem;
 }
-  
+
   /* 個別カラー */
 #heal-items {
   background-color: rgb(185, 241, 174);
@@ -127,44 +171,66 @@ font-size: 90%;
   width: fit-content;
 }
 #equipped-items{
+  display: block;
   font-size: 0.9rem;
   margin-block: 0.8rem 0.5rem;
-  margin-inline-start: 1%;
+  margin-inline-start: 3%;
   text-align: center;
-  border: 0.3rem solid #6d6d6d ;
+  border: none;
   border-radius: 1rem;
   background-color: #9a9999;
   min-height: auto;
   min-width: 50%;
   max-width: 50%;
 }
+#equipped-items>button:hover{
+  background-color: #cef8d7;
+  transition: background-color 0.5s ease;
+}
 #equipped-items>button{
-justify-content: center;
-  padding: 0%;
-  width: 10rem;
-  height: 4rem;
-  margin-bottom: 0.5rem;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  margin:0.5rem;
 }
 
 /* バトルログ系＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
-#battle-log {
-  font-size: 0.9rem;
-  text-align: center;
-  min-height: 10rem;
-  padding: 0.8rem;
-  max-width: auto;
-  min-height: fit-content;
+#battle-log ,#after-battle-log{
   display: block;
+  color: #333;
+  border: .3rem solid black;
+  border-radius: 1.2rem;
+  font-size: 0.9rem;
+  margin-inline: auto;
+  margin-block: 1rem;
+  padding: 0.8rem;
+  text-align: center;
+  max-width: 35%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 5rem;
+  max-height: 10rem;
+}
+
+#battle-log {
+  background-color: #fffefe;
 }
 #after-battle-log {
   background-color: #f0fff3;
-  border: 1px solid #ffffff;
-  border-radius: 10px;
-  padding: 10px;
-  color: #333;
-  font-size: 0.9em;
-  min-height: 0;
-  max-height: fit-content;
+}
+
+#background-area{
+  border: .2rem solid black;
+  border-radius: 1.2rem;
+  max-width: 35%;
+  max-height: 10rem;
+  min-height: 1rem;
+  margin-inline: auto;
+  margin-bottom: 1rem;
+  color: #ffb993;
+  background-color: #333;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
   /* ボタン系 */

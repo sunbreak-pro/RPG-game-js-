@@ -1,6 +1,6 @@
 // manage/character.js
 
-import { logMessage } from "../ui/logMessage.js";
+import { logMessage, turnLog } from "../ui/logMessage.js";
 import { playerTemplates } from "./termplates/characterTemplates.js";
 import { delayedEnemyAction } from "../battle/attack.js";
 import { defaultAttackBtn } from "../main.js";
@@ -35,17 +35,17 @@ export class Player {
         if (item.itemType === "hpHeal") {
             const healAmount = item.effect.hp;
             this.hp = Math.min(this.hp + healAmount, this.maxHp);
-            logMessage(`${this.name} は ${item.name} を使い、HPを${healAmount}回復した！`,"");
+            turnLog(`${this.name} は ${item.name} を使い、HPを${healAmount}回復した！`,"");
         } else if (item.itemType === "mpHeal") {
             const healAmount = item.effect.mp;
             this.mp = Math.min(this.mp + healAmount, this.maxMp);
-            logMessage(`${this.name} は ${item.name} を使い、MPを${healAmount}回復した！`,"");
+            turnLog(`${this.name} は ${item.name} を使い、MPを${healAmount}回復した！`,"");
         } else if (item.itemType === "bothHeal") {
             const healHp = item.effect.hp;
             const healMp = item.effect.mp;
             this.hp = Math.min(this.hp + healHp, this.maxHp);
             this.mp = Math.min(this.mp + healMp, this.maxMp);
-            logMessage(`${this.name} は ${item.name} を使い、HP${healHp}・MP${healMp}回復した！`,"");
+            turnLog(`${this.name} は ${item.name} を使い、HP${healHp}・MP${healMp}回復した！`,"");
         }
         delayedEnemyAction(1000);
     }
@@ -66,7 +66,7 @@ export class Player {
         this.speed += item.effect.speed || 0;
         item.isEquipped = true;
         this.equipment.push(item);
-        logMessage(`${item.name} を装備した！`)
+        turnLog(`${item.name} を装備した！`)
         delayedEnemyAction(1000);
     }
 
@@ -99,7 +99,7 @@ export class Player {
             ));
             
         }
-        logMessage(`${item.name} を外し、インベントリに戻した`)
+        turnLog(`${item.name} を外し、インベントリに戻した`)
         delayedEnemyAction(1000);
 
     }

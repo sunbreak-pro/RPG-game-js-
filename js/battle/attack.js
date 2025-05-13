@@ -5,7 +5,7 @@ import { enemyTemplates } from "../manage/termplates/characterTemplates.js";
 import { handleCharacterDefeat } from "../manage/characterDefeat.js";
 import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState.js";
 import { updateStatus } from "../manage/itemStatusUpdater.js";
-import { clearAllLogs, logMessage } from "../ui/logMessage.js";
+import { clearAllLogs, turnLog } from "../ui/logMessage.js";
 import { startTurn, markPlayerTurnDone,markEnemyTurnDone,proceedTurn, markSkillUsed } from "../manage/turnController.js";
 
 export function handleDefaultAttack(defaultAttackBtn) {
@@ -19,7 +19,7 @@ export function handleDefaultAttack(defaultAttackBtn) {
         if(enemy.hp<=0){
             enemy.hp = 0;
         }
-        logMessage(`${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！`, `(${enemy.name}のHP：${enemy.hp})`);
+        turnLog(`${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！`, `(${enemy.name}のHP：${enemy.hp})`);
 
         updateStatus(uiElements);
         console.log("キャラクターのステータス", player.getPlayerStatus(), enemy.getEnemyStatus());
@@ -66,7 +66,7 @@ export function enemyAction() {
         if (action === "default") {
             const damage = Math.max(enemy.physicalStrength - player.defense, 1);
             player.hp -= damage;
-            logMessage(`${enemy.name} の攻撃！\n ${player.name} は${damage} ダメージを受けた！`, `(${player.name}のHP：${player.hp})`);
+            turnLog(`${enemy.name} の攻撃！\n ${player.name} は${damage} ダメージを受けた！`, `(${player.name}のHP：${player.hp})`);
 
             if (player.hp <= 0) {
                 clearAllLogs();
