@@ -89,7 +89,7 @@ export function updateStatus({playerStatus, enemyStatus, healItemsDiv, equipItem
                 effectText += ` 防御+${eq.effect.defense}`;
             }
 
-            equippedBtn.textContent = `${eq.name}${effectText}（クリックで外す）`;
+            equippedBtn.innerHTML = `<p>${eq.name}${effectText}<br>（クリックで外す）</p>`;
             equippedBtn.style.cursor = "pointer";
 
             equippedBtn.addEventListener("click", () => {
