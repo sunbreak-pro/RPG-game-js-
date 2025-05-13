@@ -1,12 +1,14 @@
 // manage/turnController.js
-import { defaultAttackBtn, toggleArea, nextStageBtn, itemArea, equipItemArea } from "../main.js";
-import { clearBttleLogs, logMessage } from "../ui/logMessage.js";
-
+import { defaultAttackBtn, toggleArea, nextStageBtn } from "../main.js";
+import { clearBttleLogs, logMessage, turnLog } from "../ui/logMessage.js";
+import { getCurrentPlayer } from "./battleState.js";
 let turnCount = 1;
 let playerTurnDone = false;
 let enemyTurnDone = false;
 let skillUsed = false;
 let turnProcessed = false;
+
+
 
 export function markPlayerTurnDone() {
     playerTurnDone = true;
@@ -31,17 +33,19 @@ export function startTurn() {
     enemyTurnDone = false;
     skillUsed = false;
     turnProcessed = false;
-    logMessage(`--- ${turnCount}ターン目 ---`);
+    turnLog(`--- ${turnCount}ターン目 ---`);
 }
 
 export function proceedTurn() {
-    if (playerTurnDone && enemyTurnDone && !turnProcessed) {
+    const player = getCurrentPlayer();
+    if(player.hp <= 0) return;
+    else if (playerTurnDone && enemyTurnDone && !turnProcessed) {
         turnProcessed = true;  // ここで1回だけ通す
         turnCount++;
         setTimeout(() => {
             defaultAttackBtn.style.display = "";
             toggleArea.style.display = "";
-            logMessage(`${turnCount}ターン目が終了…`,"次の行動を選べ");
+            logMessage(`${turnCount}ターン目が終了… 次の行動を選べ。`);
         }, 1000);
     }
 }

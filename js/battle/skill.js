@@ -1,11 +1,11 @@
 import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState.js";
 import { delayedEnemyAction } from "../battle/attack.js";
-import { logMessage } from "../ui/logMessage.js";
+import { logMessage, turnLog } from "../ui/logMessage.js";
 import { handleCharacterDefeat } from "../manage/characterDefeat.js"
 import { updateStatus } from "../manage/itemStatusUpdater.js";
 import { uiElements } from "../main.js";
 import { allSKillList, baseSkillList, synthesisSkillList } from "../manage/termplates/skillTemplates.js";
-import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn } from "../manage/turnController.js";
+import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn, markSkillUsed } from "../manage/turnController.js";
 
 // === スキルデータ ===
 
@@ -38,6 +38,7 @@ export function  createSynthesisSkill(index) {
 export function activateSkill(skillIndex, _user, _target) {
     const skill = allSKillList[skillIndex];
     const player = getCurrentPlayer();
+    const enemy = getCurrentEnemy();
     
     if (!skill) {
         logMessage("スキルが見つかりません！", "");
@@ -46,25 +47,34 @@ export function activateSkill(skillIndex, _user, _target) {
     const user = _user;
     const target = _target;
     if (user.mp < skill.mpCost) {
-        logMessage(`${user.name}はスキルを発動！`,`しかし、${user.name} はMPが足りない！`);
+        turnLog(`${user.name}はスキルを発動！`,`しかし、${user.name} はMPが足りない！`);
+        if(user === player) {
+            delayedEnemyAction(1000);
+        }
         return;
+    } else {
+        user.mp -= skill.mpCost;
     }
-    user.mp -= skill.mpCost;
+    
     const damage = skill.power(user);
+
     if (skill.type === "heal") {
         skill.log(skill.name, user, null, null); // ← heal系ログ
     } else {
         target.hp -= damage;
-        skill.log(skill.name, user, target, damage); // ← dmgを渡す
-        proceedTurn();
+        if(target.hp <=0) {
+            target.hp = 0;
+            skill.log(skill.name, user, target, damage); 
+        }else{
+            skill.log(skill.name, user, target, damage); 
+        }
     }
+
     if(target.hp > 0 && user === player){
         markPlayerTurnDone();
         delayedEnemyAction(1000);
-    }
-    else if(target.hp > 0){
+    }else if(target.hp > 0){
         markEnemyTurnDone();
-        proceedTurn();
     }
     if (target.hp <= 0 && skill.type !== "heal") {
         target.hp = 0
@@ -77,8 +87,8 @@ export function activateSkill(skillIndex, _user, _target) {
                 handleCharacterDefeat(target, afterLog, true);
             },1000)
         },850);
-        return;
     }
+    proceedTurn();
     updateStatus(uiElements);
 }
 
@@ -106,6 +116,8 @@ export function updateBaseSkillArea(skillDiv, baseSkillList) {
             startTurn();
             const user = getCurrentPlayer();
             const target = getCurrentEnemy();
+            markPlayerTurnDone();
+            markSkillUsed();
             activateSkill(index, user, target);
         });
         skillDiv.appendChild(skillBtn);
@@ -130,10 +142,11 @@ export function updateSynthesisSkillArea(skillDiv, synthesisSkillList) {
         });
         
         skillBtn.addEventListener("click", () => {
-
             const user = getCurrentPlayer(); 
             const target = getCurrentEnemy();
             console.log(player,enemy);
+            markPlayerTurnDone();
+            markSkillUsed();
             activateSkill(index, user, target);
         });
         skillDiv.appendChild(skillBtn);
