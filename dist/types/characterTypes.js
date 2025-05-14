@@ -1,0 +1,2 @@
+// types/characterTypes.ts
+export {};
