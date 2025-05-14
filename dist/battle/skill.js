@@ -1,4 +1,3 @@
-// manage/skill.ts - TypeScript対応
 import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState.js";
 import { delayedEnemyAction } from "./attack.js";
 import { logMessage, turnLog } from "../ui/logMessage.js";
