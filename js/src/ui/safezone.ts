@@ -1,11 +1,13 @@
 // safetyArea.ts - TypeScript対応
 
 import { allHealItems, allEquipmentItems } from "../manage/item";
-const mainSafetyArea = document.getElementById("safety-area") as HTMLElement;
-const selectPlayerArea = document.getElementById("select-player-area") as HTMLElement;
-const shopArea = document.getElementById("shop-area") as HTMLElement;
-const cookingArea = document.getElementById("cooking-area") as HTMLElement;
-const cookingBtn = document.getElementById("cooking-btn") as HTMLButtonElement;
+// 表示構築（呼び出し）
+const lobby = document.getElementById("lobby");
+
+const selectPlayerArea = document.getElementById("select-player-area");
+const shopArea = document.getElementById("shop-area");
+const cookingArea = document.getElementById("cooking-area");
+const cookingBtn = document.getElementById("cooking-btn");
 
 const safetyAreaBtns = document.querySelectorAll(".safety-area-btn");
 const shopBtn = document.getElementById("shop-btn") as HTMLButtonElement;
@@ -13,13 +15,13 @@ const prepareBattleBtn = document.getElementById("prepare-battle-btn") as HTMLBu
 
 prepareBattleBtn.addEventListener("click", () => {
   console.log(selectPlayerArea);
-  mainSafetyArea.style.display = "none";
+  lobby.style.display = "none";
   selectPlayerArea.style.display = "block";
 });
 
 safetyAreaBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
-    mainSafetyArea.style.display = "block";
+    lobby.style.display = "block";
     selectPlayerArea.style.display = "none";
     shopArea.style.display = "none";
     cookingArea.style.display = "none";
@@ -28,12 +30,12 @@ safetyAreaBtns.forEach((btn) => {
 
 shopBtn.addEventListener("click", () => {
   shopArea.style.display = "block";
-  mainSafetyArea.style.display = "none";
+  lobby.style.display = "none";
   console.log(shopArea);
 });
 
 cookingBtn.addEventListener("click", () => {
-  mainSafetyArea.style.display = "none";
+  lobby.style.display = "none";
   cookingArea.style.display = "block";
 });
 

@@ -1,12 +1,12 @@
 // manage/skill.ts - TypeScript対応
 import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState.js";
 import { delayedEnemyAction } from "./attack.js";
-import { logMessage } from "../ui/logMessage.js";
+import { logMessage, turnLog } from "../ui/logMessage.js";
 import { handleCharacterDefeat } from "../manage/characterDefeat.js";
 import { updateStatus } from "../manage/itemStatusUpdater.js";
 import { uiElements } from "../main.js";
 import { allSKillList, baseSkillList, synthesisSkillList } from "../manage/templates/skillTemplates.js";
-import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn } from "../manage/turnController.js";
+import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn, markSkillUsed } from "../manage/turnController.js";
 export class Skill {
     constructor({ name, mpCost, type, element, power, log, Instruction }) {
         this.name = name;
@@ -37,11 +37,14 @@ export function activateSkill(skillIndex, _user, _target) {
     const user = _user;
     const target = _target;
     if (user.mp < skill.mpCost) {
-        logMessage(`${user.name}はスキルを発動！`, `しかし、${user.name} はMPが足りない！`);
+        turnLog(`${user.name}はスキルを発動！`,`しかし、${user.name} はMPが足りない！`);
         return;
+    } else {
+        user.mp -= skill.mpCost;
     }
-    user.mp -= skill.mpCost;
+    
     const damage = skill.power(user);
+
     if (skill.type === "heal") {
         skill.log(skill.name, user, target || null, skill.power(user));
     }
@@ -56,7 +59,6 @@ export function activateSkill(skillIndex, _user, _target) {
     }
     else if (target.hp > 0) {
         markEnemyTurnDone();
-        proceedTurn();
     }
     if (target.hp <= 0 && skill.type !== "heal") {
         target.hp = 0;
@@ -69,28 +71,34 @@ export function activateSkill(skillIndex, _user, _target) {
                 handleCharacterDefeat(target, afterLog, true);
             }, 1000);
         }, 850);
-        return;
     }
+    proceedTurn();
     updateStatus(uiElements);
 }
-const instructionBox = document.getElementById("skill-instruction-box");
+
+// === スキルボタンを生成して並べる ===
+const instructionBorder = document.getElementById("instruction-border");
 const instructionParagraph = document.getElementById("skill-instruction");
+
 export function updateBaseSkillArea(skillDiv, baseSkillList) {
     skillDiv.innerText = "";
     baseSkillList.forEach((skill, index) => {
         const skillBtn = document.createElement("button");
         skillBtn.innerHTML = `${skill.name} <br>（消費MP:${skill.mpCost}）`;
+
         skillBtn.addEventListener("mouseover", () => {
-            instructionBox.style.display = "block";
+            instructionBorder.style.display = "block";
             instructionParagraph.innerText = skill.Instruction;
         });
         skillBtn.addEventListener("mouseleave", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
         });
         skillBtn.addEventListener("click", () => {
             startTurn();
             const user = getCurrentPlayer();
             const target = getCurrentEnemy();
+            markPlayerTurnDone();
+            markSkillUsed();
             activateSkill(index, user, target);
         });
         skillDiv.appendChild(skillBtn);
@@ -103,15 +111,19 @@ export function updateSynthesisSkillArea(skillDiv, synthesisSkillList) {
         const skillBtn = document.createElement("button");
         skillBtn.textContent = `${skill.name}（消費MP:${skill.mpCost}）`;
         skillBtn.addEventListener("mouseover", () => {
-            instructionBox.style.display = "block";
+            instructionBorder.style.display = "block";
             instructionParagraph.innerText = skill.Instruction;
         });
         skillBtn.addEventListener("mouseleave", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
         });
         skillBtn.addEventListener("click", () => {
+
             const user = getCurrentPlayer();
             const target = getCurrentEnemy();
+            console.log(player,enemy);
+            markPlayerTurnDone();
+            markSkillUsed();
             activateSkill(index, user, target);
         });
         skillDiv.appendChild(skillBtn);

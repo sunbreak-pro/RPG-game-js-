@@ -5,6 +5,7 @@ export function setupToggleButtons() {
         { btnId: "toggle-heal-items", listId: "heal-items", label: "回復アイテム一覧" },
         { btnId: "toggle-equip-items", listId: "equip-items", label: "装備アイテム一覧" },
         { btnId: "toggle-skill-list", listId: "skill-list", label: "スキル一覧" },
+        { btnId: "background-button", listId: "background-area", label: "バトルログ履歴" },
     ];
     toggleConfigs.forEach(({ btnId, listId, label }) => {
         const button = document.getElementById(btnId);
@@ -26,3 +27,4 @@ export function setupNextStageButton(nextStageBtn, prepareNextStageFunc) {
         prepareNextStageFunc();
     });
 }
+

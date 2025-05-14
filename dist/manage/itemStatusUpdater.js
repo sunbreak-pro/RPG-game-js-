@@ -1,7 +1,8 @@
 import { uiElements } from "../main.js";
 import { getCurrentPlayer, getCurrentEnemy } from "./battleState.js";
 import { logMessage } from "../ui/logMessage.js";
-const instructionBox = document.getElementById("skill-instruction-box");
+
+const instructionBorder= document.getElementById("instruction-border");
 const instructionParagraph = document.getElementById("skill-instruction");
 export function updateStatus({ playerStatus, enemyStatus, healItemsDiv, equipItemsDiv, equippedDiv } = uiElements) {
     const player = getCurrentPlayer();
@@ -26,14 +27,14 @@ export function updateStatus({ playerStatus, enemyStatus, healItemsDiv, equipIte
         const itemBtn = document.createElement("button");
         itemBtn.textContent = `${item.showAmount()}`;
         itemBtn.addEventListener("mouseenter", () => {
-            instructionBox.style.display = "block";
+            instructionBorder.style.display = "block";
             instructionParagraph.innerText = item.instructionText;
         });
         itemBtn.addEventListener("mouseleave", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
         });
         itemBtn.addEventListener("click", () => {
-            instructionBox.style.display = "none";
+            instructionBorder.style.display = "none";
             if (["hpHeal", "mpHeal", "bothHeal"].includes(item.itemType)) {
                 if (item.itemType === "hpHeal" && currentPlayer.hp === currentPlayer.maxHp) {
                     return logMessage(`HPがMAXなため、薬は使用不可`);
@@ -86,7 +87,8 @@ export function updateStatus({ playerStatus, enemyStatus, healItemsDiv, equipIte
             if (eq.effect.defense) {
                 effectText += ` 防御+${eq.effect.defense}`;
             }
-            equippedBtn.textContent = `${eq.name}${effectText}（クリックで外す）`;
+
+            equippedBtn.innerHTML = `<p>${eq.name}${effectText}<br>（クリックで外す）</p>`;
             equippedBtn.style.cursor = "pointer";
             equippedBtn.addEventListener("click", () => {
                 currentPlayer.unequipItem(eq);

@@ -1,5 +1,6 @@
 // manage/templates/skillTemplates.ts - TypeScript対応
-import { logMessage } from "../../ui/logMessage.js";
+import { logMessage, turnLog } from "../../ui/logMessage.js";
+
 export const baseSkillList = [
     {
         name: "スラッシュ",
@@ -9,10 +10,10 @@ export const baseSkillList = [
         log: (skillName, user, target, dmg) => {
             if (target.hp <= 0) {
                 target.hp = 0;
-                logMessage(`${target.name} は、細切れにされた`, `${target.name} は倒れた！`);
+                turnLog(`${target.name} は、細切れにされた`, `${target.name} は倒れた！`);
             }
             else {
-                logMessage(`${user.name} は【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, `(${target.name}のHP：${target.hp})`);
+                turnLog(`${user.name} は【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, `(${target.name}のHP：${target.hp})`);
             }
         },
         Instruction: "名称：スラッシュ\n 少しのオーラを纏った斬撃を放つ。ダメージはキャラクターの物理攻撃に依存する",
@@ -25,10 +26,10 @@ export const baseSkillList = [
         log: (skillName, user, target, dmg) => {
             if (target.hp <= 0) {
                 target.hp = 0;
-                logMessage(`${target.name}は、炭火焼きにされた\n ${target.name} は倒れた！`);
+                turnLog(`${target.name}は、炭火焼きにされた\n ${target.name} は倒れた！`);
             }
             else {
-                logMessage(`${user.name} は 【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, ` (${target.name}のHP：${target.hp})`);
+                turnLog(`${user.name} は 【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, ` (${target.name}のHP：${target.hp})`);
             }
         },
         Instruction: "名称：ファイヤーボール\n 炎の球を繰り出す。ダメージはキャラクターの精神力に依存する",
@@ -41,10 +42,10 @@ export const baseSkillList = [
         log: (skillName, user, target, dmg) => {
             if (target.hp <= 0) {
                 target.hp = 0;
-                logMessage(`${target.name}は、串刺の中、凍え死んだ... `, `${target.name} は倒れた！`);
+                turnLog(`${target.name}は、串刺の中、凍え死んだ... `, `${target.name} は倒れた！`);
             }
             else {
-                logMessage(`${user.name} は【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, ` (${target.name}のHP：${target.hp})`);
+                turnLog(`${user.name} は【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, ` (${target.name}のHP：${target.hp})`);
             }
         },
         Instruction: "名称：アイスランス\n 氷の槍を繰り出す。ダメージはキャラクターの 精神力×1.5 に依存する",
@@ -59,10 +60,10 @@ export const baseSkillList = [
             if (user.hp !== user.maxHp) {
                 const healAmount = Math.floor(user.magicalStrength * 1.5);
                 user.hp = Math.min(user.maxHp, user.hp + healAmount);
-                logMessage(`${user.name} は ${skillName} でHPを${healAmount}回復！(${user.name}のHP：${user.hp})`);
+                turnLog(`${user.name} は ${skillName} でHPを${healAmount}回復！(${user.name}のHP：${user.hp})`);
             }
             else {
-                logMessage(`${user.name} のHPは既に MAX です！`);
+                turnLog(`${user.name} のHPは既に MAX です！`);
             }
         },
         Instruction: "名称：自己再生\n 自らの力で体力を回復するスキル。精神力依存",
@@ -78,10 +79,10 @@ export const evoleveSkillList = [
         log: (skillName, user, target, dmg) => {
             if (target.hp <= 0) {
                 target.hp = 0;
-                logMessage(`${user.name} は 【${skillName}】で爆散した`, ` ${target.name} は倒れた！`);
+                turnLog(`${user.name} は 【${skillName}】で爆散した`, ` ${target.name} は倒れた！`);
             }
             else {
-                logMessage(`${user.name} の【ファイアブラスト】が炸裂！`, `${target.name} に ${dmg} ダメージ！(現在のHP：${target.hp})`);
+                turnLog(`${user.name} の【ファイアブラスト】が炸裂！`, `${target.name} に ${dmg} ダメージ！(現在のHP：${target.hp})`);
             }
         },
         Instruction: "名称：ファイヤブラスト\n ダメージは精神力に依存する強力魔法",
@@ -97,10 +98,10 @@ export const synthesisSkillList = [
         log: (skillName, user, target, dmg) => {
             if (target.hp <= 0) {
                 target.hp = 0;
-                logMessage(`${target.name}は、次元の狭間に葬り去られた`, ` ${target.name} は倒れた！`);
+                turnLog(`${target.name}は、次元の狭間に葬り去られた`, ` ${target.name} は倒れた！`);
             }
             else {
-                logMessage(`${user.name} は【${skillName}】で切り刻まれる！ ${target.name} に ${dmg} ダメージ！ (${target.name}のHP：${target.hp})`);
+                turnLog(`${user.name} は【${skillName}】で切り刻まれる！ ${target.name} に ${dmg} ダメージ！ (${target.name}のHP：${target.hp})`);
             }
         },
         Instruction: "名称：次元斬\n 高威力の物理攻撃。物理ステ依存",
@@ -117,7 +118,7 @@ export const synthesisSkillList = [
                 logMessage(`${target.name}は、業火に包まれ、息たえた\n ${target.name} は倒れた！`);
             }
             else {
-                logMessage(`${user.name} の【${skillName}】が大地を焼き尽くす`, `${target.name} に ${dmg} ダメージ！ (現在のHP：${target.hp})`);
+                turnLog(`${user.name} の【${skillName}】が大地を焼き尽くす`, `${target.name} に ${dmg} ダメージ！ (現在のHP：${target.hp})`);
             }
         },
         Instruction: "名称：インフェルノ\n fire elementの最終進化系。精神力依存",
@@ -131,10 +132,10 @@ export const synthesisSkillList = [
         log: (skillName, user, target, dmg) => {
             if (target.hp <= 0) {
                 target.hp = 0;
-                logMessage(`${target.name}は、氷漬けにされた`, `${target.name} は倒れた！`);
+                turnLog(`${target.name}は、氷漬けにされた`, `${target.name} は倒れた！`);
             }
             else {
-                logMessage(`${user.name} の【${skillName}】が銀世界を創り出す`, `${target.name} に ${dmg} ダメージ！(${target.name}のHP：${target.hp})`);
+                turnLog(`${user.name} の【${skillName}】が銀世界を創り出す`, `${target.name} に ${dmg} ダメージ！(${target.name}のHP：${target.hp})`);
             }
         },
         Instruction: "名称：アイステンペスト\n 氷属性の最終進化スキル。精神力依存",
