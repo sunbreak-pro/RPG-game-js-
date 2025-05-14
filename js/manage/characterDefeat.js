@@ -64,9 +64,7 @@ export function handleCharacterDefeat(character, afterLogCallback = null, isFrom
         updateStatus();
     }
 }
-// function handleEnemyDefeatUI(defaultAttackBtn, nextStageBtn,inventoryArea, battleLogArea, afterBattleLogArea,logName) {
-//     handledanjonClear(defaultAttackBtn,nextStageBtn,inventoryArea,battleLogArea,afterBattleLogArea,logName);
-// }
+
 
 let currentStage = 1;
 function handledanjonClear(defaultAttackBtn,nextStageBtn,inventoryArea,battleLogArea,afterBattleLogArea){
