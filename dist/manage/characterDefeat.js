@@ -1,29 +1,81 @@
-// manage/characterDefeat.ts - TypeScript対応
-import { logMessage } from "../ui/logMessage.js";
-import { updateStatus } from "./itemStatusUpdater.js";
-import { uiElements } from "../main.js";
-import { setBattleState } from "./battleState.js";
-import { createEnemy } from "./character.js";
-import { enemyTemplates } from "./templates/characterTemplates.js";
-export function handleCharacterDefeat(defeated, afterLog = null, isBattleOver = false) {
-    const playerIsDead = defeated.isPlayer;
-    if (playerIsDead) {
-        logMessage("あなたは力尽きた...", "ゲームオーバーです。");
-        const gameOverDisplay = document.getElementById("game-over");
-        gameOverDisplay.style.display = "block";
+// characterDefeat.ts - TypeScript対応
+import { getCurrentPlayer, getStageContext } from "./battleState";
+import { updateStatus } from "./itemStatusUpdater";
+import { clearBttleLogs, logMessage, logTittle, turnLog } from "../ui/logMessage";
+import { dropRandomItem } from "./item";
+import { enemyTemplates } from "./templates/characterTemplates";
+import { gameOver } from "./saveAndLoad";
+import { resetTurn } from "./turnController";
+import { skillArea } from "../main";
+export function handleCharacterDefeat(character, afterLogCallback = null, isFromAttack = false) {
+    if (character.hp > 0 || !isFromAttack)
+        return;
+    const currentPlayer = getCurrentPlayer();
+    let player;
+    if (currentPlayer instanceof Object && "inventory" in currentPlayer) {
+        player = currentPlayer;
+    }
+    else {
         return;
     }
-    // 敵を倒したときの処理
-    logMessage(`${defeated.name} を倒した！`, "次の敵が現れた...");
-    // 次の敵を設定
-    const currentIndex = enemyTemplates.findIndex((et) => et.name === defeated.name);
-    const nextTemplate = enemyTemplates[currentIndex + 1];
-    if (nextTemplate) {
-        const nextEnemy = createEnemy(nextTemplate);
-        setBattleState(null, nextEnemy, currentIndex + 1);
+    const { defaultAttackBtn, nextStageBtn, battleArea, toggleArea, battleLogArea, afterBattleLogArea, skillDiv, uiElements, } = getStageContext();
+    toggleArea.style.display = "";
+    skillArea.style.display = "none";
+    skillDiv.style.display = "none";
+    battleLogArea.style.display = "none";
+    afterBattleLogArea.style.display = "";
+    character.hp = 0;
+    console.log(character.name);
+    if (character.isPlayer) {
+        battleLogArea.style.display = "";
+        afterBattleLogArea.style.display = "none";
+        turnLog(`<h1>${character.name} は倒された</h1>`, "5秒後に引き継ぎアイテム選択画面に移動します");
+        setTimeout(gameOver, 5000);
     }
-    updateStatus(uiElements);
-    if (afterLog) {
-        afterLog();
+    else {
+        handledanjonClear(defaultAttackBtn, nextStageBtn, battleLogArea, afterBattleLogArea);
+        resetTurn();
+        logTittle(`セーフティーエリア`);
+        const hpRecover = Math.floor(player.maxHp * 0.2);
+        const mpRecover = Math.floor(player.maxMp * 0.2);
+        player.hp = Math.min(player.hp + hpRecover, player.maxHp);
+        player.mp = Math.min(player.mp + mpRecover, player.maxMp);
+        if (afterLogCallback && nextStageBtn.style.display === "") {
+            clearBttleLogs();
+            turnLog(`${character.name} は倒された`);
+            turnLog("次の階層まで安全だ。回復・装備・スキルを使って準備しよう。");
+            turnLog(`勝利ボーナス！HPが${hpRecover}、MPが${mpRecover}回復した！`, "");
+            dropRandomItem(player);
+        }
+        else if (nextStageBtn.style.display === "none" &&
+            afterBattleLogArea.style.display === "none") {
+            logMessage(`外に出よう`);
+        }
+        else {
+            turnLog(`${character.name} は倒された`);
+            turnLog("次の階層まで安全だ。回復・装備・スキルを使って準備しよう。", "");
+            turnLog(`勝利ボーナス！HPが${hpRecover}、MPが${mpRecover}回復した！`, "");
+            dropRandomItem(player);
+            return;
+        }
+        updateStatus();
+    }
+}
+let currentStage = 1;
+function handledanjonClear(defaultAttackBtn, nextStageBtn, battleLogArea, afterBattleLogArea) {
+    const nextEnemyTemplate = enemyTemplates[currentStage];
+    console.log(currentStage, nextEnemyTemplate);
+    currentStage++;
+    if (!nextEnemyTemplate) {
+        defaultAttackBtn.style.display = "none";
+        nextStageBtn.style.display = "none";
+        battleLogArea.style.display = "";
+        afterBattleLogArea.style.display = "none";
+        logMessage("ダンジョンクリア！！🎉", "おめでとう！！！");
+        return;
+    }
+    else {
+        defaultAttackBtn.style.display = "none";
+        nextStageBtn.style.display = "";
     }
 }

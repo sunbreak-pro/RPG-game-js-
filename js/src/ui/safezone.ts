@@ -2,12 +2,12 @@
 
 import { allHealItems, allEquipmentItems } from "../manage/item";
 // 表示構築（呼び出し）
-const lobby = document.getElementById("lobby");
+const lobby = document.getElementById("lobby") as HTMLElement;
 
-const selectPlayerArea = document.getElementById("select-player-area");
-const shopArea = document.getElementById("shop-area");
-const cookingArea = document.getElementById("cooking-area");
-const cookingBtn = document.getElementById("cooking-btn");
+const selectPlayerArea = document.getElementById("select-player-area") as HTMLElement;
+const shopArea = document.getElementById("shop-area") as HTMLElement;
+const cookingArea = document.getElementById("cooking-area") as HTMLElement;
+const cookingBtn = document.getElementById("cooking-btn")as HTMLButtonElement;
 
 const safetyAreaBtns = document.querySelectorAll(".safety-area-btn");
 const shopBtn = document.getElementById("shop-btn") as HTMLButtonElement;
