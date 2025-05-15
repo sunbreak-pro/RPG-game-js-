@@ -121,7 +121,7 @@ export function updateSynthesisSkillArea(skillDiv, synthesisSkillList) {
             const user = getCurrentPlayer();
             const target = getCurrentEnemy();
             console.log(player,enemy);
-            markPlayerTurnDone();
+
             markSkillUsed();
             activateSkill(index, user, target);
         });
