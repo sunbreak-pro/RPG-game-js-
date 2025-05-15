@@ -1,5 +1,5 @@
 // saveAndLoad.ts - TypeScript対応
-import { getCurrentPlayer } from "./battleState.js";
+import { getCurrentPlayer } from "./battleState";
 const battleArea = document.querySelector(".battle-area");
 const gameOverDisplay = document.getElementById("game-over");
 const gameResetBtn = document.getElementById("game-reset");

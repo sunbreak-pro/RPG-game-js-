@@ -1,14 +1,14 @@
 // main.ts - TypeScript化バージョン
-import { createEnemy, createPlayer } from "./manage/character.js";
-import { enemyTemplates } from "./manage/templates/characterTemplates.js";
-import { EquipmentItem, HealItem } from "./manage/item.js";
-import { setBattleState, prepareNextStage, setStageContext, getcurrentStage } from "./manage/battleState.js";
-import { updateStatus } from "./manage/itemStatusUpdater.js";
-import { handleDefaultAttack } from "./battle/attack.js";
-import { baseSkillList } from "./manage/templates/skillTemplates.js";
-import { updateBaseSkillArea } from "./battle/skill.js";
-import { setupToggleButtons, setupNextStageButton } from "./ui/btn.js";
-import { setLogElements } from "./ui/logMessage.js";
+import { createEnemy, createPlayer } from "./manage/character";
+import { enemyTemplates } from "./manage/templates/characterTemplates";
+import { EquipmentItem, HealItem } from "./manage/item";
+import { setBattleState, prepareNextStage, setStageContext, getcurrentStage } from "./manage/battleState";
+import { updateStatus } from "./manage/itemStatusUpdater";
+import { handleDefaultAttack } from "./battle/attack";
+import { baseSkillList } from "./manage/templates/skillTemplates";
+import { updateBaseSkillArea } from "./battle/skill";
+import { setupToggleButtons, setupNextStageButton } from "./ui/btn";
+import { setLogElements } from "./ui/logMessage";
 // HTML要素の取得と型付け
 export const battleArea = document.querySelector(".battle-area");
 export const toggleArea = document.getElementById("toggle-area");

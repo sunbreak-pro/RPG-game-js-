@@ -1,12 +1,11 @@
 // battle/attack.ts
-import { uiElements } from "../main.js";
-import { activateSkill } from "./skill.js";
-import { handleCharacterDefeat } from "../manage/characterDefeat.js";
-import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState.js";
-import { updateStatus } from "../manage/itemStatusUpdater.js";
-import { clearAllLogs, turnLog } from "../ui/logMessage.js";
-import { startTurn, markPlayerTurnDone,markEnemyTurnDone,proceedTurn, markSkillUsed } from "../manage/turnController.js";
-
+import { uiElements } from "../main";
+import { activateSkill } from "./skill";
+import { handleCharacterDefeat } from "../manage/characterDefeat";
+import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState";
+import { updateStatus } from "../manage/itemStatusUpdater";
+import { clearAllLogs, logMessage } from "../ui/logMessage";
+import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn, markSkillUsed, } from "../manage/turnController";
 export function handleDefaultAttack(defaultAttackBtn) {
     defaultAttackBtn.addEventListener("click", () => {
         startTurn();
@@ -14,11 +13,9 @@ export function handleDefaultAttack(defaultAttackBtn) {
         const enemy = getCurrentEnemy();
         const damage = Math.max(player.physicalStrength - enemy.defense, 1);
         enemy.hp -= damage;
-        if (enemy.hp <= 0){
+        if (enemy.hp <= 0)
             enemy.hp = 0;
-        }
-        turnLog(`${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！`, `(${enemy.name}のHP：${enemy.hp})`);
-
+        logMessage(`${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！`, `(${enemy.name}のHP：${enemy.hp})`);
         updateStatus(uiElements);
         if (enemy.hp <= 0) {
             setTimeout(() => {
@@ -68,8 +65,7 @@ export function enemyAction() {
         if (!useSkill) {
             const damage = Math.max(enemy.physicalStrength - player.defense, 1);
             player.hp -= damage;
-            turnLog(`${enemy.name} の攻撃！\n ${player.name} は${damage} ダメージを受けた！`, `(${player.name}のHP：${player.hp})`);
-
+            logMessage(`${enemy.name} の攻撃！\n ${player.name} は${damage} ダメージを受けた！`, `(${player.name}のHP：${player.hp})`);
             if (player.hp <= 0) {
                 clearAllLogs();
                 player.hp = 0;

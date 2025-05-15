@@ -10,24 +10,27 @@ export function logTittle(message1) {
 export function logMessage(message1 = "", message2 = "") {
     const isAfterBattle = nextStageBtn.style.display !== "none";
     const target = isAfterBattle ? afterBattleLog : battleLog;
-    if (!target) return; 
+    if (!target)
+        return;
     if (message1) {
         target.innerHTML += `<p>\n<strong>${message1}</strong></p>`;
+        backgroundArea.innerHTML += `<p>\n${message1}</p>`;
     }
     if (message2) {
         target.innerHTML += `<p>\n<strong>${message2}</strong></p>`;
+        backgroundArea.innerHTML += `<p>\n${message2}</p>`;
     }
     target.scrollTo({
         top: target.scrollHeight,
         behavior: "smooth"
-      });
-      console.log(target);
+    });
+    console.log(target);
 }
-export function turnLog(message1,message2=""){
+export function turnLog(message1, message2 = "") {
     const isAfterBattle = nextStageBtn.style.display !== "none";
     const target = isAfterBattle ? afterBattleLog : battleLog;
-    if (!target) return; 
-
+    if (!target)
+        return;
     if (message1) {
         target.innerHTML += `<p>\n<strong>${message1}</strong></p>`;
         backgroundArea.innerHTML += `<p>\n${message1}</p>`;
@@ -39,8 +42,9 @@ export function turnLog(message1,message2=""){
     backgroundArea.scrollTo({
         top: backgroundArea.scrollHeight,
         behavior: "smooth"
-      });
-};
+    });
+}
+;
 export function clearBttleLogs() {
     if (battleLog)
         battleLog.innerHTML = "";

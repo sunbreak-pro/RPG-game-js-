@@ -1,9 +1,9 @@
-import { logMessage, turnLog } from "../ui/logMessage.js";
-import { playerTemplates } from "./templates/characterTemplates.js";
-import { delayedEnemyAction } from "../battle/attack.js";
-import { defaultAttackBtn } from "../main.js";
-import { markPlayerTurnDone, startTurn } from "./turnController.js";
-import { EquipmentItem } from "./item.js";
+import { logMessage } from "../ui/logMessage";
+import { playerTemplates } from "./templates/characterTemplates";
+import { delayedEnemyAction } from "../battle/attack";
+import { defaultAttackBtn } from "../main";
+import { markPlayerTurnDone, startTurn } from "./turnController";
+import { EquipmentItem } from "./item";
 // ====== Playerクラス ======
 export class Player {
     constructor(name, className, hp, mp, physicalStrength, magicalStrength, defense, speed) {
@@ -32,17 +32,19 @@ export class Player {
         if (item.itemType === "hpHeal") {
             const healAmount = (_a = item.effect.hp) !== null && _a !== void 0 ? _a : 0;
             this.hp = Math.min(this.hp + healAmount, this.maxHp);
-            turnLog(`${this.name} は ${item.name} を使い、HPを${healAmount}回復した！`,"");
-        } else if (item.itemType === "mpHeal") {
-            const healAmount = item.effect.mp;
+            logMessage(`${this.name} は ${item.name} を使い、HPを${healAmount}回復した！`, "");
+        }
+        else if (item.itemType === "mpHeal") {
+            const healAmount = (_b = item.effect.mp) !== null && _b !== void 0 ? _b : 0;
             this.mp = Math.min(this.mp + healAmount, this.maxMp);
-            turnLog(`${this.name} は ${item.name} を使い、MPを${healAmount}回復した！`,"");
-        } else if (item.itemType === "bothHeal") {
-            const healHp = item.effect.hp;
-            const healMp = item.effect.mp;
+            logMessage(`${this.name} は ${item.name} を使い、MPを${healAmount}回復した！`, "");
+        }
+        else if (item.itemType === "bothHeal") {
+            const healHp = (_c = item.effect.hp) !== null && _c !== void 0 ? _c : 0;
+            const healMp = (_d = item.effect.mp) !== null && _d !== void 0 ? _d : 0;
             this.hp = Math.min(this.hp + healHp, this.maxHp);
             this.mp = Math.min(this.mp + healMp, this.maxMp);
-            turnLog(`${this.name} は ${item.name} を使い、HP${healHp}・MP${healMp}回復した！`,"");
+            logMessage(`${this.name} は ${item.name} を使い、HP${healHp}・MP${healMp}回復した！`, "");
         }
         delayedEnemyAction(1000);
     }
@@ -60,7 +62,7 @@ export class Player {
         this.speed += item.effect.speed || 0;
         item.isEquipped = true;
         this.equipment.push(item);
-        turnLog(`${item.name} を装備した！`)
+        logMessage(`${item.name} を装備した！`);
         delayedEnemyAction(1000);
     }
     unequipItem(item) {
@@ -81,7 +83,7 @@ export class Player {
         else {
             this.inventory.push(new EquipmentItem(item.name, item.itemType, item.equipmentType, item.effect, 1, item.rarity, item.instructionText));
         }
-        turnLog(`${item.name} を外し、インベントリに戻した`)
+        logMessage(`${item.name} を外し、インベントリに戻した`);
         delayedEnemyAction(1000);
     }
 }

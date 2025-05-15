@@ -1,7 +1,7 @@
-import { uiElements } from "../main.js";
-import { logMessage } from "../ui/logMessage.js";
-import { updateStatus } from "./itemStatusUpdater.js";
-import { healItemTemplates, equipmentItemTemplates } from "./templates/itemTemplates.js";
+import { uiElements } from "../main";
+import { logMessage } from "../ui/logMessage";
+import { updateStatus } from "./itemStatusUpdater";
+import { healItemTemplates, equipmentItemTemplates } from "./templates/itemTemplates";
 export class Item {
     constructor(name, itemType, effect, amount, rarity, instructionText) {
         this.isEquipped = false;
