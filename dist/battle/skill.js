@@ -112,6 +112,9 @@ export function updateSynthesisSkillArea(skillDiv, synthesisSkillList) {
         skillBtn.addEventListener("click", () => {
             const user = getCurrentPlayer();
             const target = getCurrentEnemy();
+            console.log(player,enemy);
+
+            markSkillUsed();
             activateSkill(index, user, target);
         });
         skillDiv.appendChild(skillBtn);
