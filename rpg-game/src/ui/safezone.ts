@@ -47,6 +47,14 @@ document.getElementById("start-button-buttle")!.addEventListener("click", () => 
     alert("名前と職業は必須です！");
     return;
   }
+  if(name.length >=10){
+    alert("名前は１０文字以内に設定してください")
+    return ;
+  }
+  if (!/^[ぁ-んァ-ン一-龥a-zA-Z0-9ー]+$/.test(name)) {
+    alert("使用できない文字が含まれています（日本語・英数字のみ可）");
+    return;
+  }
 
   const selectedEquipment = selectedEquipmentList.map((i) => {
     return { ...allEquipmentItems[i], amount: 1 };
