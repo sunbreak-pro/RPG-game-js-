@@ -1,16 +1,16 @@
 // main.ts - TypeScript化バージョン
 
-import { createEnemy,createPlayer } from "./manage/character";
-import { enemyTemplates } from "./manage/templates/characterTemplates"; 
-import {  EquipmentItem, HealItem } from "./manage/item";
-import { setBattleState, prepareNextStage, setStageContext, getcurrentStage } from "./manage/battleState"; 
-import { updateStatus } from "./manage/itemStatusUpdater"; 
-import { handleDefaultAttack } from "./battle/attack"; 
-import { baseSkillList } from "./manage/templates/skillTemplates"; 
-import { updateBaseSkillArea } from "./battle/skill"; 
-import { setupToggleButtons, setupNextStageButton } from "./ui/btn"; 
-import { setLogElements } from "./ui/logMessage"; 
-import type { ItemRarity, ItemType,ItemEffect } from "./types/itemTypes";
+import { createEnemy, createPlayer } from "./manage/character";
+import { enemyTemplates } from "./manage/templates/characterTemplates";
+import { EquipmentItem, HealItem } from "./manage/item";
+import { setBattleState, prepareNextStage, setStageContext, getcurrentStage } from "./manage/battleState";
+import { updateStatus } from "./manage/itemStatusUpdater";
+import { handleDefaultAttack } from "./battle/attack";
+import { baseSkillList } from "./manage/templates/skillTemplates";
+import { updateBaseSkillArea } from "./battle/skill";
+import { setupToggleButtons, setupNextStageButton } from "./ui/btn";
+import { setLogElements } from "./ui/logMessage";
+import type { ItemRarity, ItemType, ItemEffect } from "./types/itemTypes";
 
 // HTML要素の取得と型付け
 export const battleArea = document.querySelector(".battle-area") as HTMLElement;
@@ -40,8 +40,11 @@ export const uiElements = {
 };
 
 // ゲーム開始処理
+
 export function startBattle(): void {
+
   battleArea.style.display = "";
+
   setLogElements({
     battleLog: battleLogArea,
     afterBattleLog: afterBattleLogArea,
@@ -84,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!raw && !isSafezone) {
     alert("セーフティエリアからスタートしてください！");
-    window.location.href = "safezone.html";
+    window.location.href = "safezone.ts";
     return;
   }
 

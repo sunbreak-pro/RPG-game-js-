@@ -1,4 +1,3 @@
-// saveAndLoad.ts - TypeScript対応
 
 import { getCurrentPlayer } from "./battleState";
 import type { Player } from "./character";
@@ -8,8 +7,10 @@ const gameOverDisplay = document.getElementById("game-over") as HTMLElement;
 const gameResetBtn = document.getElementById("game-reset") as HTMLButtonElement | null;
 
 export function gameOver(): void {
-  battleArea.style.display = "none";
-  gameOverDisplay.style.display = "";
+  document.addEventListener("DOMContentLoaded", () => {
+    battleArea.style.display = "none";
+    gameOverDisplay.style.display = "block";
+  });
 
   saveAfterBattle();
 
