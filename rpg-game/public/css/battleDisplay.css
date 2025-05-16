@@ -95,6 +95,7 @@ button:hover{
   flex-wrap: wrap;
   max-width: 100%;
 }
+
 .toggle-group {
   margin-block: 1rem auto;
   display: flex;
@@ -127,7 +128,13 @@ button:hover{
   background-color: #dc9d9d;
   box-shadow: 0 0.5rem 1.2rem rgba(255, 230, 230, 0.5);
 }
-
+#skill-area{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.15rem;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
 #toggle-skill-list{
   background-color: #f8ca6f;
   margin-bottom: 1rem;
@@ -168,6 +175,7 @@ button:hover{
 #skill-list {
   background-color: rgb(241, 232, 169);
   border-color: yellow;
+  margin-inline: auto;
   width: fit-content;
 }
 #equipped-items{

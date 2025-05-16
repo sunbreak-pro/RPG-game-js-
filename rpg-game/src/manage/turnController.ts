@@ -5,6 +5,7 @@ import {
     nextStageBtn,
     // itemArea,
     // equipItemArea,
+    skillArea,
   } from "../main";
   import { clearBttleLogs, logMessage, turnLog } from "../ui/logMessage";
 
@@ -33,8 +34,8 @@ import {
   
   export function startTurn(): void {
     if (nextStageBtn.style.display === "") return;
-  
     clearBttleLogs();
+    skillArea.style.display = "none"
     toggleArea.style.display = "none";
     defaultAttackBtn.style.display = "none";
     playerTurnDone = false;
@@ -49,8 +50,12 @@ import {
       turnProcessed = true;
       turnCount++;
       setTimeout(() => {
-        defaultAttackBtn.style.display = "";
-        toggleArea.style.display = "";
+        skillArea.style.display = "block"
+        skillArea.style.marginInline = "auto"
+        toggleArea.style.display = "flex";
+        toggleArea.style.marginInline = "auto";
+        defaultAttackBtn.style.display = "block";
+        defaultAttackBtn.style.marginInline = "auto";
         logMessage(`${turnCount}ターン目が終了…`, "次の行動を選べ");
       }, 1000);
     }

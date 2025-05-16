@@ -129,6 +129,7 @@ export function updateBaseSkillArea(skillDiv: HTMLElement, baseSkillList: SkillD
       startTurn();
       const user = getCurrentPlayer();
       const target = getCurrentEnemy();
+      markSkillUsed();
       activateSkill(index, user, target);
     });
 

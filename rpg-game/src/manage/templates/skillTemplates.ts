@@ -7,7 +7,7 @@ export const baseSkillList: SkillData[] = [
     name: "スラッシュ",
     mpCost: 5,
     type: "attack",
-    power: (user) => Math.floor(user.magicalStrength * 1.3),
+    power: (user) => Math.floor(user.physicalStrength * 1.3),
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
         target.hp = 0;
