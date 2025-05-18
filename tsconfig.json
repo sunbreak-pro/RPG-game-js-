@@ -4,7 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "lib": ["DOM", "ESNext"],
-    "jsx": "react-jsx",                // React + TSならこれ
+    "jsx": "react-jsx", // React + TSならこれ
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
@@ -16,4 +16,3 @@
     "forceConsistentCasingInFileNames": true
   }
 }
-
