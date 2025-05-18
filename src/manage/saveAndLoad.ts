@@ -7,13 +7,10 @@ const gameOverDisplay = document.getElementById("game-over") as HTMLElement;
 const gameResetBtn = document.getElementById("game-reset") as HTMLButtonElement | null;
 
 export function gameOver(): void {
-  document.addEventListener("DOMContentLoaded", () => {
-    battleArea.style.display = "none";
-    gameOverDisplay.style.display = "block";
-  });
 
+  battleArea.style.display = "none";
+  gameOverDisplay.style.display = "block";
   saveAfterBattle();
-
   if (gameResetBtn) {
     gameResetBtn.addEventListener("click", () => {
       window.location.href = "safezone.html";
