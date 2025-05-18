@@ -5,12 +5,12 @@ export function setupToggleButtons() {
     const toggleConfigs = [
         { btnId: "toggle-heal-items", listId: "heal-items", label: "回復アイテム一覧" },
         { btnId: "toggle-equip-items", listId: "equip-items", label: "装備アイテム一覧" },
-        { btnId: "toggle-skill-list", listId: "skill-list", label: "スキル一覧" },
-        { btnId: "background-button", listId: "background-area", label: "バトルログ履歴" },
+        { btnId: "toggle-skill-btn", listId: "skill-list", label: "スキル一覧" },
+        { btnId: "background-button", listId: "background-log-area", label: "バトルログ履歴" },
     ];
     toggleConfigs.forEach(({ btnId, listId, label }) => {
-        const button = document.getElementById(btnId)as HTMLButtonElement;
-        const list = document.getElementById(listId)as HTMLElement;
+        const button = document.getElementById(btnId) as HTMLButtonElement;
+        const list = document.getElementById(listId) as HTMLElement;
         button.textContent = `▶︎ ${label}`;
         list.classList.add("hidden");
         button.addEventListener("click", () => {
@@ -23,7 +23,7 @@ export function setupToggleButtons() {
 }
 
 // === 次のステージへボタンの設定 ===
-export function setupNextStageButton(nextStageBtn:HTMLElement, prepareNextStageFunc:any) {
+export function setupNextStageButton(nextStageBtn: HTMLElement, prepareNextStageFunc: any) {
     nextStageBtn.addEventListener("click", () => {
         toggleArea.style.display = "";
         prepareNextStageFunc();

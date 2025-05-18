@@ -17,7 +17,8 @@ export const battleArea = document.querySelector(".battle-area") as HTMLElement;
 export const toggleArea = document.getElementById("toggle-area") as HTMLElement;
 export const itemArea = document.getElementById("toggle-heal-items") as HTMLElement;
 export const equipItemArea = document.getElementById("toggle-equip-items") as HTMLElement;
-export const skillArea = document.getElementById("toggle-skill-list") as HTMLElement;
+export const skillArea = document.getElementById("skill-area") as HTMLElement;
+export const skillList = document.getElementById("skill-list") as HTMLElement;
 export const battleLogArea = document.getElementById("battle-log") as HTMLElement;
 export const afterBattleLogArea = document.getElementById("after-battle-log") as HTMLElement;
 

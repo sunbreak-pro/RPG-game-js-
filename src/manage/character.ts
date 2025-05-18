@@ -1,4 +1,4 @@
-import {  turnLog } from "../ui/logMessage";
+import { logMessage, turnLog } from "../ui/logMessage";
 import { playerTemplates } from "./templates/characterTemplates";
 import { delayedEnemyAction } from "../battle/attack";
 import { defaultAttackBtn } from "../main";
@@ -24,7 +24,7 @@ export class Player implements Character {
 
   equipment: EquipmentItem[] = [];
   inventory: (HealItem | EquipmentItem)[] = [];
-  
+
   constructor(
     name: string,
     className: string,
@@ -81,7 +81,7 @@ export class Player implements Character {
 
     const sameCategory = this.equipment.find(eq => eq.equipmentType === item.equipmentType);
     if (sameCategory) {
-      this.unequipItem(sameCategory);
+      logMessage("すでにその装備は装備中です");
       return;
     }
 
@@ -133,43 +133,43 @@ export class Player implements Character {
 
 // ====== Enemyクラス ======
 export class Enemy implements Character {
-    name: string;
-    className: string;
-    hp: number;
-    maxHp: number;
-    mp: number;
-    maxMp: number;
-    physicalStrength: number;
-    magicalStrength: number;
-    defense: number;
-    speed: number;
-    isPlayer: boolean = false;
-  
-    constructor(
-      name: string,
-      className: string,
-      hp: number,
-      mp: number,
-      physicalStrength: number,
-      magicalStrength: number,
-      defense: number,
-      speed: number
-    ) {
-      this.name = name;
-      this.className = className;
-      this.hp = hp;
-      this.maxHp = hp;
-      this.mp = mp;
-      this.maxMp = mp;
-      this.physicalStrength = physicalStrength;
-      this.magicalStrength = magicalStrength;
-      this.defense = defense;
-      this.speed = speed;
-    }
-  
-    getEnemyStatus(): string {
-      return `${this.name}（${this.className}）：【HP ${this.hp}/${this.maxHp}】【MP ${this.mp}/${this.maxMp}】`;
-    }
+  name: string;
+  className: string;
+  hp: number;
+  maxHp: number;
+  mp: number;
+  maxMp: number;
+  physicalStrength: number;
+  magicalStrength: number;
+  defense: number;
+  speed: number;
+  isPlayer: boolean = false;
+
+  constructor(
+    name: string,
+    className: string,
+    hp: number,
+    mp: number,
+    physicalStrength: number,
+    magicalStrength: number,
+    defense: number,
+    speed: number
+  ) {
+    this.name = name;
+    this.className = className;
+    this.hp = hp;
+    this.maxHp = hp;
+    this.mp = mp;
+    this.maxMp = mp;
+    this.physicalStrength = physicalStrength;
+    this.magicalStrength = magicalStrength;
+    this.defense = defense;
+    this.speed = speed;
+  }
+
+  getEnemyStatus(): string {
+    return `${this.name}（${this.className}）：【HP ${this.hp}/${this.maxHp}】【MP ${this.mp}/${this.maxMp}】`;
+  }
 }
 
 // ====== 生成関数 ======

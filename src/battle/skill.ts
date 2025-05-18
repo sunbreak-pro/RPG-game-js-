@@ -7,18 +7,18 @@ import { handleCharacterDefeat } from "../manage/characterDefeat";
 import { updateStatus } from "../manage/itemStatusUpdater";
 import { uiElements } from "../main";
 import { allSKillList, baseSkillList, synthesisSkillList } from "../manage/templates/skillTemplates";
-import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn, markSkillUsed } from "../manage/turnController";
+import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn } from "../manage/turnController";
 import type { Character } from "../types/characterTypes";
 
 export interface SkillData {
-    name: string;
-    mpCost: number;
-    type: "attack" | "heal";
-    element?: string;
-    power: (user: Character) => number;
-    log: (skillName: string, user: Character, target: Character, dmg?: number) => void;
-    Instruction: string;
-  }
+  name: string;
+  mpCost: number;
+  type: "attack" | "heal";
+  element?: string;
+  power: (user: Character) => number;
+  log: (skillName: string, user: Character, target: Character, dmg?: number) => void;
+  Instruction: string;
+}
 
 export class Skill {
   name: string;
@@ -63,45 +63,54 @@ export function activateSkill(skillIndex: number, _user: Character, _target: Cha
 
   const user = _user;
   const target = _target;
+  let skillPlay = true;
 
   if (user.mp < skill.mpCost) {
-    turnLog(`${user.name}はスキルを発動！`,`しかし、${user.name} はMPが足りない！`);
-    return;
+    if (user.mp <= 0) user.mp = 0;
+    turnLog(`${user.name}はスキルを発動！`, `しかし、${user.name} はMPが足りない！`);
+    if (user.isPlayer) {
+      skillPlay = false;
+      delayedEnemyAction(1000);
+    } else {
+      skillPlay = false;
+      return;
+    }
   } else {
-      user.mp -= skill.mpCost;
+    startTurn();
+    user.mp -= skill.mpCost;
   }
 
-  user.mp -= skill.mpCost;
-  const damage = skill.power(user);
+  if (skillPlay) {
+    const damage = skill.power(user);
 
-  if (skill.type === "heal") {
-    skill.log(skill.name, user, target ||null, skill.power(user));
-  } else {
-    target.hp -= damage;
-    skill.log(skill.name, user, target, skill.power(user));
-    proceedTurn();
-  }
+    if (skill.type === "heal") {
+      skill.log(skill.name, user, target || null, skill.power(user));
+    } else {
+      target.hp -= damage;
+      skill.log(skill.name, user, target, skill.power(user));
+    }
 
-  if (target.hp > 0 && user === player) {
-    markPlayerTurnDone();
-    delayedEnemyAction(1000);
-  } else if (target.hp > 0) {
-    markEnemyTurnDone();
-    proceedTurn();
-  }
+    if (target.hp > 0 && user === player) {
+      markPlayerTurnDone();
 
-  if (target.hp <= 0 && skill.type !== "heal") {
-    target.hp = 0;
-    updateStatus(uiElements);
-    setTimeout(() => {
-      const afterLog = typeof skill.log === "function"
-        ? () => skill.log(skill.name, user, target, skill.power(user))
-        : null;
+      delayedEnemyAction(1000);
+    } else if (target.hp > 0) {
+      markEnemyTurnDone();
+
+    }
+
+    if (target.hp <= 0 && skill.type !== "heal") {
+      target.hp = 0;
       setTimeout(() => {
-        handleCharacterDefeat(target, afterLog, true);
-      }, 1000);
-    }, 850);
-    return;
+        const afterLog = typeof skill.log === "function"
+          ? () => skill.log(skill.name, user, target, skill.power(user))
+          : null;
+        setTimeout(() => {
+          handleCharacterDefeat(target, afterLog, true);
+        }, 1000);
+      }, 850);
+    }
+
   }
   proceedTurn();
   updateStatus(uiElements);
@@ -126,10 +135,10 @@ export function updateBaseSkillArea(skillDiv: HTMLElement, baseSkillList: SkillD
     });
 
     skillBtn.addEventListener("click", () => {
-      startTurn();
       const user = getCurrentPlayer();
       const target = getCurrentEnemy();
-      markSkillUsed();
+      startTurn();
+      markPlayerTurnDone();
       activateSkill(index, user, target);
     });
 
@@ -156,7 +165,8 @@ export function updateSynthesisSkillArea(skillDiv: HTMLElement, synthesisSkillLi
     skillBtn.addEventListener("click", () => {
       const user = getCurrentPlayer();
       const target = getCurrentEnemy();
-      markSkillUsed();
+      startTurn();
+      markPlayerTurnDone();
       activateSkill(index, user, target);
     });
 

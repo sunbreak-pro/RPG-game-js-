@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 
 // https://vite.dev/config/
@@ -14,9 +14,8 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        main: 'safezone.html',
-
-      }
-    }
-  }
+        main: 'dist/safezone.html', // Ensure the correct path to safezone.html
+      },
+    },
+  },
 });
