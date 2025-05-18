@@ -13,7 +13,9 @@ export default defineConfig({
   build: {
     sourcemap: true,
     rollupOptions: {
-      input: 'index.html',
+      input: {
+        main: 'dist/safezone.html', // Ensure the correct path to safezone.html
+      },
     },
   },
 });
