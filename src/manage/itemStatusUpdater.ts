@@ -4,8 +4,8 @@ import { logMessage } from "../ui/logMessage";
 import { Item, EquipmentItem, HealItem } from "./item";
 import { Enemy, Player } from "./character";
 
-const instructionBorder = document.getElementById("instruction-border") as HTMLElement;
-const instructionParagraph = document.getElementById("instruction") as HTMLElement;
+const instructionBorder = document.getElementById("instruction-item-border") as HTMLElement;
+const instructionParagraph = document.getElementById("item-instruction") as HTMLElement;
 
 interface UIElements {
   playerStatus: HTMLElement;
@@ -42,6 +42,8 @@ export function updateStatus({ playerStatus, enemyStatus, healItemsDiv, equipIte
 
     itemBtn.addEventListener("mouseenter", () => {
       instructionBorder.style.display = "block";
+      console.log(instructionBorder, "説明要素");
+
       instructionParagraph.innerText = item.instructionText;
     });
     itemBtn.addEventListener("mouseleave", () => {

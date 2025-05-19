@@ -4,10 +4,10 @@ import { allHealItems, allEquipmentItems } from "../manage/item";
 // 表示構築（呼び出し）
 const lobby = document.getElementById("lobby") as HTMLElement;
 
-const selectPlayerArea = document.getElementById("select-player-area")as HTMLElement as HTMLElement;
-const shopArea = document.getElementById("shop-area")as HTMLElement as HTMLElement;
-const cookingArea = document.getElementById("cooking-area")as HTMLElement as HTMLElement;
-const cookingBtn = document.getElementById("cooking-btn")as HTMLButtonElement;
+const selectPlayerArea = document.getElementById("select-player-area") as HTMLElement as HTMLElement;
+const shopArea = document.getElementById("shop-area") as HTMLElement as HTMLElement;
+const cookingArea = document.getElementById("cooking-area") as HTMLElement as HTMLElement;
+const cookingBtn = document.getElementById("cooking-btn") as HTMLButtonElement;
 
 const safetyAreaBtns = document.querySelectorAll(".safety-area-btn");
 const shopBtn = document.getElementById("shop-btn") as HTMLButtonElement;
@@ -43,13 +43,14 @@ cookingBtn.addEventListener("click", () => {
 document.getElementById("start-button-buttle")!.addEventListener("click", () => {
   const name = (document.getElementById("player-name-input") as HTMLInputElement).value.trim();
   const job = selectedJob;
-  if (!name || !job) {
-    alert("名前と職業は必須です！");
+  if (!job) {
+    alert("職業は必須です");
     return;
   }
-  if(name.length >=10){
-    alert("名前は１０文字以内に設定してください")
-    return ;
+
+  if (name.length >= 8 || name.length < 1) {
+    alert("名前は１文字以上、もしくは8文字以内に設定してください")
+    return;
   }
   if (!/^[ぁ-んァ-ン一-龥a-zA-Z0-9ー]+$/.test(name)) {
     alert("使用できない文字が含まれています（日本語・英数字のみ可）");

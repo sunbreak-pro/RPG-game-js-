@@ -60,9 +60,8 @@ export function getStageContext(): StageElements {
 let currentStage = 1;
 
 export function prepareNextStage(): void {
-  skillArea.style.display = "";
-  skillDiv.style.display = "";
-
+  skillArea.style.opacity = "1";
+  skillDiv.style.opacity = "1";
   const nextEnemyTemplate = enemyTemplates[currentStage];
   const newEnemy = createEnemy(nextEnemyTemplate);
   setBattleState(getCurrentPlayer(), newEnemy, currentStage);
@@ -71,11 +70,11 @@ export function prepareNextStage(): void {
   updateBaseSkillArea(setStageElements.skillDiv, baseSkillList);
 
   updateStatus(uiElements);
-  setStageElements.defaultAttackBtn.style.display = "";
+  setStageElements.defaultAttackBtn.style.opacity = "1";
+  setStageElements.defaultAttackBtn.ariaDisabled = "false"
   setStageElements.nextStageBtn.style.display = "none";
   setStageElements.battleLogArea.style.display = "";
   setStageElements.afterBattleLogArea.style.display = "none";
-
   currentStage++;
   getcurrentStage(newEnemy);
 }

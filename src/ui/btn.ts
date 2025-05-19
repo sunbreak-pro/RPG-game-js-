@@ -1,5 +1,4 @@
-import { toggleArea } from "../main";
-
+import { defaultAttackBtn, skillArea } from "@/main";
 // === アイテム・装備・スキル一覧のトグル開閉 ===
 export function setupToggleButtons() {
     const toggleConfigs = [
@@ -25,7 +24,9 @@ export function setupToggleButtons() {
 // === 次のステージへボタンの設定 ===
 export function setupNextStageButton(nextStageBtn: HTMLElement, prepareNextStageFunc: any) {
     nextStageBtn.addEventListener("click", () => {
-        toggleArea.style.display = "";
+        defaultAttackBtn.style.display = "block";
+        skillArea.style.display = "block";
+
         prepareNextStageFunc();
     });
 }

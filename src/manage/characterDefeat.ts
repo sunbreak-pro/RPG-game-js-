@@ -1,11 +1,11 @@
 import { getCurrentPlayer, getStageContext } from "./battleState";
 import { updateStatus } from "./itemStatusUpdater";
-import {  clearBttleLogs, logMessage, logTittle, turnLog } from "../ui/logMessage";
+import { clearAllLogs, clearBttleLogs, logMessage, logTittle, turnLog } from "../ui/logMessage";
 import { dropRandomItem } from "./item";
 import { enemyTemplates } from "./templates/characterTemplates";
 import { gameOver } from "./saveAndLoad";
 import { resetTurn } from "./turnController";
-import { skillArea } from "../main";
+import { skillArea, toggleArea } from "../main";
 import type { Character } from "../types/characterTypes";
 import { Player } from "./character";
 export function handleCharacterDefeat(
@@ -15,34 +15,34 @@ export function handleCharacterDefeat(
 ): void {
   if (character.hp > 0 || !isFromAttack) return;
 
+  clearAllLogs();
   const currentPlayer = getCurrentPlayer();
-    let player: Player;
-    if (currentPlayer instanceof Object && "inventory" in currentPlayer) {
-      player = currentPlayer as Player;
-    } else {
-      return;
-    }
+  let player: Player;
+  if (currentPlayer instanceof Object && "inventory" in currentPlayer) {
+    player = currentPlayer as Player;
+  } else {
+    return;
+  }
   const {
     defaultAttackBtn,
     nextStageBtn,
 
-    toggleArea,
     battleLogArea,
     afterBattleLogArea,
-    skillDiv,
+
   } = getStageContext();
 
-  toggleArea.style.display = "";
   skillArea.style.display = "none";
-  skillDiv.style.display = "none";
   battleLogArea.style.display = "none";
-  afterBattleLogArea.style.display = "";
+  defaultAttackBtn.style.display = "none";
+  defaultAttackBtn.ariaDisabled = "true";
+  afterBattleLogArea.style.display = "block";
 
   character.hp = 0;
   console.log(character.name);
 
   if (character.isPlayer) {
-    battleLogArea.style.display = "";
+    battleLogArea.style.display = "block";
     afterBattleLogArea.style.display = "none";
     turnLog(`<h1>${character.name} は倒された</h1>`, "5秒後に引き継ぎアイテム選択画面に移動します");
     setTimeout(gameOver, 5000);
@@ -53,8 +53,8 @@ export function handleCharacterDefeat(
       battleLogArea,
       afterBattleLogArea,
     );
-    
     resetTurn();
+    toggleArea.style.opacity = "1";
 
     logTittle(`セーフティーエリア`);
     const hpRecover = Math.floor(player.maxHp * 0.2);
@@ -97,13 +97,14 @@ function handledanjonClear(
 
   if (!nextEnemyTemplate) {
     defaultAttackBtn.style.display = "none";
+    defaultAttackBtn.ariaDisabled = "true"
+    toggleArea.style.display = "none"
     nextStageBtn.style.display = "none";
     battleLogArea.style.display = "";
     afterBattleLogArea.style.display = "none";
     logMessage("ダンジョンクリア！！🎉", "おめでとう！！！");
     return;
   } else {
-    defaultAttackBtn.style.display = "none";
     nextStageBtn.style.display = "";
   }
 }

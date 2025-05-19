@@ -35,9 +35,9 @@ export function startTurn(): void {
   if (!turnFinished) return;
   if (nextStageBtn.style.display === "") return;
   clearBttleLogs();
-  skillArea.style.display = "none";
-  toggleArea.style.display = "none";
-  defaultAttackBtn.style.display = "none";
+  skillArea.style.opacity = "0";
+  toggleArea.style.opacity = "0";
+  defaultAttackBtn.style.opacity = "0";
   playerTurnDone = false;
   enemyTurnDone = false;
   skillUsed = false;
@@ -52,12 +52,12 @@ export function proceedTurn(): void {
     turnProcessed = true;
     turnCount++;
     setTimeout(() => {
-      skillArea.style.display = "block";
+      skillArea.style.opacity = "1";
       skillArea.style.marginInline = "auto";
-      toggleArea.style.display = "block";
+      toggleArea.style.opacity = "1";
       toggleArea.style.display = "flex";
       toggleArea.style.marginInline = "auto";
-      defaultAttackBtn.style.display = "block";
+      defaultAttackBtn.style.opacity = "1";
       defaultAttackBtn.style.marginInline = "auto";
       logMessage(`${turnCount}ターン目が終了…`, "次の行動を選べ");
     }, 1000);

@@ -1,3 +1,31 @@
+
+#battle-log,
+#after-battle-log,
+#background-log-area,
+#tittle-log {
+  font-size: clamp(.8rem, 1.1vw, 2rem);
+}
+#player-status,
+#enemy-status{
+  font-size: clamp(.8rem, 1.3vw, 2rem);
+}
+button,
+#instruction,
+#next-stage,
+.command-area {
+  font-size: clamp(.7rem, 1.1vw, 1.2rem);
+}
+#toggle-heal-items,
+#toggle-equip-items,
+#toggle-skill-btn {
+  font-size: clamp(.7rem, 1vw, 1.2rem);
+}
+#instruction-box,
+#instruction-border {
+  font-size: clamp(.9rem, 1.3vw, 1.6rem);
+}
+
+
 /* HTML要素、汎用性の高い要素＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
 body {
   display: flex;
@@ -5,6 +33,8 @@ body {
   background-color: #e0e0e0;
   margin-top: 5rem;
   padding: 0;
+  width: 100%;
+  height: 1080px;
 }
 
 .battle-area {
@@ -12,7 +42,6 @@ body {
   margin-top: 10rem;
   flex-direction: column;
   align-items: center;
-  max-width: 100%; /* 必要に応じて調整可能 */
   width: 100%;
   margin: 0 auto;
 }
@@ -30,30 +59,91 @@ button:hover{
   cursor: pointer;
   box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.5);
 }
-
-.border{
-  margin-left: auto;
-  margin-right: auto;
-  border: 0.3rem solid black;
-  border-radius: 1rem;
-  max-width: 32rem;
-  margin-block-end: 1rem;
-  z-index: 10;
+#upper-part{
+  display: flex;
 }
-.ui-position {
+
+.bottome-part {
+  margin-top: 2vw;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  max-width: 150%;
+}
+#image-area{
+  border: 0.3rem solid rgb(232, 253, 234);
+  border-radius: 1.1rem;
+  background-color: rgb(160, 255, 255);
+  margin-inline-start: 9vw;
+  padding: .5vw 1vw;
+  width: 63vw;
+  height: 18vw;
+}
+/*＝＝＝＝＝ バトルログ系 ＝＝＝＝＝ */
+#tittle-log{
+  align-items: center;
+  justify-content: center;
+}
+#log-area{
+  display: flex;
   width: 100%;
-
+  gap: 0;
 }
 
-
+#battle-log ,#after-battle-log{
+  display: block;
+  color: #333;
+  border: .3rem solid black;
+  border-radius: 1.2rem;
+  margin-inline-start: 3rem;
+  padding: .5vw 1vw;
+  width: 50%;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 18vw;
+}
+#battle-log {
+  background-color: #fffefe;
+}
+#after-battle-log {
+  background-color: #f0fff3;
+}
+#background-area{
+  position: relative;
+  width: 13vw;
+  bottom: .5vw;
+  right: -3vw;
+  margin-bottom: 0%;
+}
+#background-button{
+  border: none;
+  background-color: #cd9962;
+  display: block;
+  justify-content: center;
+  margin-top: .5rem;
+  width: 100%;
+  margin-bottom: .3rem;
+}
+#background-button:hover{
+  background-color: #dfb6a3;
+}
+#background-log-area{
+  text-align: center;
+  border: none;
+  border-radius: 1.2rem;
+  width: 130%;
+  height: 10vw;
+  color: #ffb993;
+  background-color: #333;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 0%;
+}
 /* status系＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
 
 .status-area{
-  font-size: 0.8rem;
   border: none;
   border-radius: 1.5rem;
   color: white;
@@ -61,9 +151,9 @@ button:hover{
   text-align: center;
   padding: 0;
   margin-top: 1.2rem;
-  width: 35%;
+  width: 40vw;
   max-height: fit-content;
-  margin-inline-start: 20rem;
+  gap: 0.5rem;
 }
 
 #player-item-status{
@@ -72,14 +162,12 @@ button:hover{
 }
 #player-status{
   font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: medium;
   padding-top: 1rem;
   margin-top: 1rem;
   margin-inline: 1rem;
 }
 #enemy-status{
   font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: medium;
   padding-top: 1rem;
   margin-bottom: 0.5rem;
   margin-inline: 1rem;
@@ -93,13 +181,13 @@ button:hover{
 #toggle-area {
   display: flex;
   justify-content: center;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.1rem;
   flex-wrap: wrap;
   max-width: 100%;
 }
 
 .toggle-group {
-  margin-block: 1rem auto;
+  margin-block: .5rem auto;
   display: flex;
   justify-content: center;
   gap: 1.5rem;
@@ -110,10 +198,34 @@ button:hover{
   display: block;
   flex-direction: column;
   align-items: center;
-  margin-bottom: auto;
 }
 .toggle-section > button{
-  width: fit-content;
+width: fit-content;
+}
+.item-list {
+margin-inline: auto;
+  padding: 0%;
+  border: 3px solid black;
+  border-radius: 1rem;
+  width: 12.5vw;
+  min-height: fit-content;
+  box-sizing: border-box;
+  text-align:start;
+}
+.item-list > button{
+  min-width: 10.5vw;
+  margin: .8vw;
+}
+
+/* ＝＝＝＝＝回復、装備、スキルボタンの中身 ＝＝＝＝＝*/
+#heal-items {
+  background-color: rgb(185, 241, 174);
+  border-color: rgb(81, 255, 0);
+}
+
+#equip-items {
+  background-color: rgb(192, 192, 192);
+  border-color: rgb(84, 84, 84);
 }
 #toggle-heal-items{
   background-color: #a8f8b9;
@@ -134,16 +246,18 @@ button:hover{
 #skill-area{
   display: flex;
   justify-content: center;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.15vw;
   flex-wrap: wrap;
-  max-width: 100%;
+  width: 27vw;
 }
 #toggle-skill-btn{
-  position: relative;
-  top: 1rem;
-  left: 0rem;
+  margin-top: 3vw;
+  display: block;
+  min-width: 8rem;
+  max-width: fit-content;
   background-color: #f8ca6f;
-  margin-bottom: 2rem;
+  margin-bottom: 0.3vw;
+  margin-inline: auto;
 }
 #toggle-skill-btn:hover{
   background-color: #f4e5a2;
@@ -151,43 +265,16 @@ button:hover{
   box-shadow: 0 0.5rem 1.2rem rgba(172, 172, 2, 0.5);
 
 }
-.item-list {
-  margin-inline: 1.2rem;
-  margin-block: 0.5rem;
-  padding: 0.2rem;
-  border: 3px solid black;
-  border-radius: 1rem;
-  width: 11rem;
-  min-height: fit-content;
-  box-sizing: border-box;
-  text-align:start;
-}
-.item-list > button{
-  font-size: small;
-  min-width: 9rem;
-  margin: 0.5rem;
-}
-
-/* ＝＝＝＝＝回復、装備、スキルボタンの中身 ＝＝＝＝＝*/
-#heal-items {
-  background-color: rgb(185, 241, 174);
-  border-color: rgb(81, 255, 0);
-}
-
-#equip-items {
-  background-color: rgb(192, 192, 192);
-  border-color: rgb(84, 84, 84);
-}
 
 #skill-list {
   background-color: rgb(241, 232, 169);
   border-color: yellow;
   margin-inline: auto;
-  width: 22rem;
+  margin-bottom: 2rem;
+  width: 26vw;
 }
 #equipped-items{
   display: block;
-  font-size: 0.9rem;
   margin-block: 0.8rem 0.5rem;
   margin-inline-start: 3%;
   border: none;
@@ -201,127 +288,73 @@ button:hover{
 #equipped-items>button{
   align-items: start;
   max-width: 10rem;
+  padding: 0;
+  height: fit-content;
 }
 #equipped-items>button:hover{
   background-color: #f7c0c0;
   transition: background-color 0.5s ease;
 }
-#equipped-items{
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  height: fit-content;
-  margin:0.5rem;
-}
-
-/*＝＝＝＝＝ バトルログ系 ＝＝＝＝＝ */
-#tittle-log{
-  font-size: large;
-  align-items: center;
-  justify-content: center;
-}
-#log-area{
-  display: flex;
-  width: 60rem;
-  margin-top: .5rem;
-  margin-inline-start: 12rem;
-  gap: 0.5rem;
-}
-#battle-log ,#after-battle-log{
-  display: block;
-  color: #333;
-  border: .3rem solid black;
-  border-radius: 1.2rem;
-  font-size: 0.9rem;
-  margin-block: 1rem;
-  padding: 0.8rem;
-  text-align: center;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 9rem;
-}
-#battle-log {
-  width: 30rem;
-  background-color: #fffefe;
-}
-#after-battle-log {
-  width: 30rem;
-  background-color: #f0fff3;
-}
-#background-area{
-  justify-content: center;
-  margin-block-start: .2rem;
-  margin-inline-start: 10rem;
-  box-sizing: border-box;
-}
-#background-button{
-  display: block;
-  margin-top: .5rem;
-}
-#background-log-area{
-  text-align: center;
-  border: .2rem solid black;
-  border-radius: 1.2rem;
-  width: 15rem;
-  height: 10rem;
-  color: #ffb993;
-  background-color: #333;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 
   /* ボタン系 */
-.command-area {
-  flex: 1;
-  min-width: 30rem;
-  max-width: 40rem;
-  margin-inline-start: 5rem;
-}
+
   
 #default-attack{
   border: 0.3rem solid rgb(0, 0, 0);
-  border-radius: 0.1rem;
+  border-radius: 1vw;
   color: white;
   background-color: rgb(240, 65, 65);
-  max-width: fit-content;
+  margin-block: 2.3rem;
+  width: 18vw;
 }
 #default-attack:hover{
   background-color:#f05e5e ;
 }
 #next-stage{
+  margin: 8vw;
+  padding: 1vw;
   font-size: 1rem;
-  max-width: fit-content;
+  width: fit-content;
   border: 0.5rem;
   border-radius:1rem;
   color: rgb(0, 0, 0);
   background-color: rgb(175, 91, 211);
 }
 /* モーダル機能 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
-#instruction-border{
-  position: absolute;
-  left: 40%;
-  border-radius: 10px;
+#instruction-border,
+#instruction-item-border{
+  border-radius: 1.1rem;
   background-color: #fcfcfc;
   margin-top: -0.1rem;
   margin-bottom: 0%;
-  width: fit-content;
-  min-height: 5rem;
+  width: 26vw;
+  min-height: 3vw;
+  max-height: none;
 }
-#instruction-box {
+#instruction-border{
+  position: relative;
+  bottom: 10vw;
+  left: 24vw;
+}
+#instruction-item-border{
+  position: relative;
+  bottom: 3vw;
+  right: 24vw;
+}
+#instruction-box,
+#instruction-item-box{
   align-content: center;
   margin-left: auto;
   min-height: 5rem;
   margin-right: auto;
   border: 0.3rem solid black;
-  border-radius: 10px;
-  max-width: 40rem;
-  margin-bottom: 0%;
+  border-radius: 1.1rem;
   z-index: 10;
   padding-block: 0%;
+  max-width: 40rem;
+  margin-bottom: 0%;
 }
-
-#instruction{
-  font-size: 0.9rem;
+#instruction,#item-instruction{
   max-height: 5rem;
-  padding: 1rem;
+  padding: .8vw;
 }

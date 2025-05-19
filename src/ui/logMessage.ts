@@ -52,7 +52,6 @@ export function turnLog(message1: string, message2: string = ""): void {
 export function clearBttleLogs(): void {
   if (battleLog) battleLog.innerHTML = "";
   if (afterBattleLog) afterBattleLog.innerHTML = "";
-  tittleLog.innerHTML = "";
 }
 
 export function clearAllLogs(): void {
