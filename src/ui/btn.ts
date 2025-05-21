@@ -1,4 +1,4 @@
-import { defaultAttackBtn, skillArea } from "@/main";
+import { battleLogArea, defaultAttackBtn, skillArea } from "@/main";
 // === アイテム・装備・スキル一覧のトグル開閉 ===
 export function setupToggleButtons() {
     const toggleConfigs = [
@@ -17,16 +17,20 @@ export function setupToggleButtons() {
             button.textContent = isHidden
                 ? `▶︎ ${label}`
                 : `▼ ${label}を閉じる`;
+            if (btnId === "background-button" && !isHidden) {
+                battleLogArea.style.display = "none";
+            } else if (isHidden) {
+                battleLogArea.style.display = "block";
+            }
         });
     });
 }
 
 // === 次のステージへボタンの設定 ===
-export function setupNextStageButton(nextStageBtn: HTMLElement, prepareNextStageFunc: any) {
+export function setupNextStageButton(nextStageBtn: HTMLElement, prepareNextStageFunc: () => void) {
     nextStageBtn.addEventListener("click", () => {
         defaultAttackBtn.style.display = "block";
         skillArea.style.display = "block";
-
         prepareNextStageFunc();
     });
 }

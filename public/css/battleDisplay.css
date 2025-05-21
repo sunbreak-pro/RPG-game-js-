@@ -64,6 +64,7 @@ button:hover{
 #upper-part{
   display: flex;
   width: 90%;
+  gap: 3rem;
 }
 
 .bottome-part {
@@ -87,13 +88,20 @@ button:hover{
   align-items: center;
   justify-content: center;
 }
-
+#log-area{
+  position: relative;
+  top: -2vw;
+  left: -2vw;
+  display: block;
+  width: 100%;
+}
 #battle-log ,
 #after-battle-log,
 #background-log-area{
   border: .3rem solid black;
-  border-radius: 1.2rem;
-  margin-inline-start: 5rem;
+  border-radius: 1.1rem;
+  margin-inline-start: 3vw;
+  margin-inline-end: 3vw;
   padding: .5vw 1vw;
   width: 100%;
   text-align: center;
@@ -111,29 +119,27 @@ button:hover{
   color: #333;
   background-color: #f0fff3;
 }
-#background-area{
+/* #background-area{
   position: relative;
   width: 40vw;
   height: 10vw;
-  top: 7.1vw;
-  right: -16vw;
+  right: -10vw;
   margin-bottom: 0%;
-}
+} */
 #background-button{
   border: none;
   background-color: #cd9962;
   display: block;
   justify-content: center;
-  margin-top: .4vw;
-  margin-left: 6vw;
-  width: clamp(8rem,20vw,50rem);
+  margin-top: -.4vw;
+  margin-left: 4vw;
+  width: clamp(10rem,20vw,30rem);
   margin-bottom: .3vw;
 }
 #background-button:hover{
   background-color: #dfb6a3;
 }
 #background-log-area{
-  width: 38.5vw;
   color: #ffb993;
   background-color: #333;
 }
