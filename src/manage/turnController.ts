@@ -59,8 +59,8 @@ export function proceedTurn(): void {
       toggleArea.style.marginInline = "auto";
       defaultAttackBtn.style.opacity = "1";
       defaultAttackBtn.style.marginInline = "auto";
-      logMessage(`${turnCount}ターン目が終了…`, "次の行動を選べ");
-    }, 1000);
+      logMessage(`${turnCount - 1}ターン目が終了…`, "次の行動を選べ");
+    }, 1800);
   }
 }
 export function resetTurn(): void {

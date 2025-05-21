@@ -1,9 +1,11 @@
 
 #battle-log,
 #after-battle-log,
-#background-log-area,
-#tittle-log {
+#background-log-area {
   font-size: clamp(.8rem, 1.1vw, 2rem);
+}
+#tittle-log{
+  font-size: clamp(1rem, 4vw, 1.7rem);
 }
 #player-status,
 #enemy-status{
@@ -30,7 +32,7 @@ button,
 body {
   display: flex;
   flex-direction: column;
-  background-color: #e0e0e0;
+  background-color: #7a3333;
   margin-top: 5rem;
   padding: 0;
   width: 100%;
@@ -61,6 +63,7 @@ button:hover{
 }
 #upper-part{
   display: flex;
+  width: 90%;
 }
 
 .bottome-part {
@@ -75,9 +78,8 @@ button:hover{
   border: 0.3rem solid rgb(232, 253, 234);
   border-radius: 1.1rem;
   background-color: rgb(160, 255, 255);
-  margin-inline-start: 9vw;
   padding: .5vw 1vw;
-  width: 63vw;
+  width: 100%;
   height: 18vw;
 }
 /*＝＝＝＝＝ バトルログ系 ＝＝＝＝＝ */
@@ -85,36 +87,36 @@ button:hover{
   align-items: center;
   justify-content: center;
 }
-#log-area{
-  display: flex;
-  width: 100%;
-  gap: 0;
-}
 
-#battle-log ,#after-battle-log{
-  display: block;
-  color: #333;
+#battle-log ,
+#after-battle-log,
+#background-log-area{
   border: .3rem solid black;
   border-radius: 1.2rem;
-  margin-inline-start: 3rem;
+  margin-inline-start: 5rem;
   padding: .5vw 1vw;
-  width: 50%;
+  width: 100%;
   text-align: center;
   overflow-y: auto;
   overflow-x: hidden;
   height: 18vw;
 }
 #battle-log {
+  display: block;
+  color: #333;
   background-color: #fffefe;
 }
 #after-battle-log {
+  display: block;
+  color: #333;
   background-color: #f0fff3;
 }
 #background-area{
   position: relative;
-  width: 13vw;
-  bottom: .5vw;
-  right: -3vw;
+  width: 40vw;
+  height: 10vw;
+  top: 7.1vw;
+  right: -16vw;
   margin-bottom: 0%;
 }
 #background-button{
@@ -122,24 +124,18 @@ button:hover{
   background-color: #cd9962;
   display: block;
   justify-content: center;
-  margin-top: .5rem;
-  width: 100%;
-  margin-bottom: .3rem;
+  margin-top: .4vw;
+  margin-left: 6vw;
+  width: clamp(8rem,20vw,50rem);
+  margin-bottom: .3vw;
 }
 #background-button:hover{
   background-color: #dfb6a3;
 }
 #background-log-area{
-  text-align: center;
-  border: none;
-  border-radius: 1.2rem;
-  width: 130%;
-  height: 10vw;
+  width: 38.5vw;
   color: #ffb993;
   background-color: #333;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin-bottom: 0%;
 }
 /* status系＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
 
@@ -338,8 +334,8 @@ margin-inline: auto;
 }
 #instruction-item-border{
   position: relative;
-  bottom: 3vw;
-  right: 24vw;
+  bottom: 6vw;
+  left: 45vw;
 }
 #instruction-box,
 #instruction-item-box{

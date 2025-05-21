@@ -1,5 +1,3 @@
-// safetyArea.ts - TypeScript対応
-
 import { allHealItems, allEquipmentItems } from "../manage/item";
 // 表示構築（呼び出し）
 const lobby = document.getElementById("lobby") as HTMLElement;
@@ -41,20 +39,28 @@ cookingBtn.addEventListener("click", () => {
 
 // battleStageへデータの引き渡し ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 document.getElementById("start-button-buttle")!.addEventListener("click", () => {
+  const alertMsg = document.getElementById("alert-msg") as HTMLElement;
   const name = (document.getElementById("player-name-input") as HTMLInputElement).value.trim();
   const job = selectedJob;
   if (!job) {
-    alert("職業は必須です");
+    alertMsg.textContent = "職業は必須です";
     return;
+  } else {
+    alertMsg.textContent = "";
   }
 
   if (name.length >= 8 || name.length < 1) {
-    alert("名前は１文字以上、もしくは8文字以内に設定してください")
+    alertMsg.textContent = "名前は１文字以上、もしくは8文字以内に設定してください";
     return;
   }
+  else {
+    alertMsg.textContent = "";
+  }
   if (!/^[ぁ-んァ-ン一-龥a-zA-Z0-9ー]+$/.test(name)) {
-    alert("使用できない文字が含まれています（日本語・英数字のみ可）");
+    alertMsg.textContent = "使用できない文字が含まれています（日本語・英数字のみ可）";
     return;
+  } else {
+    alertMsg.textContent = "";
   }
 
   const selectedEquipment = selectedEquipmentList.map((i) => {

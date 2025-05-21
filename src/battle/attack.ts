@@ -38,7 +38,7 @@ export function handleDefaultAttack(defaultAttackBtn: HTMLButtonElement): void {
       }, 1000);
       return;
     } else {
-      delayedEnemyAction(850);
+      delayedEnemyAction();
     }
 
     updateStatus(uiElements);
@@ -108,7 +108,7 @@ export function enemyAction(): void {
   proceedTurn();
 }
 
-export function delayedEnemyAction(delay: number = 1000): void {
+export function delayedEnemyAction(delay: number = 1800): void {
   setTimeout(() => {
     enemyAction();
   }, delay);

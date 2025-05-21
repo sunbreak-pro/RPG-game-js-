@@ -11,7 +11,7 @@ export const baseSkillList: SkillData[] = [
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
         target.hp = 0;
-        turnLog(`${target.name} は、細切れにされた`, `${target.name} は倒れた！`);
+        turnLog(`${user.name} は 【${skillName}】で攻撃！ ${target.name}に${target.hp}ダメージ！`, ` ${target.name} は細切れにされた`);
       } else {
         turnLog(`${user.name} は【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, `(${target.name}のHP：${target.hp})`);
       }
@@ -26,7 +26,7 @@ export const baseSkillList: SkillData[] = [
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
         target.hp = 0;
-        turnLog(`${target.name}は、炭火焼きにされた\n ${target.name} は倒れた！`);
+        turnLog(`${user.name} は 【${skillName}】で攻撃！ ${target.name}に${target.hp}ダメージ！`, `${target.name}は、炭火焼きにされた`);
       } else {
         turnLog(`${user.name} は 【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, ` (${target.name}のHP：${target.hp})`);
       }
@@ -41,7 +41,7 @@ export const baseSkillList: SkillData[] = [
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
         target.hp = 0;
-        turnLog(`${target.name}は、串刺の中、凍え死んだ... `, `${target.name} は倒れた！`);
+        turnLog(`${user.name} は 【${skillName}】で攻撃！ ${target.name}に${target.hp}ダメージ！`, `${target.name}は、串刺の中、凍え死んだ... `);
       } else {
         turnLog(`${user.name} は【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！`, ` (${target.name}のHP：${target.hp})`);
       }
@@ -77,7 +77,7 @@ export const evoleveSkillList: SkillData[] = [
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
         target.hp = 0;
-        turnLog(`${user.name} は 【${skillName}】で爆散した`, ` ${target.name} は倒れた！`);
+        turnLog(`${user.name} は 【${skillName}】で攻撃！ ${target.name}に${target.hp}ダメージ！`, `${user.name} は 【${skillName}】で爆散した`);
       } else {
         turnLog(`${user.name} の【ファイアブラスト】が炸裂！`, `${target.name} に ${dmg} ダメージ！(現在のHP：${target.hp})`);
       }
@@ -96,7 +96,7 @@ export const synthesisSkillList: SkillData[] = [
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
         target.hp = 0;
-        turnLog(`${target.name}は、次元の狭間に葬り去られた`, ` ${target.name} は倒れた！`);
+        turnLog(`${user.name} は 【${skillName}】で攻撃！ ${target.name}に${target.hp}ダメージ！`, `${target.name}は、次元の狭間に葬り去られた`);
       } else {
         turnLog(`${user.name} は【${skillName}】で切り刻まれる！ ${target.name} に ${dmg} ダメージ！ (${target.name}のHP：${target.hp})`);
       }
