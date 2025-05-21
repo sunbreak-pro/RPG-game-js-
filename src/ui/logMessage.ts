@@ -18,11 +18,11 @@ export function logMessage(message1: string = "", message2: string = ""): void {
 
   if (message1) {
     target.innerHTML += `<p>\n<strong>${message1}</strong></p>`;
-    backgroundArea.innerHTML += `<p>\n${message1}</p>`;
   }
   if (message2) {
-    target.innerHTML += `<p>\n<strong>${message2}</strong></p>`;
-    backgroundArea.innerHTML += `<p>\n${message2}</p>`;
+    setTimeout(() => {
+      target.innerHTML += `<p>\n<strong>${message2}</strong></p>`;
+    }, 500)
   }
   target.scrollTo({
     top: target.scrollHeight,
@@ -40,8 +40,10 @@ export function turnLog(message1: string, message2: string = ""): void {
     backgroundArea.innerHTML += `<p>\n${message1}</p>`;
   }
   if (message2) {
-    target.innerHTML += `<p>\n<strong>${message2}</strong></p>`;
-    backgroundArea.innerHTML += `<p>\n${message2}</p>`;
+    setTimeout(() => {
+      target.innerHTML += `<p>\n<strong>${message2}</strong></p>`;
+      backgroundArea.innerHTML += `<p>\n${message2}</p>`;
+    }, 500)
   }
   backgroundArea.scrollTo({
     top: backgroundArea.scrollHeight,

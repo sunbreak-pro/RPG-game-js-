@@ -70,7 +70,7 @@ export function activateSkill(skillIndex: number, _user: Character, _target: Cha
     turnLog(`${user.name}はスキルを発動！`, `しかし、${user.name} はMPが足りない！`);
     if (user.isPlayer) {
       skillPlay = false;
-      delayedEnemyAction(1000);
+      delayedEnemyAction();
     } else {
       skillPlay = false;
       return;
@@ -108,7 +108,7 @@ export function activateSkill(skillIndex: number, _user: Character, _target: Cha
         setTimeout(() => {
           handleCharacterDefeat(target, afterLog, true);
         }, 1000);
-      }, 850);
+      }, 800);
     }
 
   }
