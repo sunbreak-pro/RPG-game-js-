@@ -1,12 +1,12 @@
 // manage/battleState.ts - TypeScript対応
 
-import { skillArea, skillDiv, uiElements } from "../main";
-import { createEnemy } from "./character";
-import { enemyTemplates } from "./templates/characterTemplates";
-import { updateBaseSkillArea } from "../battle/skill";
-import { updateStatus } from "./itemStatusUpdater";
+import { uiElements } from "../main";
+import { createEnemy } from "../manage/characterManage/character";
+import { enemyTemplates } from "../manage/characterManage/characterTemplates";
+import { updateBaseSkillArea } from "../battle/skill/skillManager";
+import { updateStatus } from "../manage/itemManage/itemStatusUpdater";
 import { logMessage, clearAllLogs, logTittle } from "../ui/logMessage";
-import { baseSkillList } from "./templates/skillTemplates";
+import { baseSkillList } from "@/battle/skill/skillTemplates";
 import type { Character } from "../types/characterTypes";
 
 let currentPlayer: Character | null = null;
@@ -42,24 +42,31 @@ interface StageElements {
   battleArea: HTMLElement;
   toggleArea: HTMLElement;
   battleLogArea: HTMLElement;
+  backgroundLogArea: HTMLElement;
   afterBattleLogArea: HTMLElement;
   skillDiv: HTMLElement;
+  skillArea: HTMLElement;
   uiElements: typeof uiElements;
 }
+
 
 let setStageElements: StageElements;
 
 export function setStageContext(elements: StageElements): void {
   setStageElements = elements;
 }
-
 export function getStageContext(): StageElements {
   return setStageElements;
 }
 
 let currentStage = 1;
 
+
 export function prepareNextStage(): void {
+  const {
+    skillDiv,
+    skillArea,
+  } = getStageContext()
   skillArea.style.opacity = "1";
   skillDiv.style.opacity = "1";
   const nextEnemyTemplate = enemyTemplates[currentStage];

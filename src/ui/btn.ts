@@ -1,4 +1,4 @@
-import { battleLogArea, defaultAttackBtn, skillArea } from "@/main";
+import { getStageContext } from "@/controller/battleStateController";
 // === アイテム・装備・スキル一覧のトグル開閉 ===
 export function setupToggleButtons() {
     const toggleConfigs = [
@@ -17,6 +17,7 @@ export function setupToggleButtons() {
             button.textContent = isHidden
                 ? `▶︎ ${label}`
                 : `▼ ${label}を閉じる`;
+            const { battleLogArea } = getStageContext();
             if (btnId === "background-button" && !isHidden) {
                 battleLogArea.style.display = "none";
             } else if (isHidden) {
@@ -29,6 +30,12 @@ export function setupToggleButtons() {
 // === 次のステージへボタンの設定 ===
 export function setupNextStageButton(nextStageBtn: HTMLElement, prepareNextStageFunc: () => void) {
     nextStageBtn.addEventListener("click", () => {
+        const {
+            skillArea,
+            defaultAttackBtn,
+            backgroundLogArea
+        } = getStageContext();
+        backgroundLogArea.style.display = "block"
         defaultAttackBtn.style.display = "block";
         skillArea.style.display = "block";
         prepareNextStageFunc();

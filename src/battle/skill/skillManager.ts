@@ -1,14 +1,14 @@
 // manage/skill.ts - TypeScript対応
 
-import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState";
-import { delayedEnemyAction } from "./attack";
-import { logMessage, turnLog } from "../ui/logMessage";
-import { handleCharacterDefeat } from "../manage/characterDefeat";
-import { updateStatus } from "../manage/itemStatusUpdater";
-import { uiElements } from "../main";
-import { allSKillList, baseSkillList, synthesisSkillList } from "../manage/templates/skillTemplates";
-import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn } from "../manage/turnController";
-import type { Character } from "../types/characterTypes";
+import { getCurrentPlayer, getCurrentEnemy } from "@/controller/battleStateController";
+import { delayedEnemyAction } from "../attackManager";
+import { logMessage, turnLog } from "@/ui/logMessage";
+import { handleCharacterDefeat } from "@/manage/characterManage/characterDefeat";
+import { updateStatus } from "@/manage/itemManage/itemStatusUpdater";
+import { uiElements } from "@/main";
+import { allSKillList, baseSkillList, synthesisSkillList } from "./skillTemplates";
+import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn } from "@/controller/turnController";
+import type { Character } from "@/types/characterTypes";
 
 export interface SkillData {
   name: string;
@@ -79,31 +79,30 @@ export function activateSkill(skillIndex: number, _user: Character, _target: Cha
     startTurn();
     user.mp -= skill.mpCost;
   }
-
   if (skillPlay) {
-    const damage = skill.power(user);
-
+    let damage: number = skill.power(user);
+    if (target.hp <= damage) {
+      damage = target.hp;
+    }
+    target.hp -= damage;
     if (skill.type === "heal") {
       skill.log(skill.name, user, target || null, skill.power(user));
     } else {
-      target.hp -= damage;
-      skill.log(skill.name, user, target, skill.power(user));
+      skill.log(skill.name, user, target, damage);
     }
 
     if (target.hp > 0 && user === player) {
       markPlayerTurnDone();
-
-      delayedEnemyAction(1000);
+      delayedEnemyAction(900);
     } else if (target.hp > 0) {
       markEnemyTurnDone();
-
     }
 
     if (target.hp <= 0 && skill.type !== "heal") {
       target.hp = 0;
       setTimeout(() => {
         const afterLog = typeof skill.log === "function"
-          ? () => skill.log(skill.name, user, target, skill.power(user))
+          ? () => skill.log(skill.name, user, target, damage)
           : null;
         setTimeout(() => {
           handleCharacterDefeat(target, afterLog, true);

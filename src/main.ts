@@ -1,13 +1,13 @@
 // main.ts - TypeScript化バージョン
 
-import { createEnemy, createPlayer } from "./manage/character";
-import { enemyTemplates } from "./manage/templates/characterTemplates";
-import { EquipmentItem, HealItem } from "./manage/item";
-import { setBattleState, prepareNextStage, setStageContext, getcurrentStage } from "./manage/battleState";
-import { updateStatus } from "./manage/itemStatusUpdater";
-import { handleDefaultAttack } from "./battle/attack";
-import { baseSkillList } from "./manage/templates/skillTemplates";
-import { updateBaseSkillArea } from "./battle/skill";
+import { createEnemy, createPlayer } from "./manage/characterManage/character";
+import { enemyTemplates } from "./manage/characterManage/characterTemplates";
+import { EquipmentItem, HealItem } from "./manage/itemManage/item";
+import { setBattleState, prepareNextStage, setStageContext, getcurrentStage } from "./controller/battleStateController";
+import { updateStatus } from "./manage/itemManage/itemStatusUpdater";
+import { handleDefaultAttack } from "./battle/attackManager";
+import { baseSkillList } from "./battle/skill/skillTemplates";
+import { updateBaseSkillArea } from "./battle/skill/skillManager";
 import { setupToggleButtons, setupNextStageButton } from "./ui/btn";
 import { setLogElements } from "./ui/logMessage";
 import type { ItemRarity, ItemType, ItemEffect } from "./types/itemTypes";
@@ -17,13 +17,14 @@ export const battleArea = document.querySelector(".battle-area") as HTMLElement;
 export const toggleArea = document.getElementById("toggle-area") as HTMLElement;
 export const itemArea = document.getElementById("toggle-heal-items") as HTMLElement;
 export const equipItemArea = document.getElementById("toggle-equip-items") as HTMLElement;
-export const skillArea = document.getElementById("skill-area") as HTMLElement;
-export const battleLogArea = document.getElementById("battle-log") as HTMLElement;
-export const afterBattleLogArea = document.getElementById("after-battle-log") as HTMLElement;
-
-const playerStatus = document.getElementById("player-status") as HTMLElement;
 export const defaultAttackBtn = document.getElementById("default-attack") as HTMLButtonElement;
-export const nextStageBtn = document.getElementById("next-stage") as HTMLButtonElement;
+
+const skillArea = document.getElementById("skill-area") as HTMLElement;
+const battleLogArea = document.getElementById("battle-log") as HTMLElement;
+const afterBattleLogArea = document.getElementById("after-battle-log") as HTMLElement;
+const backgroundLogArea = document.getElementById("background-area") as HTMLElement;
+const playerStatus = document.getElementById("player-status") as HTMLElement;
+const nextStageBtn = document.getElementById("next-stage") as HTMLButtonElement;
 
 const enemyStatus = document.getElementById("enemy-status") as HTMLElement;
 const equippedDiv = document.getElementById("equipped-items") as HTMLElement;
@@ -66,6 +67,8 @@ export function startBattle(): void {
     toggleArea,
     battleLogArea,
     afterBattleLogArea,
+    backgroundLogArea,
+    skillArea,
     skillDiv,
     uiElements,
   });

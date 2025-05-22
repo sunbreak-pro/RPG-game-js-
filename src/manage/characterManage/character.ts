@@ -1,11 +1,11 @@
-import { logMessage, turnLog } from "../ui/logMessage";
-import { playerTemplates } from "./templates/characterTemplates";
-import { delayedEnemyAction } from "../battle/attack";
-import { defaultAttackBtn } from "../main";
-import { markPlayerTurnDone, startTurn } from "./turnController";
-import { EquipmentItem, HealItem } from "./item";
-import type { EnemyTemplate } from "../types/characterTypes";
-import type { Character } from "../types/characterTypes";
+import { logMessage, turnLog } from "../../ui/logMessage";
+import { playerTemplates } from "./characterTemplates";
+import { delayedEnemyAction } from "../../battle/attackManager";
+import { defaultAttackBtn } from "../../main";
+import { markPlayerTurnDone, startTurn } from "../../controller/turnController";
+import { EquipmentItem, HealItem } from "../itemManage/item";
+import type { EnemyTemplate } from "../../types/characterTypes";
+import type { Character } from "../../types/characterTypes";
 
 // ====== Playerクラス ======
 
@@ -51,7 +51,6 @@ export class Player implements Character {
     return `${this.name}（${this.className}）：【HP ${this.hp}/${this.maxHp}】【MP ${this.mp}/${this.maxMp}】`;
   }
   healItem(item: HealItem): void {
-    defaultAttackBtn.style.display = "none";
     startTurn();
     markPlayerTurnDone();
 
@@ -75,7 +74,6 @@ export class Player implements Character {
   }
 
   equipItem(item: EquipmentItem): void {
-    defaultAttackBtn.style.display = "none";
     startTurn();
     markPlayerTurnDone();
 
