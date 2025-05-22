@@ -1,6 +1,5 @@
 import { db } from "./firebase";
 import { doc, setDoc } from "firebase/firestore";
-
 import { Item } from "./item";
 // import { Skill } from "@/battle/skill";
 import { getCurrentPlayer } from "./battleState";
