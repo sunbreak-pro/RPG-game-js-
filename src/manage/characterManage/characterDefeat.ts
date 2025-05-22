@@ -1,12 +1,12 @@
-import { getCurrentPlayer, getStageContext } from "./battleState";
-import { updateStatus } from "./itemStatusUpdater";
-import { clearAllLogs, clearBttleLogs, logMessage, logTittle, turnLog } from "../ui/logMessage";
-import { dropRandomItem } from "./item";
-import { enemyTemplates } from "./templates/characterTemplates";
-import { gameOver } from "./saveAndLoad";
-import { resetTurn } from "./turnController";
-import { skillArea, toggleArea } from "../main";
-import type { Character } from "../types/characterTypes";
+import { getCurrentPlayer, getStageContext } from "../../controller/battleStateController";
+import { updateStatus } from "../itemManage/itemStatusUpdater";
+import { clearAllLogs, clearBttleLogs, logMessage, logTittle, turnLog } from "../../ui/logMessage";
+import { dropRandomItem } from "../itemManage/item";
+import { enemyTemplates } from "./characterTemplates";
+import { gameOver } from "../../database/saveAndLoad";
+import { resetTurn } from "../../controller/turnController";
+import { toggleArea } from "../../main";
+import type { Character } from "../../types/characterTypes";
 import { Player } from "./character";
 export function handleCharacterDefeat(
   character: Character,
@@ -26,10 +26,10 @@ export function handleCharacterDefeat(
   const {
     defaultAttackBtn,
     nextStageBtn,
-
     battleLogArea,
     afterBattleLogArea,
-
+    backgroundLogArea,
+    skillArea,
   } = getStageContext();
 
   skillArea.style.display = "none";
@@ -37,9 +37,8 @@ export function handleCharacterDefeat(
   defaultAttackBtn.style.display = "none";
   defaultAttackBtn.ariaDisabled = "true";
   afterBattleLogArea.style.display = "block";
-
+  backgroundLogArea.style.display = "none"
   character.hp = 0;
-  console.log(character.name);
 
   if (character.isPlayer) {
     battleLogArea.style.display = "block";

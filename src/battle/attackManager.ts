@@ -1,9 +1,9 @@
 // battle/attack.ts
 import { uiElements } from "../main";
-import { activateSkill } from "./skill";
-import { handleCharacterDefeat } from "../manage/characterDefeat";
-import { getCurrentPlayer, getCurrentEnemy } from "../manage/battleState";
-import { updateStatus } from "../manage/itemStatusUpdater";
+import { activateSkill } from "./skill/skillManager";
+import { handleCharacterDefeat } from "../manage/characterManage/characterDefeat";
+import { getCurrentPlayer, getCurrentEnemy } from "../controller/battleStateController";
+import { updateStatus } from "../manage/itemManage/itemStatusUpdater";
 import type { Character } from "../types/characterTypes";
 import { clearAllLogs, turnLog } from "../ui/logMessage";
 import {
@@ -12,9 +12,9 @@ import {
   markEnemyTurnDone,
   proceedTurn,
   markSkillUsed,
-} from "../manage/turnController";
-import { Player } from "../manage/character";
-import { Enemy } from "../manage/character";
+} from "../controller/turnController";
+import { Player } from "../manage/characterManage/character";
+import { Enemy } from "../manage/characterManage/character";
 
 export function handleDefaultAttack(defaultAttackBtn: HTMLButtonElement): void {
   defaultAttackBtn.addEventListener("click", () => {
@@ -27,9 +27,7 @@ export function handleDefaultAttack(defaultAttackBtn: HTMLButtonElement): void {
     if (enemy.hp <= 0) enemy.hp = 0;
 
     turnLog(
-      `${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！`,
-      `(${enemy.name}のHP：${enemy.hp})`
-    );
+      `${player.name} の攻撃！${enemy.name} に ${damage} ダメージ！ \n(${enemy.name}のHP：${enemy.hp})`);
 
     updateStatus(uiElements);
     if (enemy.hp <= 0) {
@@ -83,8 +81,7 @@ export function enemyAction(): void {
       player.hp -= damage;
 
       turnLog(
-        `${enemy.name} の攻撃！\n ${player.name} は${damage} ダメージを受けた！`,
-        `(${player.name}のHP：${player.hp})`
+        `${enemy.name} の攻撃！${player.name} は${damage} ダメージを受けた！<br>(${player.name}のHP：${player.hp})`
       );
 
       if (player.hp <= 0) {
@@ -108,7 +105,7 @@ export function enemyAction(): void {
   proceedTurn();
 }
 
-export function delayedEnemyAction(delay: number = 1800): void {
+export function delayedEnemyAction(delay: number = 900): void {
   setTimeout(() => {
     enemyAction();
   }, delay);

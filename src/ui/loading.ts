@@ -59,7 +59,6 @@ const loadingScreen = {
 
 // 非同期処理を行う関数の例（fetch APIでデータ取得）
 async function loadData() {
-
     try {
         // 下だとうまくいかない理由としては、Promise.allは平行処理として使われるため、順番に処理するような動作には適さない
         // await Promise.all([ 

@@ -1,4 +1,4 @@
-import { allHealItems, allEquipmentItems } from "../manage/item";
+import { allHealItems, allEquipmentItems } from "../manage/itemManage/item";
 // 表示構築（呼び出し）
 const lobby = document.getElementById("lobby") as HTMLElement;
 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ダンジョンRPG</title>
     <link rel="stylesheet" href="/css/battleDisplay.css" />
-    <script type="module" src="/src/manage/saveAndLoad.ts" defer></script>
+    <script type="module" src="/src/database/saveAndLoad.ts" defer></script>
     <script type="module" src="/src/main.ts" defer></script>
   </head>
   <body>
@@ -14,7 +14,7 @@
 
       <div id="upper-part">
         <div id="image-area">
-          <div id=""></div>
+          <div id="enemy-status">敵の情報</div>
         </div>
         <div id="log-area">
           <div class="toggle-section">
@@ -41,7 +41,7 @@
       <div class="bottome-part">
         <div class="status-area">
           <div id="player-status">プレイヤーの情報</div>
-          <div id="enemy-status">敵の情報</div>
+
           <div id="player-item-status">
             <div id="equipped-items">装備中のアイテム</div>
             <div id="toggle-area">

@@ -1,8 +1,8 @@
-import { uiElements } from "../main";
-import { getCurrentPlayer, getCurrentEnemy } from "./battleState";
-import { logMessage } from "../ui/logMessage";
+import { uiElements } from "../../main";
+import { getCurrentPlayer, getCurrentEnemy } from "../../controller/battleStateController";
+import { logMessage } from "../../ui/logMessage";
 import { Item, EquipmentItem, HealItem } from "./item";
-import { Enemy, Player } from "./character";
+import { Enemy, Player } from "../characterManage/character";
 
 const instructionBorder = document.getElementById("instruction-item-border") as HTMLElement;
 const instructionParagraph = document.getElementById("item-instruction") as HTMLElement;
@@ -42,8 +42,6 @@ export function updateStatus({ playerStatus, enemyStatus, healItemsDiv, equipIte
 
     itemBtn.addEventListener("mouseenter", () => {
       instructionBorder.style.display = "block";
-      console.log(instructionBorder, "説明要素");
-
       instructionParagraph.innerText = item.instructionText;
     });
     itemBtn.addEventListener("mouseleave", () => {

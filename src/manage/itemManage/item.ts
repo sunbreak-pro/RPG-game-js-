@@ -1,13 +1,13 @@
-import { uiElements } from "../main";
-import { logMessage } from "../ui/logMessage";
+import { uiElements } from "../../main";
+import { logMessage } from "../../ui/logMessage";
 import { updateStatus } from "./itemStatusUpdater";
-import { healItemTemplates, equipmentItemTemplates } from "./templates/itemTemplates";
+import { healItemTemplates, equipmentItemTemplates } from "./itemTemplates";
 import type {
   ItemEffect,
   ItemType,
   ItemRarity,
   ItemTemplate
-} from "../types/itemTypes";
+} from "../../types/itemTypes";
 
 export class Item {
   name: string;
@@ -39,7 +39,7 @@ export class Item {
   }
 }
 
-export class HealItem extends Item {}
+export class HealItem extends Item { }
 
 export class EquipmentItem extends Item {
   equipmentType: string | null;

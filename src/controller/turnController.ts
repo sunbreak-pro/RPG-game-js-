@@ -1,13 +1,8 @@
 // manage/turnController.ts
-import {
-  defaultAttackBtn,
-  toggleArea,
-  nextStageBtn,
-  // itemArea,
-  // equipItemArea,
-  skillArea,
-} from "../main";
+import { toggleArea } from "../main";
 import { clearBttleLogs, logMessage, turnLog } from "../ui/logMessage";
+import { getStageContext } from "./battleStateController";
+
 
 let turnCount = 1;
 let playerTurnDone = false;
@@ -18,10 +13,13 @@ let turnFinished = true;
 
 export function markPlayerTurnDone(): void {
   playerTurnDone = true;
+  proceedTurn();
 }
 
 export function markEnemyTurnDone(): void {
   enemyTurnDone = true;
+  proceedTurn();
+
 }
 
 export function markSkillUsed(): void {
@@ -33,6 +31,11 @@ export function markSkillUsed(): void {
 
 export function startTurn(): void {
   if (!turnFinished) return;
+  const {
+    defaultAttackBtn,
+    skillArea,
+    nextStageBtn,
+  } = getStageContext();
   if (nextStageBtn.style.display === "") return;
   clearBttleLogs();
   skillArea.style.opacity = "0";
@@ -48,6 +51,10 @@ export function startTurn(): void {
 
 export function proceedTurn(): void {
   if (playerTurnDone && enemyTurnDone && !turnProcessed) {
+    const {
+      defaultAttackBtn,
+      skillArea,
+    } = getStageContext();
     turnFinished = true;
     turnProcessed = true;
     turnCount++;
@@ -55,7 +62,6 @@ export function proceedTurn(): void {
       skillArea.style.opacity = "1";
       skillArea.style.marginInline = "auto";
       toggleArea.style.opacity = "1";
-      toggleArea.style.display = "flex";
       toggleArea.style.marginInline = "auto";
       defaultAttackBtn.style.opacity = "1";
       defaultAttackBtn.style.marginInline = "auto";
