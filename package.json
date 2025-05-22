@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "copy-css": "cp -R css dist/css",
+    "build": "vite build && npm run copy-css",
     "lint": "eslint .",
     "preview": "vite preview"
   },

@@ -1,0 +1,106 @@
+/* :root{
+
+} */
+body{
+    text-align: center;
+    background-color: #aeedb2;
+}
+button{
+    text-align: center;
+    border-radius: 1vw;
+    padding-block: 0.3vw;
+    min-width: 6vw;
+    margin-bottom: 1rem;
+    box-shadow: 0 0.1vw 0.4vw rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.5s ease;
+}
+button:hover{
+    background-color: rgb(92, 98, 103);
+    cursor: pointer;
+    box-shadow: 0 .5vw 1.2vw rgba(0, 0, 0, 0.5);
+}
+#safety-area{
+    background-color: #71ba76;
+}
+#prepare-battle-btn{
+    color:aliceblue;
+    background-color: brown;
+    padding-inline: 2vw;
+    border: none;
+    border-radius: .5vw;
+}
+#alert-msg{
+    color: #ff0000;
+    font-size: clamp(.8rem, 1.1vw, 2rem);
+}
+#prepare-battle-display:hover{
+    background-color: rgb(167, 100, 100);
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+  }
+
+.border{
+    margin-left: auto;
+    margin-right: auto;
+    border: .3vw solid black;
+    border-radius: 1vw;
+    max-width: 30vw;
+    margin-block-end: 3vw;
+}
+#player-name-input{
+    width: 11vw;
+    padding: 1vw;
+    border-radius: .8vw;
+    margin-bottom: 1vw;
+}
+
+.selected-class {
+    font-size: large;
+    color: rgb(255, 0, 0);
+  }
+
+#select-warrior:hover{
+    
+    background-color: rgb(177, 175, 175);
+}
+#select-mage:hover{
+    background-color: rgb(177, 175, 175);
+}
+/* load＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
+#loading-area{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    z-index: 9999;
+}
+#loading-tittle {
+    font-size: 2rem;
+  font-weight: bold;
+  color: transparent;
+  background-image: linear-gradient(to right, red 0%, red 0%, #a5a5a5 0%, #a5a5a5 100%);
+  background-size: 100% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-image 0.3s ease;
+}
+  
+  @keyframes loadingTextAnim {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+
