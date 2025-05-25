@@ -20,12 +20,17 @@ export function setupToggleButtons() {
             const { battleLogArea } = getStageContext();
             if (btnId === "background-button" && !isHidden) {
                 battleLogArea.style.display = "none";
-            } else if (isHidden) {
+            } else if (btnId === "background-button" && isHidden) {
                 battleLogArea.style.display = "block";
             }
         });
     });
 }
+
+const exitBtn = document.getElementById("back-floor-btn");
+exitBtn?.addEventListener("click", () => {
+    window.location.href = "/";
+})
 
 // === 次のステージへボタンの設定 ===
 export function setupNextStageButton(nextStageBtn: HTMLElement, prepareNextStageFunc: () => void) {

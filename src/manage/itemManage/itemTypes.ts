@@ -1,3 +1,5 @@
+import { EquipmentItem, HealItem } from "./item";
+
 // types/itemTypes.ts
 export type ItemType = "hpHeal" | "mpHeal" | "bothHeal" | "equipment";
 
@@ -23,3 +25,15 @@ export interface ItemTemplate {
   instructionText: string;
   equipmentType?: EquipmentType; // 装備品のみ
 }
+
+export type AnyItem = HealItem | EquipmentItem;
+
+export type SerializedItem = {
+  itemName: string;
+  itemType: "hpHeal" | "mpHeal" | "bothHeal" | "equipment";
+  equipmentType?: string | null;
+  effect: ItemEffect;
+  amount: number;
+  rarity: ItemRarity;
+  instructionText: string;
+};

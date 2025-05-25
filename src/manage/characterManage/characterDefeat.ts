@@ -3,11 +3,18 @@ import { updateStatus } from "../itemManage/itemStatusUpdater";
 import { clearAllLogs, clearBttleLogs, logMessage, logTittle, turnLog } from "../../ui/logMessage";
 import { dropRandomItem } from "../itemManage/item";
 import { enemyTemplates } from "./characterTemplates";
-import { gameOver } from "../../database/saveAndLoad";
 import { resetTurn } from "../../controller/turnController";
 import { toggleArea } from "../../main";
-import type { Character } from "../../types/characterTypes";
+import type { Character } from "./characterTypes";
 import { Player } from "./character";
+import { saveGame } from "@/database/saveGame";
+import { SaveData } from "@/database/saveData";
+import { danjonclear } from "@/controller/stageController";
+
+
+
+
+
 export function handleCharacterDefeat(
   character: Character,
   afterLogCallback: (() => void) | null = null,
@@ -46,13 +53,9 @@ export function handleCharacterDefeat(
     turnLog(`<h1>${character.name} は倒された</h1>`, "5秒後に引き継ぎアイテム選択画面に移動します");
     setTimeout(gameOver, 5000);
   } else {
-    handledanjonClear(
-      defaultAttackBtn,
-      nextStageBtn,
-      battleLogArea,
-      afterBattleLogArea,
-    );
     resetTurn();
+    progressStage(0);
+
     toggleArea.style.opacity = "1";
 
     logTittle(`セーフティーエリア`);
@@ -83,27 +86,49 @@ export function handleCharacterDefeat(
   }
 }
 
-let currentStage = 1;
-function handledanjonClear(
-  defaultAttackBtn: HTMLElement,
-  nextStageBtn: HTMLElement,
-  battleLogArea: HTMLElement,
-  afterBattleLogArea: HTMLElement
-): void {
+async function progressStage(currentStage: number): Promise<void> {
   const nextEnemyTemplate = enemyTemplates[currentStage];
   console.log(currentStage, nextEnemyTemplate);
-  currentStage++;
-
   if (!nextEnemyTemplate) {
-    defaultAttackBtn.style.display = "none";
-    defaultAttackBtn.ariaDisabled = "true"
-    toggleArea.style.display = "none"
-    nextStageBtn.style.display = "none";
-    battleLogArea.style.display = "";
-    afterBattleLogArea.style.display = "none";
-    logMessage("ダンジョンクリア！！🎉", "おめでとう！！！");
-    return;
-  } else {
-    nextStageBtn.style.display = "";
+    danjonclear(currentStage)
+  }
+  else {
+    const {
+      nextStageBtn,
+    } = getStageContext();
+    nextStageBtn.style.display = "block"
+  }
+  currentStage++;
+}
+
+async function gameOver(): Promise<void> {
+  const player = getCurrentPlayer() as Player;
+
+  const saveData: SaveData = {
+    playerName: player.name,
+    maxHp: player.maxHp,
+    maxMp: player.maxMp,
+    hp: player.hp,
+    mp: player.mp,
+    physicalStrength: player.physicalStrength,
+    magicalStrength: player.magicalStrength,
+    defense: player.defense,
+    speed: player.speed,
+    isPlayer: player.isPlayer,
+    inventory: player.inventory,
+    equipment: player.equipment,
+    skills: player.skills.map(s => s.skillId),
+    currentStage: 0,
+    deathCount: player.deathCount,
+    lastClearedFloor: player.lastClearedFloor,
+  };
+  await saveGame(saveData);
+  const gameResetBtn = document.getElementById("game-reset") as HTMLButtonElement;
+
+  if (gameResetBtn) {
+    gameResetBtn.addEventListener("click", () => {
+      window.location.href = "safezone.html";
+    });
   }
 }
+

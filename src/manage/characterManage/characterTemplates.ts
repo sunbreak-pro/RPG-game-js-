@@ -1,42 +1,21 @@
 // manage/templates/characterTemplates.ts
 
-import type { PlayerTemplate, EnemyTemplate } from "../../types/characterTypes";
-
-export const playerTemplates: PlayerTemplate[] = [
-  {
-    className: "戦士",
-    hp: 130,
-    mp: 30,
-    physicalStrength: 50,
-    magicalStrength: 15,
-    defense: 25,
-    speed: 20,
-  },
-  {
-    className: "魔法使い",
-    hp: 80,
-    mp: 80,
-    physicalStrength: 15,
-    magicalStrength: 50,
-    defense: 20,
-    speed: 25,
-  },
-];
+import type { EnemyTemplate } from "./characterTypes";
 
 export const enemyTemplates: EnemyTemplate[] = [
   {
     name: "スライム",
-    className: "monster",
-    hp: 100,
+    characterType: "monster",
+    hp: 30,
     mp: 0,
-    physicalStrength: 40,
+    physicalStrength: 5,
     magicalStrength: 0,
-    defense: 15,
-    speed: 20,
+    defense: 10,
+    speed: 3,
   },
   {
     name: "ゴブリン",
-    className: "monster",
+    characterType: "monster",
     hp: 120,
     mp: 30,
     physicalStrength: 50,
@@ -46,7 +25,7 @@ export const enemyTemplates: EnemyTemplate[] = [
   },
   {
     name: "オーク",
-    className: "monster",
+    characterType: "monster",
     hp: 150,
     mp: 35,
     physicalStrength: 60,
@@ -56,7 +35,7 @@ export const enemyTemplates: EnemyTemplate[] = [
   },
   {
     name: "リッチ",
-    className: "monster",
+    characterType: "monster",
     hp: 300,
     mp: 200,
     physicalStrength: 70,
@@ -66,7 +45,7 @@ export const enemyTemplates: EnemyTemplate[] = [
   },
   {
     name: "ドラゴン",
-    className: "monster",
+    characterType: "monster",
     hp: 500,
     mp: 200,
     physicalStrength: 80,
@@ -76,7 +55,7 @@ export const enemyTemplates: EnemyTemplate[] = [
   },
   {
     name: "ダンジョンボス",
-    className: "monster",
+    characterType: "monster",
     hp: 1000,
     mp: 500,
     physicalStrength: 100,

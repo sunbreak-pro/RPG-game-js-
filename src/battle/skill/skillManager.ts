@@ -8,35 +8,32 @@ import { updateStatus } from "@/manage/itemManage/itemStatusUpdater";
 import { uiElements } from "@/main";
 import { allSKillList, baseSkillList, synthesisSkillList } from "./skillTemplates";
 import { startTurn, markPlayerTurnDone, markEnemyTurnDone, proceedTurn } from "@/controller/turnController";
-import type { Character } from "@/types/characterTypes";
+import type { Character } from "@/manage/characterManage/characterTypes";
+import { Enemy, Player } from "@/manage/characterManage/character";
+import { SkillData, SkillRarity, SkillTypes } from "./skillTypes";
 
-export interface SkillData {
-  name: string;
-  mpCost: number;
-  type: "attack" | "heal";
-  element?: string;
-  power: (user: Character) => number;
-  log: (skillName: string, user: Character, target: Character, dmg?: number) => void;
-  Instruction: string;
-}
 
 export class Skill {
   name: string;
   mpCost: number;
-  type: "attack" | "heal";
+  skillType: SkillTypes;
+  skillRarity: SkillRarity;
   element?: string;
   power: (user: Character) => number;
   log: (skillName: string, user: Character, target: Character, damage?: number) => void;
   Instruction: string;
+  skillId: string;
 
-  constructor({ name, mpCost, type, element, power, log, Instruction }: SkillData) {
+  constructor({ name, mpCost, skillType, skillRarity, element, power, log, Instruction, skillId }: SkillData) {
     this.name = name;
     this.mpCost = mpCost;
-    this.type = type;
+    this.skillType = skillType;
+    this.skillRarity = skillRarity;
     this.element = element;
     this.power = power;
     this.log = log;
     this.Instruction = Instruction;
+    this.skillId = skillId;
   }
 }
 
@@ -85,7 +82,7 @@ export function activateSkill(skillIndex: number, _user: Character, _target: Cha
       damage = target.hp;
     }
     target.hp -= damage;
-    if (skill.type === "heal") {
+    if (skill.skillType === "heal") {
       skill.log(skill.name, user, target || null, skill.power(user));
     } else {
       skill.log(skill.name, user, target, damage);
@@ -98,7 +95,7 @@ export function activateSkill(skillIndex: number, _user: Character, _target: Cha
       markEnemyTurnDone();
     }
 
-    if (target.hp <= 0 && skill.type !== "heal") {
+    if (target.hp <= 0 && skill.skillType !== "heal") {
       target.hp = 0;
       setTimeout(() => {
         const afterLog = typeof skill.log === "function"
@@ -134,8 +131,8 @@ export function updateBaseSkillArea(skillDiv: HTMLElement, baseSkillList: SkillD
     });
 
     skillBtn.addEventListener("click", () => {
-      const user = getCurrentPlayer();
-      const target = getCurrentEnemy();
+      const user = getCurrentPlayer() as Player;
+      const target = getCurrentEnemy() as Enemy;
       startTurn();
       markPlayerTurnDone();
       activateSkill(index, user, target);
@@ -162,8 +159,8 @@ export function updateSynthesisSkillArea(skillDiv: HTMLElement, synthesisSkillLi
     });
 
     skillBtn.addEventListener("click", () => {
-      const user = getCurrentPlayer();
-      const target = getCurrentEnemy();
+      const user = getCurrentPlayer() as Player;
+      const target = getCurrentEnemy() as Enemy;
       startTurn();
       markPlayerTurnDone();
       activateSkill(index, user, target);

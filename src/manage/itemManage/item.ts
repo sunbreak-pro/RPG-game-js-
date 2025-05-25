@@ -1,16 +1,18 @@
-import { uiElements } from "../../main";
-import { logMessage } from "../../ui/logMessage";
+import { uiElements } from "@/main";
+import { logMessage } from "@/ui/logMessage";
 import { updateStatus } from "./itemStatusUpdater";
 import { healItemTemplates, equipmentItemTemplates } from "./itemTemplates";
-import type {
+import {
   ItemEffect,
   ItemType,
   ItemRarity,
-  ItemTemplate
-} from "../../types/itemTypes";
+  ItemTemplate,
+  AnyItem,
+  SerializedItem
+} from "./itemTypes";
 
 export class Item {
-  name: string;
+  itemName: string;
   itemType: ItemType;
   effect: ItemEffect;
   amount: number;
@@ -19,31 +21,77 @@ export class Item {
   isEquipped: boolean = false;
 
   constructor(
-    name: string,
+    itemName: string,
     itemType: ItemType,
     effect: ItemEffect,
     amount: number,
     rarity: ItemRarity,
     instructionText: string
   ) {
-    this.name = name;
+    this.itemName = itemName;
     this.itemType = itemType;
     this.effect = effect;
     this.amount = amount;
     this.rarity = rarity;
     this.instructionText = instructionText;
   }
-
+  static fromData(data: SerializedItem): AnyItem {
+    if (data.itemType === "hpHeal" || data.itemType === "mpHeal" || data.itemType === "bothHeal") {
+      return new HealItem(
+        data.itemName,
+        data.itemType,
+        data.effect,
+        data.amount,
+        data.rarity,
+        data.instructionText
+      );
+    } else if (data.itemType === "equipment") {
+      return new EquipmentItem(
+        data.itemName,
+        data.itemType,
+        data.equipmentType || "", data.effect,
+        data.amount,
+        data.rarity,
+        data.instructionText
+      );
+    } else {
+      throw new Error(`[Item.fromData] 未知の itemType: ${data.itemType}`);
+    }
+  }
+  toSerialized(): SerializedItem {
+    return {
+      itemName: this.itemName,
+      itemType: this.itemType,
+      equipmentType: this instanceof EquipmentItem ? this.equipmentType ?? "" : undefined,
+      effect: this.effect,
+      amount: this.amount,
+      rarity: this.rarity,
+      instructionText: this.instructionText,
+    };
+  }
   showAmount(): string {
-    return `${this.name}：${this.amount} 個`;
+    return `${this.itemName}：${this.amount} 個`;
   }
 }
 
-export class HealItem extends Item { }
+export class HealItem extends Item {
+  constructor(
+    itemName: string,
+    itemType: ItemType,
+    effect: ItemEffect,
+    amount: number,
+    rarity: ItemRarity,
+    instructionText: string
+  ) {
+    super(
+      itemName, itemType, effect, amount, rarity, instructionText
+    )
+  }
+}
 
 export class EquipmentItem extends Item {
   equipmentType: string | null;
-
+  isEquipped: boolean;
   constructor(
     name: string,
     itemType: ItemType,
@@ -51,7 +99,7 @@ export class EquipmentItem extends Item {
     effect: ItemEffect,
     amount: number,
     rarity: ItemRarity,
-    instructionText: string
+    instructionText: string,
   ) {
     super(name, itemType, effect, amount, rarity, instructionText);
     this.equipmentType = equipmentType;
@@ -102,14 +150,14 @@ export function dropRandomItem(currentPlayer: { inventory: Item[] }): void {
 
   console.log("【DEBUG】選ばれたdroppedItem：", droppedItem);
 
-  const existingItem = currentPlayer.inventory.find((item) => item.name === droppedItem.name);
+  const existingItem = currentPlayer.inventory.find((item) => item.itemName === droppedItem.itemName);
 
   if (existingItem) {
     existingItem.amount += 1;
   } else {
     currentPlayer.inventory.push(
       new Item(
-        droppedItem.name,
+        droppedItem.itemName,
         droppedItem.itemType,
         droppedItem.effect,
         1,
@@ -119,6 +167,6 @@ export function dropRandomItem(currentPlayer: { inventory: Item[] }): void {
     );
   }
 
-  logMessage(`ドロップ報酬：${droppedItem.name}（${droppedItem.rarity}）を手に入れた！`, "");
+  logMessage(`ドロップ報酬：${droppedItem.itemName}（${droppedItem.rarity}）を手に入れた！`, "");
   updateStatus(uiElements);
 }

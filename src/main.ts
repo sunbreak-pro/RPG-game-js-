@@ -1,8 +1,6 @@
-// main.ts - TypeScript化バージョン
-
-import { createEnemy, createPlayer } from "./manage/characterManage/character";
+// === import 部分 ===
+import { createEnemy, Player } from "./manage/characterManage/character";
 import { enemyTemplates } from "./manage/characterManage/characterTemplates";
-import { EquipmentItem, HealItem } from "./manage/itemManage/item";
 import { setBattleState, prepareNextStage, setStageContext, getcurrentStage } from "./controller/battleStateController";
 import { updateStatus } from "./manage/itemManage/itemStatusUpdater";
 import { handleDefaultAttack } from "./battle/attackManager";
@@ -10,9 +8,9 @@ import { baseSkillList } from "./battle/skill/skillTemplates";
 import { updateBaseSkillArea } from "./battle/skill/skillManager";
 import { setupToggleButtons, setupNextStageButton } from "./ui/btn";
 import { setLogElements } from "./ui/logMessage";
-import type { ItemRarity, ItemType, ItemEffect } from "./types/itemTypes";
+import type { SaveData } from "./database/saveData";
 
-// HTML要素の取得と型付け
+// === UI要素の取得 ===
 export const battleArea = document.querySelector(".battle-area") as HTMLElement;
 export const toggleArea = document.getElementById("toggle-area") as HTMLElement;
 export const itemArea = document.getElementById("toggle-heal-items") as HTMLElement;
@@ -40,20 +38,47 @@ export const uiElements = {
   equippedDiv,
 };
 
-// ゲーム開始処理
+// === 実行判定：battleDisplay.htmlのときだけ実行 ===
+if (location.pathname.includes("battleDisplay.html")) {
+  runBattleGame();
+}
 
-export function startBattle(): void {
+// === 初期化処理を1つの関数に集約 ===
+async function runBattleGame(): Promise<void> {
+  const gameOverDisplay = document.getElementById("game-over-display") as HTMLElement;
+  gameOverDisplay.style.display = "none";
 
+  const raw = localStorage.getItem("playerData");
+  const isBattlePage = location.pathname.includes("battleDisplay.html");
+
+  if (!raw || !isBattlePage) {
+    alert("セーフティエリアから開始してください！");
+    window.location.href = "/";
+    return;
+  }
+
+  const parsed = JSON.parse(raw) as SaveData;
+  const player = Player.fromSaveData(parsed);
+  choosePlayerFromStorage(player);
+}
+
+// === プレイヤー選択＆初期化処理 ===
+function choosePlayerFromStorage(player: Player): void {
+  const enemy = createEnemy(enemyTemplates[0]);
+  setBattleState(player, enemy, 0);
+  startBattle();
+}
+
+// === バトル画面初期化 ===
+async function startBattle(): Promise<void> {
   battleArea.style.display = "";
-
   setLogElements({
     battleLog: battleLogArea,
     afterBattleLog: afterBattleLogArea,
   });
-  const enemyIndex = enemyTemplates[0];
-  const newEnemy = createEnemy(enemyIndex);
 
-  getcurrentStage(newEnemy);
+  const enemy = createEnemy(enemyTemplates[0]);
+  getcurrentStage(enemy);
 
   updateBaseSkillArea(skillDiv, baseSkillList);
   handleDefaultAttack(defaultAttackBtn);
@@ -74,80 +99,4 @@ export function startBattle(): void {
   });
 
   updateStatus(uiElements);
-}
-
-export function gameInit(): void {
-  const gameOverDisplay = document.getElementById("game-over") as HTMLElement;
-  const selectPlayerArea = document.getElementById("select-player-area") as HTMLElement;
-  gameOverDisplay.style.display = "none";
-  selectPlayerArea.style.display = "";
-}
-
-// 不正防止（セーフティエリア経由チェック）
-document.addEventListener("DOMContentLoaded", () => {
-  const raw = localStorage.getItem("playerData");
-  const isSafezone = location.pathname.includes("safezone.html");
-
-  if (!raw && !isSafezone) {
-    alert("セーフティエリアからスタートしてください！");
-    window.location.href = "safezone.ts";
-    return;
-  }
-
-  if (raw) {
-    const playerData = JSON.parse(raw);
-    choosePlayerFromStorage(playerData);
-  }
-});
-
-interface StoredItem {
-  name: string;
-  itemType: string;
-  equipmentType?: string;
-  effect: ItemEffect;
-  amount?: number;
-  rarity: string;
-  instructionText: string;
-}
-
-interface StoredPlayerData {
-  name: string;
-  jobIndex: number;
-  equipment: StoredItem[];
-  items: StoredItem[];
-}
-
-function choosePlayerFromStorage(playerData: StoredPlayerData): void {
-  const selectedPlayer = createPlayer(playerData.jobIndex, playerData.name);
-
-  const fullInventory = [
-    ...playerData.equipment.map(
-      (item) =>
-        new EquipmentItem(
-          item.name,
-          item.itemType as ItemType,
-          item.equipmentType ?? "",
-          item.effect,
-          item.amount ?? 1,
-          item.rarity as ItemRarity,
-          item.instructionText
-        )
-    ),
-    ...playerData.items.map(
-      (item) =>
-        new HealItem(
-          item.name,
-          item.itemType as ItemType,
-          item.effect,
-          item.amount ?? 1,
-          item.rarity as ItemRarity,
-          item.instructionText
-        )
-    ),
-  ];
-
-  selectedPlayer.inventory = fullInventory;
-  const firstEnemy = createEnemy(enemyTemplates[0]);
-  setBattleState(selectedPlayer, firstEnemy, 0);
-  startBattle();
 }
