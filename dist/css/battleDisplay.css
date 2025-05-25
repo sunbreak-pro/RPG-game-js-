@@ -10,7 +10,7 @@
 #player-status,
 #enemy-status{
   font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: clamp(.8rem, 1.3vw, 2rem);
+  font-size: clamp(.8rem, 1.3vw, 1.5rem);
 }
 button,
 #instruction,
@@ -49,7 +49,7 @@ body {
   width: 100%;
   margin: 0 auto;
   height: fit-content;
-  margin-bottom: 10vw;
+  margin-bottom: 2vw;
 }
 
 button{
@@ -102,8 +102,6 @@ button:hover{
 }
 /*＝＝＝＝＝ バトルログ系 ＝＝＝＝＝ */
 #tittle-log{
-  margin-top: 4vw;
-
   margin-bottom: 2vw;
   justify-content: center;
 }
@@ -114,15 +112,18 @@ button:hover{
   display: block;
   width: 100%;
 }
+#background-area{
+  width: 100%;
+}
 #battle-log ,
 #after-battle-log,
 #background-log-area{
   border: .3rem solid black;
   border-radius: 1.1rem;
-  margin-inline-start: 3vw;
+  margin-inline-start: 10vw;
   margin-inline-end: 3vw;
   padding: .5vw 1vw;
-  width: 100%;
+  width: 80%;
   text-align: center;
   overflow-y: auto;
   overflow-x: hidden;
@@ -134,6 +135,7 @@ button:hover{
   background-color: #fffefe;
 }
 #after-battle-log {
+  margin-top: 2vw;
   display: block;
   color: #333;
   background-color: #f0fff3;
@@ -151,7 +153,7 @@ button:hover{
   display: block;
   justify-content: center;
   margin-top: -.4vw;
-  margin-left: 4vw;
+  margin-left: 10vw;
   width: clamp(10rem,20vw,30rem);
   margin-bottom: .3vw;
 }
@@ -335,6 +337,15 @@ margin-inline: auto;
   color: rgb(0, 0, 0);
   background-color: rgb(175, 91, 211);
 }
+
+#back-floor-btn{
+  margin-inline-start: 2vw ;
+  margin-block-start: 3vw;
+  font-size: clamp(1rem, 3vw, 1.7rem);
+  width: fit-content;
+  color: #333;
+  background-color: aqua;
+}
 /* モーダル機能 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
 #instruction-border,
 #instruction-item-border{
@@ -347,9 +358,9 @@ margin-inline: auto;
   max-height: none;
 }
 #instruction-border{
-  position: relative;
+  position: absolute;
   bottom: 10vw;
-  left: 24vw;
+  left: 20vw;
 }
 #instruction-item-border{
   position: absolute;

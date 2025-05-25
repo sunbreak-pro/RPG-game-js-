@@ -1,10 +1,16 @@
-import { allHealItems, allEquipmentItems } from "../manage/itemManage/item";
-// 表示構築（呼び出し）
-const lobby = document.getElementById("lobby") as HTMLElement;
+// safezone.ts - saveGame統合バージョン（ローディング対応）
+import { allHealItems, allEquipmentItems, Item } from "../manage/itemManage/item";
+import { handleStartBattle } from "@/database/loadGame";
 
-const selectPlayerArea = document.getElementById("select-player-area") as HTMLElement as HTMLElement;
-const shopArea = document.getElementById("shop-area") as HTMLElement as HTMLElement;
-const cookingArea = document.getElementById("cooking-area") as HTMLElement as HTMLElement;
+if (!location.pathname.includes("/")) {
+  console.warn("safezone.ts は index.html 上でのみ実行される想定です");
+  throw new Error("safezone.ts を中断します");
+}
+
+const lobby = document.getElementById("lobby") as HTMLElement;
+const selectPlayerArea = document.getElementById("select-player-area") as HTMLElement;
+const shopArea = document.getElementById("shop-area") as HTMLElement;
+const cookingArea = document.getElementById("cooking-area") as HTMLElement;
 const cookingBtn = document.getElementById("cooking-btn") as HTMLButtonElement;
 
 const safetyAreaBtns = document.querySelectorAll(".safety-area-btn");
@@ -12,7 +18,6 @@ const shopBtn = document.getElementById("shop-btn") as HTMLButtonElement;
 const prepareBattleBtn = document.getElementById("prepare-battle-btn") as HTMLButtonElement;
 
 prepareBattleBtn.addEventListener("click", () => {
-  console.log(selectPlayerArea);
   lobby.style.display = "none";
   selectPlayerArea.style.display = "block";
 });
@@ -29,7 +34,6 @@ safetyAreaBtns.forEach((btn) => {
 shopBtn.addEventListener("click", () => {
   shopArea.style.display = "block";
   lobby.style.display = "none";
-  console.log(shopArea);
 });
 
 cookingBtn.addEventListener("click", () => {
@@ -37,73 +41,8 @@ cookingBtn.addEventListener("click", () => {
   cookingArea.style.display = "block";
 });
 
-// battleStageへデータの引き渡し ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-document.getElementById("start-button-buttle")!.addEventListener("click", () => {
-  const alertMsg = document.getElementById("alert-msg") as HTMLElement;
-  const name = (document.getElementById("player-name-input") as HTMLInputElement).value.trim();
-  const job = selectedJob;
-  if (!job) {
-    alertMsg.textContent = "職業は必須です";
-    return;
-  } else {
-    alertMsg.textContent = "";
-  }
-
-  if (name.length >= 8 || name.length < 1) {
-    alertMsg.textContent = "名前は１文字以上、もしくは8文字以内に設定してください";
-    return;
-  }
-  else {
-    alertMsg.textContent = "";
-  }
-  if (!/^[ぁ-んァ-ン一-龥a-zA-Z0-9ー]+$/.test(name)) {
-    alertMsg.textContent = "使用できない文字が含まれています（日本語・英数字のみ可）";
-    return;
-  } else {
-    alertMsg.textContent = "";
-  }
-
-  const selectedEquipment = selectedEquipmentList.map((i) => {
-    return { ...allEquipmentItems[i], amount: 1 };
-  });
-  const selectedItems = selectedHealItemList.map((i) => {
-    return { ...allHealItems[i], amount: 1 };
-  });
-
-  const playerData = {
-    name,
-    job,
-    jobIndex: job === "戦士" ? 0 : 1,
-    equipment: selectedEquipment,
-    items: selectedItems,
-  };
-
-  localStorage.setItem("playerData", JSON.stringify(playerData));
-  window.location.href = "battleDisplay.html";
-});
-
-let selectedJob: string | null = null;
-const selectWarriorBtn = document.getElementById("select-warrior") as HTMLButtonElement;
-const selectMageBtn = document.getElementById("select-mage") as HTMLButtonElement;
-
-selectWarriorBtn.addEventListener("click", () => {
-  selectedJob = "戦士";
-  updateClassSelectionUI(selectWarriorBtn, selectMageBtn);
-});
-
-selectMageBtn.addEventListener("click", () => {
-  selectedJob = "魔法使い";
-  updateClassSelectionUI(selectMageBtn, selectWarriorBtn);
-});
-
-function updateClassSelectionUI(selectedBtn: HTMLElement, unselectedBtn: HTMLElement): void {
-  selectedBtn.classList.add("selected-class");
-  unselectedBtn.classList.remove("selected-class");
-}
-
 const selectedEquipmentList: number[] = [];
-const selectedHealItemList: number[] = [];
-
+const selectedInventoryItemList: number[] = [];
 const equipmentArea = document.getElementById("equipment-options") as HTMLElement;
 const healItemArea = document.getElementById("heal-item-options") as HTMLElement;
 
@@ -111,17 +50,29 @@ const commonEquipment = allEquipmentItems.filter((item) => item.rarity === "comm
 const commonHealItems = allHealItems.filter((item) => item.rarity === "common");
 
 createSelectableList(commonEquipment, equipmentArea, selectedEquipmentList, 2);
-createSelectableList(commonHealItems, healItemArea, selectedHealItemList, 2);
+createSelectableList(commonHealItems, healItemArea, selectedInventoryItemList, 2);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("start-button-buttle") as HTMLButtonElement | null;
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      handleStartBattle(selectedEquipmentList, selectedInventoryItemList)
+    });
+  } else {
+    console.warn("start-button-buttle が見つかりませんでした");
+  }
+});
 
 function createSelectableList(
-  items: { name: string }[],
+  items: Item[],
   container: HTMLElement,
   selectedList: number[],
   max: number
 ): void {
   items.forEach((item, index) => {
     const btn = document.createElement("button");
-    btn.textContent = item.name;
+    btn.textContent = item.itemName;
     btn.addEventListener("click", () => {
       const i = selectedList.indexOf(index);
       if (i !== -1) {

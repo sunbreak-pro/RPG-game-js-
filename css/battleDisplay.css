@@ -10,7 +10,7 @@
 #player-status,
 #enemy-status{
   font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: clamp(.8rem, 1.3vw, 2rem);
+  font-size: clamp(.8rem, 1.3vw, 1.5rem);
 }
 button,
 #instruction,
@@ -102,8 +102,6 @@ button:hover{
 }
 /*＝＝＝＝＝ バトルログ系 ＝＝＝＝＝ */
 #tittle-log{
-  margin-top: 4vw;
-
   margin-bottom: 2vw;
   justify-content: center;
 }
@@ -338,6 +336,15 @@ margin-inline: auto;
   border-radius:1rem;
   color: rgb(0, 0, 0);
   background-color: rgb(175, 91, 211);
+}
+
+#back-floor-btn{
+  margin-inline-start: 2vw ;
+  margin-block-start: 3vw;
+  font-size: clamp(1rem, 3vw, 1.7rem);
+  width: fit-content;
+  color: #333;
+  background-color: aqua;
 }
 /* モーダル機能 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
 #instruction-border,

@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>セーフティエリア</title>
-    <link rel="stylesheet" href="/css/safezone.css" />
-    <script type="module" src="/src/ui/safezone.ts" defer></script>
-    <script type="module" src="/src//ui/loading.ts" defer></script>
+    <script type="module" crossorigin src="/assets/safezone-DX_BMKqp.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/item-CGP0yRqd.js">
+    <link rel="modulepreload" crossorigin href="/assets/loadGame-CCfekxrt.js">
+    <link rel="stylesheet" crossorigin href="/assets/safezone-b7Fq7f9P.css">
   </head>
   <body>
     <div id="loading-area" style="display: none">
@@ -17,6 +18,10 @@
     <div id="main-content">
       <div id="lobby">
         <h1>ロビー</h1>
+        <div class="border">
+          <h3>インベントリ</h3>
+          <div id="all-item"></div>
+        </div>
         <button id="prepare-battle-btn">バトルへ</button>
         <button id="shop-btn">アイテム売買所</button>
         <button id="cooking-btn">料理作成エリア</button>
@@ -52,17 +57,6 @@
             id="player-name-input"
             placeholder="名前を入力してください"
           /><br />
-        </div>
-
-        <div class="border">
-          <div class="title">
-            <h2>職業を選べ</h2>
-            <h3 style="color: red">　[*]</h3>
-          </div>
-          <div class="selected-class">
-            <button id="select-warrior">戦士を選ぶ</button>
-            <button type="" id="select-mage">魔法使いを選ぶ</button>
-          </div>
         </div>
 
         <div class="border">

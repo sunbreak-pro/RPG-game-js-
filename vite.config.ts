@@ -14,7 +14,7 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        safezone: path.resolve(__dirname, 'safezone.html'),
+        safezone: path.resolve(__dirname, 'index.html'),
         battle: path.resolve(__dirname, 'battleDisplay.html'),
       },
     },

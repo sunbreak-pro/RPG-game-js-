@@ -16,15 +16,13 @@ interface UIElements {
 }
 
 export function updateStatus({ playerStatus, enemyStatus, healItemsDiv, equipItemsDiv, equippedDiv }: UIElements = uiElements): void {
-  const player = getCurrentPlayer();
-  let currentPlayer: Player;
-  if (player instanceof Object && "inventory" in player) {
-    currentPlayer = player as Player;
-  } else {
+  const rawPlayer = getCurrentPlayer() as Player;
+  if (!(rawPlayer instanceof Player)) {
+    console.warn("現在のプレイヤーが Player クラスのインスタンスではありません。");
     return;
   }
-  const enemy = getCurrentEnemy();
-  const currentEnemy = enemy as Enemy;
+  const currentPlayer = rawPlayer as Player;
+  const currentEnemy = getCurrentEnemy() as Enemy;
 
   playerStatus.textContent = currentPlayer.getPlayerStatus();
   enemyStatus.textContent = currentEnemy.getEnemyStatus();
@@ -102,7 +100,7 @@ export function updateStatus({ playerStatus, enemyStatus, healItemsDiv, equipIte
       if (eq.effect.defense) {
         effectText += ` 防御+${eq.effect.defense}`;
       }
-      equippedBtn.innerHTML = `<p>${eq.name}${effectText}<br>（クリックで外す）</p>`;
+      equippedBtn.innerHTML = `<p>${eq.itemName}${effectText}<br>（クリックで外す）</p>`;
       equippedBtn.style.cursor = "pointer";
       equippedBtn.addEventListener("click", () => {
         currentPlayer.unequipItem(eq);

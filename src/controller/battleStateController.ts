@@ -1,5 +1,3 @@
-// manage/battleState.ts - TypeScript対応
-
 import { uiElements } from "../main";
 import { createEnemy } from "../manage/characterManage/character";
 import { enemyTemplates } from "../manage/characterManage/characterTemplates";
@@ -7,7 +5,7 @@ import { updateBaseSkillArea } from "../battle/skill/skillManager";
 import { updateStatus } from "../manage/itemManage/itemStatusUpdater";
 import { logMessage, clearAllLogs, logTittle } from "../ui/logMessage";
 import { baseSkillList } from "@/battle/skill/skillTemplates";
-import type { Character } from "../types/characterTypes";
+import type { Character } from "../manage/characterManage/characterTypes";
 
 let currentPlayer: Character | null = null;
 let currentEnemy: Character | null = null;
@@ -22,12 +20,12 @@ export function setBattleState(player: Character | null, enemy: Character, enemy
   console.log(enemy);
 }
 
-export function getCurrentPlayer(): Character {
+export function getCurrentPlayer(): Character | null {
   if (!currentPlayer) throw new Error("プレイヤーが設定されていません");
   return currentPlayer;
 }
 
-export function getCurrentEnemy(): Character {
+export function getCurrentEnemy(): Character | null {
   if (!currentEnemy) throw new Error("敵が設定されていません");
   return currentEnemy;
 }

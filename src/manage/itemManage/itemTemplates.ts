@@ -1,5 +1,5 @@
 // manage/templates/itemTemplates.ts
-import type { ItemTemplate } from "../../types/itemTypes";
+import type { ItemTemplate } from "./itemTypes";
 
 export const healItemTemplates: ItemTemplate[] = [
   {

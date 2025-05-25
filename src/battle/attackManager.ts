@@ -4,7 +4,7 @@ import { activateSkill } from "./skill/skillManager";
 import { handleCharacterDefeat } from "../manage/characterManage/characterDefeat";
 import { getCurrentPlayer, getCurrentEnemy } from "../controller/battleStateController";
 import { updateStatus } from "../manage/itemManage/itemStatusUpdater";
-import type { Character } from "../types/characterTypes";
+import type { Character } from "../manage/characterManage/characterTypes";
 import { clearAllLogs, turnLog } from "../ui/logMessage";
 import {
   startTurn,
@@ -19,8 +19,8 @@ import { Enemy } from "../manage/characterManage/character";
 export function handleDefaultAttack(defaultAttackBtn: HTMLButtonElement): void {
   defaultAttackBtn.addEventListener("click", () => {
     startTurn();
-    const player: Character = getCurrentPlayer();
-    const enemy: Character = getCurrentEnemy();
+    const player: Character = getCurrentPlayer() as Player;
+    const enemy: Character = getCurrentEnemy() as Enemy;
 
     const damage = Math.max(player.physicalStrength - enemy.defense, 1);
     enemy.hp -= damage;

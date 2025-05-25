@@ -1,12 +1,12 @@
 // manage/templates/skillTemplates.ts - TypeScript対応
 import { turnLog } from "../../ui/logMessage";
-import type { SkillData } from "../../battle/skill/skillManager";
-
+import { SkillData } from "./skillTypes";
 export const baseSkillList: SkillData[] = [
   {
     name: "スラッシュ",
     mpCost: 5,
-    type: "attack",
+    skillType: "attack",
+    skillRarity: "common",
     power: (user) => Math.floor(user.physicalStrength * 1.3),
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
@@ -17,11 +17,13 @@ export const baseSkillList: SkillData[] = [
       }
     },
     Instruction: "名称：スラッシュ\n 少しのオーラを纏った斬撃を放つ。ダメージはキャラクターの物理攻撃に依存する",
+    skillId: "",
   },
   {
     name: "ファイアボール",
     mpCost: 10,
-    type: "attack",
+    skillType: "attack",
+    skillRarity: "common",
     power: (user) => Math.floor(user.magicalStrength * 1.3),
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
@@ -32,11 +34,15 @@ export const baseSkillList: SkillData[] = [
       }
     },
     Instruction: "名称：ファイヤーボール\n 炎の球を繰り出す。ダメージはキャラクターの精神力に依存する",
+    skillId: "",
   },
   {
     name: "アイスランス",
     mpCost: 12,
-    type: "attack",
+    skillType: "attack",
+    skillRarity: "common",
+    skillId: "",
+    Instruction: "名称：アイスランス\n 氷の槍を繰り出す。ダメージはキャラクターの 精神力×1.5 に依存する",
     power: (user) => Math.floor(user.magicalStrength * 1.5),
     log: (skillName, user, target, dmg) => {
       if (target.hp <= 0) {
@@ -46,12 +52,14 @@ export const baseSkillList: SkillData[] = [
         turnLog(`${user.name} は【${skillName}】で攻撃！ ${target.name} に ${dmg} ダメージ！<br>(${target.name}のHP：${target.hp})`);
       }
     },
-    Instruction: "名称：アイスランス\n 氷の槍を繰り出す。ダメージはキャラクターの 精神力×1.5 に依存する",
+
   },
   {
     name: "自己再生",
     mpCost: 8,
-    type: "heal",
+    skillType: "heal",
+    skillRarity: "common",
+    skillId: "",
     element: "heal",
     power: () => 0,
     log: (skillName, user) => {
@@ -71,7 +79,9 @@ export const evoleveSkillList: SkillData[] = [
   {
     name: "ファイアブラスト",
     mpCost: 18,
-    type: "attack",
+    skillType: "attack",
+    skillRarity: "common",
+    skillId: "",
     element: "fire",
     power: (user) => Math.floor(user.magicalStrength * 1.8),
     log: (skillName, user, target, dmg) => {
@@ -90,7 +100,9 @@ export const synthesisSkillList: SkillData[] = [
   {
     name: "次元斬",
     mpCost: 35,
-    type: "attack",
+    skillType: "attack",
+    skillRarity: "common",
+    skillId: "",
     element: "sword",
     power: (user) => Math.floor(user.physicalStrength * 2.0),
     log: (skillName, user, target, dmg) => {
@@ -106,7 +118,9 @@ export const synthesisSkillList: SkillData[] = [
   {
     name: "インフェルノ",
     mpCost: 50,
-    type: "attack",
+    skillType: "attack",
+    skillRarity: "common",
+    skillId: "",
     element: "fire",
     power: (user) => Math.floor(user.magicalStrength * 2.5),
     log: (skillName, user, target, dmg) => {
@@ -122,7 +136,9 @@ export const synthesisSkillList: SkillData[] = [
   {
     name: "コキュートス",
     mpCost: 50,
-    type: "attack",
+    skillType: "attack",
+    skillRarity: "common",
+    skillId: "",
     element: "ice",
     power: (user) => Math.floor(user.magicalStrength * 2.5),
     log: (skillName, user, target, dmg) => {
