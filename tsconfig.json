@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "ES2018",
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "lib": ["DOM", "ESNext"],
     "jsx": "react-jsx", // React + TSならこれ
