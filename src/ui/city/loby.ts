@@ -1,4 +1,3 @@
-// safezone.ts - saveGame統合バージョン（ローディング対応）
 import { allHealItems, allEquipmentItems, Item } from "../../manage/itemManage/item";
 import { handleStartBattle } from "@/database/loadGame";
 
@@ -29,6 +28,7 @@ const shopBtn = document.getElementById("shop-btn") as HTMLButtonElement;
 const prepareBattleBtn = document.getElementById("prepare-battle-btn") as HTMLButtonElement;
 
 prepareBattleBtn.addEventListener("click", () => {
+
     lobby.style.display = "none";
     selectPlayerArea.style.display = "block";
 });
@@ -50,6 +50,17 @@ shopBtn.addEventListener("click", () => {
 cookingBtn.addEventListener("click", () => {
     lobby.style.display = "none";
     cookingArea.style.display = "block";
+    lobby.style.display = "none";
+    selectPlayerArea.style.display = "block";
+});
+
+safetyAreaBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        lobby.style.display = "block";
+        selectPlayerArea.style.display = "none";
+        shopArea.style.display = "none";
+        cookingArea.style.display = "none";
+    });
 });
 
 const selectedEquipmentList: number[] = [];
@@ -100,4 +111,12 @@ function createSelectableList(
         });
         container.appendChild(btn);
     });
+}
+const startBtn = document.getElementById("start-button-buttle") as HTMLButtonElement | null;
+if (startBtn) {
+    startBtn.addEventListener("click", () => {
+        handleStartBattle(selectedEquipmentList, selectedInventoryItemList)
+    });
+} else {
+    console.warn("start-button-buttle が見つかりませんでした");
 }
