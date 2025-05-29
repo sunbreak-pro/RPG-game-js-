@@ -1,5 +1,5 @@
 // loadGame.ts - Firestore からの復元処理
-import { db } from "./firebase";
+import { db } from "@/database/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import type { SaveData } from "./saveData";
 import { allEquipmentItems, allHealItems, EquipmentItem, Item } from "@/manage/itemManage/item";

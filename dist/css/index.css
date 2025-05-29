@@ -47,11 +47,11 @@ button:hover{
     margin-right: auto;
     border: .3vw solid black;
     border-radius: 1vw;
-    max-width: 30vw;
+    max-width: 37vw;
     margin-block-end: 3vw;
 }
 #player-name-input{
-    width: 11vw;
+    width: 15vw;
     padding: 1vw;
     border-radius: .8vw;
     margin-bottom: 1vw;
