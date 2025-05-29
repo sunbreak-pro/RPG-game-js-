@@ -1,11 +1,22 @@
 // safezone.ts - saveGame統合バージョン（ローディング対応）
-import { allHealItems, allEquipmentItems, Item } from "../manage/itemManage/item";
+import { allHealItems, allEquipmentItems, Item } from "../../manage/itemManage/item";
 import { handleStartBattle } from "@/database/loadGame";
 
 if (!location.pathname.includes("/")) {
   console.warn("safezone.ts は index.html 上でのみ実行される想定です");
   throw new Error("safezone.ts を中断します");
 }
+
+
+document.getElementById("test-button")?.addEventListener("click", () => {
+  console.log("テストボタンがクリックされました。");
+  setTimeout(() => {
+    console.log("Redirecting...");
+    setTimeout(() => {
+      window.location.href = "test.html";
+    }, 2500);
+  }, 2500);
+});
 
 const lobby = document.getElementById("lobby") as HTMLElement;
 const selectPlayerArea = document.getElementById("select-player-area") as HTMLElement;
